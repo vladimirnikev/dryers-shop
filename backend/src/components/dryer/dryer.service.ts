@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, getRepository, Repository } from 'typeorm';
 
 import { DryerEntity } from '@app/components/dryer/entities/dryer.entity';
-import { UpdateDryerDto } from './dto/updateDryer.dto';
 import { CreateDryerDto } from './dto/createDryer.dto';
 
 @Injectable()
@@ -68,7 +67,7 @@ export class DryerService {
         return await this.dryerRepository.save(dryer)
     }
 
-    async updateDryer(dto: UpdateDryerDto, id: number): Promise<DryerEntity> {
+    async updateDryer(dto: CreateDryerDto, id: number): Promise<DryerEntity> {
         const dryer = await this.dryerRepository.findOne({ id })
         Object.assign(dryer, dto)
         return await this.dryerRepository.save(dryer)

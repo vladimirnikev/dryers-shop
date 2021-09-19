@@ -56,7 +56,7 @@ export class OrderEntity {
     @CreateDateColumn()
     createdAt: Date
 
-    @OneToMany(() => ItemRecordEntity, itemRecord => itemRecord.id)
+    @OneToMany(() => ItemRecordEntity, itemRecord => itemRecord.order)
     itemRecords: ItemRecordEntity[]
     // @ManyToOne(() => UserEntity, (user) => user.orders)
     // customer: UserEntity

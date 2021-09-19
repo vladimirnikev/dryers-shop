@@ -1,11 +1,14 @@
+import { CartEntity } from '@app/components/cart/entities/cart.entity';
+import { AuthGuard } from '@app/components/user/guards/auth.guard';
+import { AdminGuard } from '@app/components/user/guards/admin.guard';
+import { MakeOrderDto } from './dto/makeOrder.dto';
 import { DeleteResult } from 'typeorm';
 import { IncrementItemRecordQuantityDto } from './dto/incrementItemRecordQuantity.dto';
 import { ExpressRequestInterface } from '@app/common/types/expressRequest.interface';
-import { CartEntity } from './entities/cart.entity';
 import { CartService } from './cart.service';
-import { Controller, Get, Param, Req, Session, Put, Body, Res, Delete } from '@nestjs/common';
+import { Controller, Get, Param, Req, Session, Put, Body, Res, Delete, HttpStatus, Post, UseGuards, Query } from '@nestjs/common';
 import { User } from '../user/decorators/user.decorator';
-import { Request, Response } from "express";
+import { query, Request, Response } from "express";
 import { SessionId } from '../user/decorators/session.decorator';
 import { AddItemToCartDto } from './dto/addItemToCart.dto';
 @Controller('cart')
@@ -34,7 +37,7 @@ export class CartController {
     async deleteItemRecord(
         @SessionId() sessionId: string,
         @Body() dto: IncrementItemRecordQuantityDto
-    ): Promise<CartEntity> {
+    ): Promise<void> {
         return this.cartService.deleteRecord(sessionId, dto)
     }
 
@@ -42,7 +45,7 @@ export class CartController {
     async incrementItemRecordQuantity(
         @SessionId() sessionId: string,
         @Body() dto: IncrementItemRecordQuantityDto
-    ): Promise<CartEntity> {
+    ): Promise<void> {
         return await this.cartService.incrementRecord(sessionId, dto.itemRecordId)
     }
 
@@ -50,7 +53,23 @@ export class CartController {
     async decrementItemRecordQuantity(
         @SessionId() sessionId: string,
         @Body() dto: IncrementItemRecordQuantityDto
-    ): Promise<CartEntity> {
+    ): Promise<void> {
         return await this.cartService.decrementRecord(sessionId, dto.itemRecordId)
+    }
+
+    @Get('order')
+    @UseGuards(AuthGuard, AdminGuard)
+    async getOrders(
+        @Query() query: any
+    ): Promise<CartEntity[]> {
+        return await this.cartService.getOrders(query)
+    }
+
+    @Post('order')
+    async makeOrder(
+        @SessionId() sessionId: string,
+        @Body() dto: MakeOrderDto
+    ) {
+        await this.cartService.makeOrder(sessionId, dto)
     }
 }

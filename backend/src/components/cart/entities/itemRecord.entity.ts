@@ -1,3 +1,4 @@
+import { OrderEntity } from './../../order/entities/order.entity';
 import { CartEntity } from '@app/components/cart/entities/cart.entity';
 import { DryerEntity } from '@app/components/dryer/entities/dryer.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
@@ -19,7 +20,10 @@ export class ItemRecordEntity {
     @ManyToOne(() => CartEntity)
     cart: number
 
-    @ManyToOne(() => DryerEntity, dryer => dryer.id)
+    @ManyToOne(() => DryerEntity, dryer => dryer.itemRecords, { eager: true })
     // @JoinColumn()
     item: DryerEntity
+
+    @ManyToOne(() => OrderEntity, order => order.itemRecords)
+    order: OrderEntity
 }

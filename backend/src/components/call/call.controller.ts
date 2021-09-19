@@ -19,10 +19,9 @@ export class CallController {
     }
 
     @Post()
-    @UsePipes(new ValidationPipe())
     async createCall(
         @Body() dto: CreateCallDto
-    ): Promise<HttpException> {
+    ): Promise<void> {
         return await this.callService.createCall(dto)
     }
 }

@@ -29,7 +29,6 @@ export class DryerController {
 
     @Post()
     @UseGuards(AuthGuard, AdminGuard)
-    @UsePipes(new ValidationPipe())
     async createDryer(
         @Body() dto: CreateDryerDto
     ): Promise<DryerEntity> {
@@ -38,7 +37,6 @@ export class DryerController {
 
     @Put(':id')
     @UseGuards(AuthGuard, AdminGuard)
-    @UsePipes(new ValidationPipe())
     async updateDryer(
         @Param('id') id: number,
         @Body() dto: CreateDryerDto

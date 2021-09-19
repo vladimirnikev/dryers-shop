@@ -1,3 +1,6 @@
+import { IsNumber } from "class-validator";
+
 export class IncrementItemRecordQuantityDto {
-    itemRecordId: number
+    @IsNumber()
+    readonly itemRecordId: number
 }

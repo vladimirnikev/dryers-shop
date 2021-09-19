@@ -13,7 +13,14 @@ import { AuthMiddleware } from './components/user/middlewares/auth.middleware';
 import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(ormconfig), ScheduleModule.forRoot(), UserModule, CartModule, OrderModule, CallModule, ReviewModule, DryerModule],
+  imports: [TypeOrmModule.forRoot(ormconfig),
+  ScheduleModule.forRoot(),
+    UserModule,
+    CartModule,
+    OrderModule,
+    CallModule,
+    ReviewModule,
+    DryerModule],
   controllers: [AppController],
   providers: [AppService],
 })

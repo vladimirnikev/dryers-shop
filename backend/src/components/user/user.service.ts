@@ -10,7 +10,6 @@ import { AuthUserDto } from './dto/authUser.dto';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UserEntity } from './entities/user.entity';
 import { UserResponceInterface } from './types/userResponce.interface';
-import { UpdateUserDto } from './dto/updateUser.dto';
 
 @Injectable()
 export class UserService {
@@ -60,7 +59,7 @@ export class UserService {
         return await this.userRepository.findOne({ id })
     }
 
-    async updateUser(dto: UpdateUserDto, id: number): Promise<UserEntity> {
+    async updateUser(dto: CreateUserDto, id: number): Promise<UserEntity> {
         const user = await this.getById(id)
         Object.assign(user, dto)
         return await this.userRepository.save(user)
