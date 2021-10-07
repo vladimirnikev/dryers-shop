@@ -7,7 +7,7 @@ import { DryerService } from '@app/components/dryer/dryer.service';
 import { AdminGuard } from '@app/components/user/guards/admin.guard';
 import { CreateDryerDto } from './dto/createDryer.dto';
 
-@Controller('dryers')
+@Controller('products')
 export class DryerController {
     constructor(
         private dryerService: DryerService
