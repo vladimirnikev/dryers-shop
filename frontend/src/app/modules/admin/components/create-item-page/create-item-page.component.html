@@ -1,0 +1,93 @@
+<h2 class="title">Создать новый товар:</h2>
+
+<form class="form" [formGroup]="form">
+  <mat-form-field appearance="outline">
+    <mat-label>Введите имя товара</mat-label>
+    <input matInput formControlName="name">
+    <!-- <mat-error *ngIf="form.get('email').errors?.email">Введите корректный email</mat-error> -->
+    <mat-error *ngIf="form.get('name').errors?.required">Это обязательное поле</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Введите цену товара</mat-label>
+    <input type="number" matInput formControlName="price">
+    <mat-error *ngIf="form.get('price').errors?.required">Это обязательное поле</mat-error>
+  </mat-form-field>
+
+  <!-- Фото -->
+  <!-- Инпут файл -->
+  <!-- <div class="upload-button"> -->
+    <img [src]="image" *ngFor="let image of imagesArr">
+    <button class="upload-button" mat-raised-button color="primary">
+      <input #file (change)="preview(file.files)" type="file" accept="image/*" multiple>
+      Загрузить изображение</button>
+  <!-- </div> -->
+
+  <!-- Цвета -->
+  <!-- Селект с возможностью добавить свой -->
+  <!-- <mat-form-field appearance="outline">
+    <mat-label>Выберите доступные цвета</mat-label>
+    <mat-chip-list #chipList>
+      <mat-chip
+        *ngFor="let color of colors"
+        [selectable]="true"
+        [removable]="removable"
+        (removed)="remove(color)">
+        {{color}}
+        <button matChipRemove *ngIf="removable">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <input
+        placeholder="Выберите цвет"
+        #colorInput
+        formControlName="colors"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-option *ngFor="let color of filteredColors | async" [value]="color">
+        {{color}}
+      </mat-option>
+    </mat-autocomplete>
+    <mat-error *ngIf="form.get('colors').errors?.required">Это обязательное поле</mat-error>
+  </mat-form-field> -->
+  <!-- ------------------------------------------ -->
+  <!-- Сделать обычные чекбоксы вместо этой штуки -->
+  <!-- ------------------------------------------- -->
+
+  <!-- Описание -->
+  <!-- <quill-editor formControlName="description"></quill-editor> -->
+  <!-- Текст Ареа -->
+  <mat-form-field appearance="outline">
+    <mat-label>Введите описание товара:</mat-label>
+    <textarea formControlName="description" matInput></textarea>
+  </mat-form-field>
+
+  <!-- Производитель -->
+  <!-- Селект с возможностью добавить свой -->
+
+  <mat-form-field appearance="outline">
+    <mat-label>Введите мощность (Вт)</mat-label>
+    <input type="number" matInput formControlName="power">
+    <mat-error *ngIf="form.get('power').errors?.required">Это обязательное поле</mat-error>
+  </mat-form-field>
+
+  <!-- Наличие -->
+  <div class="checkbox-field">
+    <label>Наличие:</label>
+    <mat-radio-group formControlName="avaibility">
+      <mat-radio-button value="true">Есть</mat-radio-button>
+      <mat-radio-button value="false">Под заказ</mat-radio-button>
+        <!-- <mat-checkbox class="example-margin" [(ngModel)]="disabled">Disabled</mat-checkbox> -->
+    </mat-radio-group>
+  </div>
+
+  <button
+    type="submit"
+    (click)="createItem()"
+    [disabled]="!form.valid || isDisable"
+    mat-raised-button color="primary">Создать товар</button>
+</form>

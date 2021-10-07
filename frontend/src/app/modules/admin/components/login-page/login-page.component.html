@@ -1,0 +1,29 @@
+
+<!-- <div class="example-container"> -->
+  <h2 class="title">Войдите в аккаунт</h2>
+  <form class="form" [formGroup]="form">
+  <mat-form-field appearance="outline">
+    <mat-label>Введите ваш email</mat-label>
+    <input matInput placeholder="email@example.com" formControlName="email">
+    <mat-error *ngIf="form.get('email').errors?.email">Введите корректный email</mat-error>
+    <mat-error *ngIf="form.get('email').errors?.required">Введите email</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Введите пароль</mat-label>
+    <button mat-icon-button matSuffix (click)="isHide = !isHide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="isHide">
+      <mat-icon>{{isHide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
+    <input matInput [type]="isHide ? 'password' : 'text'" placeholder="password" formControlName="password">
+    <mat-error *ngIf="form.get('password').errors?.minlength">Минимальная длина пароля - 8 символов</mat-error>
+    <mat-error *ngIf="form.get('password').errors?.required">Введите пароль</mat-error>
+  </mat-form-field>
+
+  <button
+  type="submit"
+  (click)="login()"
+  [disabled]="!form.valid || isDisable"
+  mat-raised-button color="primary">Войти</button>
+</form>
+
+<!-- </div> -->

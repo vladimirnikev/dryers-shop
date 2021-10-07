@@ -1,0 +1,29 @@
+.checkbox-field {
+  display: flex;
+  flex-direction: column;
+
+  mat-radio-group {
+    margin-top: 10px;
+    display: flex;
+    :not(:first-of-type) {
+      margin-left: 10px;
+    }
+  }
+}
+
+// .upload-button {
+// position: relative;
+// max-width: 200px;
+.upload-button {
+  margin-bottom: 20px;
+  // margin-top: 0;
+  // z-index: 100;
+  input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+  }
+}

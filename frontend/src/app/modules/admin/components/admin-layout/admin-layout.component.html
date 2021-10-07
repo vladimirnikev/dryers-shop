@@ -1,0 +1,19 @@
+<mat-toolbar color="primary">
+
+ <span>WarmShop</span>
+
+ <div *ngIf="">
+   <!-- ngIf ADMIN -->
+<button mat-icon-button  [matMenuTriggerFor]="menu">
+  <mat-icon>menu</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item>Создать товар</button>
+  <button mat-menu-item>Список товаров</button>
+  <button mat-menu-item>Список заказов</button>
+  <button mat-menu-item>Список звонков</button>
+</mat-menu>
+</div>
+</mat-toolbar>
+
+<router-outlet></router-outlet>

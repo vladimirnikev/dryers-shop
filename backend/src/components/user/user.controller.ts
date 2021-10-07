@@ -36,4 +36,9 @@ export class UserController {
         // console.log(user)
         return await this.userService.getById(currentUserId)
     }
+
+    @Get('role')
+    async getRole(@User('id') currentUser): Promise<{role: string}>{
+        return await this.userService.getUserRole(currentUser)
+    }
 }

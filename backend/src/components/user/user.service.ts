@@ -65,6 +65,14 @@ export class UserService {
         return await this.userRepository.save(user)
     }
 
+    async getUserRole(id: number): Promise<{role: string}> {
+        const user = await this.getById(id)
+        if (!user) {
+            throw new HttpException('User does not exist', HttpStatus.NOT_FOUND)
+        }
+        return { role: user.role }
+    }
+
     generateJwt(user: UserEntity): string {
         return sign({
             id: user.id,
