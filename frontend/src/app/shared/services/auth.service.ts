@@ -1,10 +1,11 @@
 import { HttpService } from './http.service';
 import { HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LoginData } from 'src/common/interfaces/loginData.interface';
 import { UserInterface } from 'src/common/interfaces/user.interface';
+import { Location } from '@angular/common';
 
 @Injectable()
 export class AuthService {
@@ -12,8 +13,11 @@ export class AuthService {
 
   constructor(
     private router: Router,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private location: Location,
+    private route: ActivatedRoute
   ) {
+    // if (this.router.parseUrl.toString().includes('admin'))
     this.setToken(localStorage.getItem('token'))
   }
 
@@ -24,7 +28,9 @@ export class AuthService {
       localStorage.setItem('token', value)
     } else {
       localStorage.removeItem('token')
-      this.router.navigate(['/admin', 'login']) // Redirect to admin login page
+      if (this.location.path().includes('admin')) {
+        this.router.navigate(['/admin', 'login'])
+      }
     }
   }
 
@@ -37,8 +43,8 @@ export class AuthService {
   }
 
   login(loginData: LoginData) {
-    const response: HttpResponse<UserInterface> = this.httpService.post('users/login', loginData)
-    this.setToken(response.body.user.token)
+    this.httpService.post('users/login', loginData)
+      .subscribe((res: HttpResponse<UserInterface>) => this.setToken(res.body.user.token))
   }
 
   logout() {
