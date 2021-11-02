@@ -1,0 +1,100 @@
+<h2 mat-dialog-title class="title">Измените продукт:</h2>
+<div mat-dialog-content>
+  <form class="form" [formGroup]="form">
+    <div class="image-list">
+      <mat-card
+        *ngFor="let image of imagesArr; let idx = index"
+        class="image-card"
+      >
+        <img class="image-preview" [src]="image" />
+        <mat-card-actions align="end">
+          <button type="button" (click)="deleteImage(idx)" mat-button>
+            Удалить
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <button
+      type="button"
+      (click)="triggerClickInput()"
+      class="upload-button"
+      mat-raised-button
+      color="primary"
+    >
+      <input
+        #file
+        (change)="preview(file.files)"
+        type="file"
+        accept="image/*"
+        multiple
+      />
+      Загрузить изображения
+    </button>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Введите имя товара</mat-label>
+      <input matInput formControlName="name" />
+      <mat-error *ngIf="form.get('name').errors?.required"
+        >Это обязательное поле</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Введите цену товара</mat-label>
+      <input type="number" matInput formControlName="price" />
+      <mat-error *ngIf="form.get('price').errors?.required"
+        >Это обязательное поле</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Введите описание товара:</mat-label>
+      <textarea formControlName="description" matInput></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Введите мощность (Вт)</mat-label>
+      <input type="number" matInput formControlName="power" />
+      <mat-error *ngIf="form.get('power').errors?.required"
+        >Это обязательное поле</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Выберите производителя</mat-label>
+      <mat-select formControlName="batch">
+        <mat-option *ngFor="let batch of batches" [value]="batch">
+          {{ batch }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="color-wrapper" formGroupName="colors">
+      <h4>Выберите доступные цвета:</h4>
+      <p><mat-checkbox formControlName="white">Белый</mat-checkbox></p>
+      <p><mat-checkbox formControlName="chromium">Хром</mat-checkbox></p>
+      <p><mat-checkbox formControlName="black">Черный</mat-checkbox></p>
+    </div>
+
+    <div class="checkbox-field">
+      <h4>Укажите наличие:</h4>
+      <mat-radio-group formControlName="availability">
+        <mat-radio-button [value]="true">Есть</mat-radio-button>
+        <mat-radio-button [value]="false">Под заказ</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-dialog-close mat-button>Отмена</button>
+
+  <button
+    (click)="updateItem()"
+    [disabled]="!form.valid || isDisable"
+    mat-button
+    mat-raised-button
+    color="primary"
+  >
+    Изменить продукт
+  </button>
+</div>

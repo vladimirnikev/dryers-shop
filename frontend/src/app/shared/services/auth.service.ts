@@ -34,7 +34,7 @@ export class AuthService {
     }
   }
 
-  getToken(): Observable<string>{
+  getToken(): Observable<string> {
     return this.token
   }
 
@@ -44,7 +44,7 @@ export class AuthService {
 
   login(loginData: LoginData) {
     this.httpService.post('users/login', loginData)
-      .subscribe((res: HttpResponse<UserInterface>) => this.setToken(res.body.user.token))
+      .subscribe((res: UserInterface) => this.setToken(res.user.token))
   }
 
   logout() {

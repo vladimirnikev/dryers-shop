@@ -5,18 +5,18 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../../environments/environment';
 import { ProductsEffects } from './products/products.effects';
-import { productsReducer } from './products/products.reducer';
+import { productReducer } from './products/products.reducer';
 
 @NgModule({
-    imports: [
-      SharedModule,
-      StoreModule.forRoot({
-        products: productsReducer
-      }),
-      EffectsModule.forRoot([
-        ProductsEffects
-      ]),
-        // environment.production ? [] : StoreDevtoolsModule.instrument()
-    ]
+  imports: [
+    SharedModule,
+    StoreModule.forRoot({
+      product: productReducer
+    }),
+    EffectsModule.forRoot([
+      ProductsEffects
+    ]),
+    // environment.production ? [] : StoreDevtoolsModule.instrument()
+  ]
 })
 export class CoreStoreModule { }

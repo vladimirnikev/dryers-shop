@@ -7,8 +7,8 @@ export class CreateDryerDto {
     readonly price: number
     @IsBoolean()
     readonly availability: boolean
-    @IsString()
-    readonly img: string
+    // @IsArray()
+    // readonly images: string[]
     @IsArray()
     readonly color: string[]
     @IsString()

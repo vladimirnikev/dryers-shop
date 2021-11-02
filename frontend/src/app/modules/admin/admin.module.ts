@@ -11,34 +11,23 @@ import { AdminLayoutComponent } from './components/admin-layout/admin-layout.com
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { ItemsPageComponent } from './components/items-page/items-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-const routes: Routes = [
-  {
-    path: '', component: AdminLayoutComponent, children: [
-      { path: '', redirectTo: '/admin/login', pathMatch: 'full' },
-      { path: 'login', component: LoginPageComponent }, // if (token) navigate(['items'])
-      { path: 'items', component: ItemsPageComponent, canActivate: [AdminGuard] },
-      { path: 'create', component: CreateItemPageComponent, canActivate: [AdminGuard]}
-    ]
-  }
-]
+import { UpdateItemModalComponent } from './components/update-item-modal/update-item-modal.component';
+import { AdminRoutingModule } from './admin-routing.module';
 
 @NgModule({
   declarations: [
     AdminLayoutComponent,
     LoginPageComponent,
     ItemsPageComponent,
-    CreateItemPageComponent
+    CreateItemPageComponent,
+    UpdateItemModalComponent
   ],
   imports: [
     CommonModule,
-    // MatCommonModule,
-    // MatButtonModule,
-    // MatDialogModule,
-    RouterModule.forChild(routes),
     MaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AdminRoutingModule
   ]
 })
 export class AdminModule { }

@@ -1,3 +1,4 @@
+import { IProduct } from 'src/common/interfaces/product.interface';
 import { createAction, props } from "@ngrx/store";
 
 export enum EItemsActions {
@@ -26,11 +27,11 @@ export enum EItemsActions {
 // ------------------------
 export const createProduct = createAction(
   EItemsActions.CreateProduct,
-  props<{ dto: any }>()
+  props<{ dto: any, files: any }>()
 )
 export const createProductSuccess = createAction(
   EItemsActions.CreateProductSuccess,
-  props<{ product: any }>()
+  props<{ product: IProduct }>()
 )
 export const createProductFailed = createAction(
   EItemsActions.CreateProductFailed,
@@ -41,11 +42,11 @@ export const createProductFailed = createAction(
 // ------------------------
 export const updateProduct = createAction(
   EItemsActions.UpdateProduct,
-  props<{ product: any }>()
+  props<{ dto: IProduct, id: number }>()
 )
 export const updateProductSuccess = createAction(
   EItemsActions.UpdateProductSuccess,
-  props<{ product: any }>()
+  props<{ product: IProduct }>()
 )
 export const updateProductFailed = createAction(
   EItemsActions.UpdateProductFailed,
@@ -56,11 +57,11 @@ export const updateProductFailed = createAction(
 // ------------------------
 export const deleteProduct = createAction(
   EItemsActions.DeleteProduct,
-  props<{ id: any }>()
+  props<{ id: number }>()
 )
 export const deleteProductSuccess = createAction(
   EItemsActions.DeleteProductSuccess,
-  props<{ id: any }>()
+  props<{ id: number }>()
 )
 export const deleteProductFailed = createAction(
   EItemsActions.DeleteProductFailed,
@@ -71,11 +72,11 @@ export const deleteProductFailed = createAction(
 // ------------------------
 export const getOneProduct = createAction(
   EItemsActions.GetOneProduct,
-  props<{ id: any }>()
+  props<{ id: number }>()
 )
 export const getOneProductSuccess = createAction(
   EItemsActions.GetOneProductSuccess,
-  props<{ product: any }>()
+  props<{ product: IProduct }>()
 )
 export const getOneProductFailed = createAction(
   EItemsActions.GetOneProductFailed,
@@ -86,11 +87,11 @@ export const getOneProductFailed = createAction(
 // ------------------------
 export const getProducts = createAction(
   EItemsActions.GetProducts,
-  // props<{ item: any }>()
+  props<{ params }>() // any
 )
 export const getProductsSuccess = createAction(
   EItemsActions.GetProductsSuccess,
-  props<{ products: any }>()
+  props<{ data: IProduct[], totalCount: number }>()
 )
 export const getProductsFailed = createAction(
   EItemsActions.GetProductsFailed,

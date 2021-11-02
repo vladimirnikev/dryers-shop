@@ -17,8 +17,8 @@ export class DryerEntity {
     @Column()
     availability: boolean
 
-    @Column({ default: '' })
-    img: string
+    @Column({ default: '', type: 'simple-array' })
+    images: string[]
 
     @Column({ type: 'simple-array' })
     color: string[]

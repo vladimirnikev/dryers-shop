@@ -4,7 +4,7 @@ import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
 import { Observable } from "rxjs";
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class AdminGuard implements CanActivate {
 
   constructor(
@@ -14,23 +14,23 @@ export class AdminGuard implements CanActivate {
   ) { }
 
   canActivate(
-      route: ActivatedRouteSnapshot,
-      state: RouterStateSnapshot
-     ): boolean | Observable<boolean> | Promise<boolean> {
-      const token = this.authService.getTokenValue()
-      if (token) {
-       return this.httpService.get('users/role').toPromise().then((data: any) => {
-          console.log(data.body.role)
-          if (data.body.role === 'ADMIN') {
-            return true
-          } else {
-            this.router.navigate([''])
-            return false
-          }
-         })
-      }
-      this.authService.logout()
-      // this.router.navigate(['']) // admin login page ЭТОТ РЕДИРЕКТ ЕСТЬ В AuthService
-      return false
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean | Observable<boolean> | Promise<boolean> {
+    const token = this.authService.getTokenValue()
+    if (token) {
+      return this.httpService.get('users/role').toPromise().then((data: any) => {
+        console.log(data)
+        if (data.role === 'ADMIN') {
+          return true
+        } else {
+          this.router.navigate([''])
+          return false
+        }
+      })
+    }
+    this.authService.logout()
+    // this.router.navigate(['']) // admin login page ЭТОТ РЕДИРЕКТ ЕСТЬ В AuthService
+    return false
   }
 }

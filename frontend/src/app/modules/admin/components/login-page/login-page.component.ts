@@ -34,7 +34,7 @@ export class LoginPageComponent implements OnInit {
     const email = this.form.get('email').value
     const password = this.form.get('password').value
     try {
-      await this.authService.login({email, password})
+      await this.authService.login({ email, password })
       this.isDisable = false
       this.router.navigate(['admin/items'])
     } catch (error) {

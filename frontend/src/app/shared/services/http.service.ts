@@ -9,41 +9,39 @@ import { map } from 'rxjs/operators';
 @Injectable()
 export class HttpService {
 
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor(private http: HttpClient) { }
 
-  get<T>(url: string, httpOptions: object = {}) {
+  get<T>(url: string, httpOptions: object = {}): Observable<T> {
     return this.http.get<T>(urljoin(this.getServerBaseUrl(), url), {
       ...httpOptions,
-      observe: 'response'
+      // observe: 'response'
     })
   }
 
   post<T>(url: string,
     body: unknown | null = null,
     httpOptions: object = {}
-  ) {
-   return this.http.post<T>(urljoin(this.getServerBaseUrl(), url), body, {
+  ): Observable<T> {
+    return this.http.post<T>(urljoin(this.getServerBaseUrl(), url), body, {
       ...httpOptions,
-      observe: 'response'
+      // observe: 'response'
     })
   }
 
   put<T>(url: string,
     body: unknown | null = null,
     httpOptions: object = {}
-  ) {
+  ): Observable<T> {
     return this.http.put<T>(urljoin(this.getServerBaseUrl(), url), body, {
       ...httpOptions,
-      observe: 'response'
+      // observe: 'response'
     })
   }
 
-  delete<T>(url: string, httpOptions: object = {}) {
+  delete<T>(url: string, httpOptions: object = {}): Observable<T> {
     return this.http.delete<T>(urljoin(this.getServerBaseUrl(), url), {
       ...httpOptions,
-      observe: 'response'
+      // observe: 'response'
     })
   }
 

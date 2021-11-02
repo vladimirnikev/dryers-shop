@@ -1,0 +1,50 @@
+.mat-column-name {
+  min-width: 20%;
+}
+
+.mat-column-availability {
+  min-width: 10%;
+}
+
+.mat-column-batch {
+  min-width: 15%;
+}
+
+.mat-column-price {
+  min-width: 15%;
+}
+
+.mat-column-color {
+  min-width: 25%;
+}
+
+.mat-column-edit {
+  text-align: right;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-elevation-z8 {
+  position: relative;
+  .loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 56px;
+    right: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+form {
+  margin-top: 10px;
+  mat-form-field:not(:first-of-type) {
+    margin-left: 15px;
+  }
+}
