@@ -42,7 +42,6 @@ const reducer = createReducer(
 
   on(getProducts, (state: PruductState) => ({ ...state, isLoading: true })),
   on(getProductsSuccess, (state: PruductState, { data, totalCount }) => {
-    console.log(data)
     return {
       ...state,
       products: [...data],
@@ -98,7 +97,6 @@ const reducer = createReducer(
   })),
 
   on(changeColorInLoadedProducts, (state: PruductState, { color }) => {
-    console.log(color)
     return {
       ...state,
       products: [

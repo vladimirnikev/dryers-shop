@@ -20,7 +20,6 @@ export class AdminGuard implements CanActivate {
     const token = this.authService.getTokenValue()
     if (token) {
       return this.httpService.get('users/role').toPromise().then((data: any) => {
-        console.log(data)
         if (data.role === 'ADMIN') {
           return true
         } else {

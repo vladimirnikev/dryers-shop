@@ -152,7 +152,6 @@ export class DryerService {
   async updateDryer({
     name, price, availability, colors, description, manufacturer, power
   }, files, id: number): Promise<DryerEntity> {
-    console.log('Colors: ', colors)
     price = Number(price)
     const errors = []
     if (!name) {

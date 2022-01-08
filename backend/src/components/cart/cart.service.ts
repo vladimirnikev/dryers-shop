@@ -103,7 +103,6 @@ export class CartService {
 
     async makeOrder(sessionId: string, dto: MakeOrderDto) {
         const cart = await this.cartRepository.findOne({ sessionId }, { relations: ['itemRecords'] })
-        console.log('Cart: ', cart)
         if (!cart) {
             throw new HttpException('Cart does not exist', HttpStatus.NOT_FOUND)
         }
@@ -114,7 +113,6 @@ export class CartService {
         if (!order) {
             throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR)
         }
-        console.log('ORDER: ', cart)
         this.telegramService.tgBot.sendMessage(CHAT_ID, this.telegramService.makeMessageAboutOrder(order))
     }
 
@@ -136,7 +134,6 @@ export class CartService {
 
     @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
     async deleteExpiredCarts() {
-        console.log('deleted')
         const thirtyDaysBeforeCurrentDate = dayjs().utc().local().subtract(30, 'day').format()
         try {
             const cartsForDeleting = await getRepository(CartEntity)
