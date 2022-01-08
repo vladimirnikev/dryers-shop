@@ -2,13 +2,10 @@ import { CartEntity } from '@app/components/cart/entities/cart.entity';
 import { AuthGuard } from '@app/components/user/guards/auth.guard';
 import { AdminGuard } from '@app/components/user/guards/admin.guard';
 import { MakeOrderDto } from './dto/makeOrder.dto';
-import { DeleteResult } from 'typeorm';
 import { IncrementItemRecordQuantityDto } from './dto/incrementItemRecordQuantity.dto';
-import { ExpressRequestInterface } from '@app/common/types/expressRequest.interface';
 import { CartService } from './cart.service';
-import { Controller, Get, Param, Req, Session, Put, Body, Res, Delete, HttpStatus, Post, UseGuards, Query } from '@nestjs/common';
-import { User } from '../user/decorators/user.decorator';
-import { query, Request, Response } from "express";
+import { Controller, Get, Put, Body, Res, Delete, Post, UseGuards, Query } from '@nestjs/common';
+import { Response } from "express";
 import { SessionId } from '../user/decorators/session.decorator';
 import { AddItemToCartDto } from './dto/addItemToCart.dto';
 @Controller('cart')

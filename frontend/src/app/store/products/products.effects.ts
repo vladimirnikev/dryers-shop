@@ -1,9 +1,10 @@
-import { createProduct, createProductFailed, createProductSuccess, deleteProduct, updateProduct, updateProductSuccess, updateProductFailed, deleteProductSuccess, deleteProductFailed, getOneProduct, getOneProductSuccess, getOneProductFailed, getProducts, getProductsSuccess, getProductsFailed } from './products.actions';
+import { createProduct, createProductFailed, createProductSuccess, deleteProduct, updateProduct, updateProductSuccess, updateProductFailed, deleteProductSuccess, deleteProductFailed, getOneProduct, getOneProductSuccess, getOneProductFailed, getProducts, getProductsSuccess, getProductsFailed, deleteImage, deleteImageSuccess, deleteImageFailed } from './products.actions';
 import { Injectable } from '@angular/core';
 import { createEffect, ofType, Actions } from '@ngrx/effects';
-import { mergeMap, map, catchError, switchMap } from 'rxjs/operators';
+import { map, catchError, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { ProductsService } from 'src/app/shared/services/products.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class ProductsEffects {
@@ -34,14 +35,22 @@ export class ProductsEffects {
   createProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(createProduct),
-      switchMap((action) =>
-        this.productsService.createProduct(action.dto).pipe(
+      switchMap(({ dto }) =>
+        this.productsService.createProduct(dto).pipe(
           map((product) => {
-            console.log(action.files)
-            this.productsService.uploadImage(action.files)
+            this.snackBar.open('Продукт создан', 'OK', {
+              duration: 5000,
+              panelClass: 'green-snackbar'
+            })
             return createProductSuccess({ product })
           }),
-          catchError((err) => of(createProductFailed(err)))
+          catchError((err) => {
+            this.snackBar.open(`Error ${err.error.statusCode}, ${err.error.message}`, 'Попробуйте еще!', {
+              duration: 5000,
+              panelClass: 'red-snackbar'
+            })
+            return of(createProductFailed(err))
+          })
         )
       )
     )
@@ -52,8 +61,20 @@ export class ProductsEffects {
       ofType(updateProduct),
       switchMap(({ dto, id }) =>
         this.productsService.updateProduct(dto, id).pipe(
-          map((product) => updateProductSuccess({ product })),
-          catchError((err) => of(updateProductFailed(err)))
+          map((product) => {
+            this.snackBar.open('Продукт обновлен', 'OK', {
+              duration: 5000,
+              panelClass: 'green-snackbar'
+            })
+            return updateProductSuccess({ product })
+          }),
+          catchError((err) => {
+            this.snackBar.open(`Error ${err.error.statusCode}, ${err.error.message}`, 'Попробуйте еще!', {
+              duration: 5000,
+              panelClass: 'red-snackbar'
+            })
+            return of(updateProductFailed(err))
+          })
         )
       )
     )
@@ -64,13 +85,40 @@ export class ProductsEffects {
       ofType(deleteProduct),
       switchMap(({ id }) =>
         this.productsService.deleteProduct(id).pipe(
-          map((product) => deleteProductSuccess({ id })),
-          catchError((err) => of(deleteProductFailed(err)))
+          map(() => {
+            this.snackBar.open('Продукт удален', 'OK', {
+              duration: 5000,
+              panelClass: 'green-snackbar'
+            })
+            return deleteProductSuccess({ id })
+          }),
+          catchError((err) => {
+            this.snackBar.open(`Error ${err.error.statusCode}, ${err.error.message}`, 'Попробуйте еще!', {
+              duration: 5000,
+              panelClass: 'red-snackbar'
+            })
+            return of(deleteProductFailed(err))
+          })
         )
       )
     )
   )
 
+  deleteImage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(deleteImage),
+      switchMap(({ productId, dto }) =>
+        this.productsService.deleteImage(productId, dto).pipe(
+          map(() => deleteImageSuccess({ productId, imageUrl: dto.imageUrl })),
+          catchError((err) => of(deleteImageFailed(err)))
+        )
+      )
+    )
+  )
 
-  constructor(private actions$: Actions, private productsService: ProductsService) { }
+  constructor(
+    private actions$: Actions,
+    private productsService: ProductsService,
+    private snackBar: MatSnackBar
+  ) { }
 }

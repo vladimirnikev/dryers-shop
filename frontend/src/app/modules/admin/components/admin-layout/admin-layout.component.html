@@ -7,8 +7,24 @@
       <mat-icon>menu</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item [routerLink]="['create']">Создать товар</button>
+      <!-- <button mat-menu-item [routerLink]="['create']">Создать товар</button> -->
+      <button mat-menu-item (click)="openCreateProductModal()">
+        Создать товар
+      </button>
+
       <button mat-menu-item [routerLink]="['items']">Список товаров</button>
+      <button mat-menu-item (click)="openCreateManufacturerModal()">
+        Добавить нового производителя
+      </button>
+      <button mat-menu-item (click)="openManufacturersListModal()">
+        Список производителей
+      </button>
+      <button mat-menu-item (click)="openCreateColorModal()">
+        Добавить новый цвет
+      </button>
+      <button mat-menu-item (click)="openColorsListModal()">
+        Список цветов
+      </button>
       <button mat-menu-item>Список заказов</button>
       <button mat-menu-item>Список звонков</button>
     </mat-menu>

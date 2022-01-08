@@ -2,18 +2,18 @@ import * as dayjs from 'dayjs'
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, getRepository } from 'typeorm';
-
-import { checkCurrentTimeForMessage, tgBot } from '@app/tgbot';
 import { CreateCallDto } from './dto/createCall.dto';
 import { CallEntity } from './entities/call.entity';
-import { CHAT_ID } from '@app/tgbot';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { TelegramService } from '@app/modules/telegram/telegram.service';
+import { CHAT_ID } from '@app/config';
 
 @Injectable()
 export class CallService {
     constructor(
         @InjectRepository(CallEntity)
-        private callRepository: Repository<CallEntity>
+        private callRepository: Repository<CallEntity>,
+        private telegramService: TelegramService
     ) { }
 
     async getCalls(): Promise<CallEntity[]> {
@@ -25,7 +25,7 @@ export class CallService {
             const call = new CallEntity()
             Object.assign(call, dto)
             await this.callRepository.save(call)
-            tgBot.sendMessage(CHAT_ID, checkCurrentTimeForMessage(dto.phone, dto.time))
+            this.telegramService.tgBot.sendMessage(CHAT_ID, this.telegramService.checkCurrentTimeForMessage(dto.phone, dto.time))
             // return HttpException.createBody({ message: 'Спасибо, мы вам перезвоним!', status: HttpStatus.OK })
         } catch (error) {
             throw new HttpException('Что-то пошло не так', HttpStatus.INTERNAL_SERVER_ERROR)

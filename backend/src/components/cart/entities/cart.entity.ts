@@ -1,21 +1,8 @@
 import { ItemRecordEntity } from './itemRecord.entity';
-import { AfterLoad, AfterUpdate, BeforeUpdate, Column, CreateDateColumn, Entity, JoinColumn, JoinTable, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-
+import { Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { UserEntity } from '@app/components/user/entities/user.entity';
-import { DryerEntity } from '@app/components/dryer/entities/dryer.entity';
-import { OrderEntity } from '@app/components/order/entities/order.entity';
+import { DeliveryMethod, PaymentMethod } from '@app/common/enums/cart.enum';
 
-
-export enum DeliveryMethod {
-    SHOP = 'SHOP',
-    POST = 'POST'
-}
-
-export enum PaymentMethod {
-    CASH = 'CASH',
-    CARD = 'CARD',
-    IN_SHOP = 'IN_SHOP'
-}
 @Entity({ name: 'carts', })
 export class CartEntity {
     @PrimaryGeneratedColumn()
@@ -36,7 +23,6 @@ export class CartEntity {
     @OneToMany(() => ItemRecordEntity, (itemRecord) => itemRecord.cart)
     itemRecords: ItemRecordEntity[]
 
-    // --------------------
     @Column({ default: '' })
     name: string
 
@@ -75,12 +61,6 @@ export class CartEntity {
     @Column({ default: false })
     isOrdered: boolean
 
-    @OneToOne(() => UserEntity, user => user.cart)
+    @OneToOne(() => UserEntity, user => user.cart, { onDelete: 'CASCADE' })
     user: UserEntity
-
-    // @OneToOne(() => OrderEntity)
-    // order: OrderEntity
-
-
 }
-// Создать табличку записей айтемов / удалить табличку корзины / запрашивать все записи по сессии / очищать все записи по истечению первой записи

@@ -1,7 +1,6 @@
 import { HttpService } from './http.service';
-import { HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LoginData } from 'src/common/interfaces/loginData.interface';
 import { UserInterface } from 'src/common/interfaces/user.interface';
@@ -15,14 +14,11 @@ export class AuthService {
     private router: Router,
     private httpService: HttpService,
     private location: Location,
-    private route: ActivatedRoute
   ) {
-    // if (this.router.parseUrl.toString().includes('admin'))
     this.setToken(localStorage.getItem('token'))
   }
 
   setToken(value: string) {
-    // const expDate = new Date(new Date().getTime() + )
     this.token.next(value)
     if (value) {
       localStorage.setItem('token', value)

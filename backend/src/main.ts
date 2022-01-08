@@ -11,7 +11,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    cors: true
+    cors: true,
   });
   dayjs.extend(utc)
 
@@ -19,16 +19,8 @@ async function bootstrap() {
     whitelist: true,
     forbidNonWhitelisted: true
   }))
-  // app.use(
-  //   session({
-  //     secret: 'my-secret',
-  //     resave: false,
-  //     saveUninitialized: false,
-  //     cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 },
-  //   }),
-  // );
-  app.use(cookieParser());
+  app.use(cookieParser())
 
-  await app.listen(3000);
+  await app.listen(3000)
 }
 bootstrap();

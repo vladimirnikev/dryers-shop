@@ -68,3 +68,24 @@ body {
     width: 200px;
   }
 }
+
+.manufacturers-list {
+  .mat-list-item-content {
+    justify-content: space-between;
+  }
+}
+
+.green-snackbar {
+  background: green;
+  color: #ffffff;
+  button {
+    color: #ffffff;
+  }
+}
+.red-snackbar {
+  background: rgb(255, 60, 60);
+  color: #ffffff;
+  button {
+    color: #ffffff;
+  }
+}

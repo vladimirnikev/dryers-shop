@@ -1,25 +1,26 @@
 import { IGetProductsQuery } from './../../common/interfaces/get-products-query.interface';
-import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards, Put, UseInterceptors, UploadedFiles, UploadedFile } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards, Put, UseInterceptors, UploadedFiles } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { v4 as uuid } from 'uuid';
 import { DryerEntity } from '@app/components/dryer/entities/dryer.entity';
 import { AuthGuard } from '@app/components/user/guards/auth.guard';
 import { DryerService } from '@app/components/dryer/dryer.service';
 import { AdminGuard } from '@app/components/user/guards/admin.guard';
-import { CreateDryerDto } from './dto/createDryer.dto';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import * as path from 'path';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { DeleteImageDto } from './dto/deleteImage.dto';
+import { ColorService } from '../color/color.service';
+import { JwtAuthGuard } from '@app/modules/auth/guards/jwt-auth.guard';
 
 @Controller('products')
 export class DryerController {
     constructor(
-        private dryerService: DryerService
+        private dryerService: DryerService,
+        private colorService: ColorService
     ) { }
 
     @Get()
+    @UseGuards(JwtAuthGuard)
     async getDryers(
-        @Query() query: IGetProductsQuery
+        @Query() query: IGetProductsQuery,
     ): Promise<{ data: DryerEntity[], totalCount: number }> {
         return await this.dryerService.getDryers(query)
     }
@@ -33,42 +34,23 @@ export class DryerController {
 
     @Post()
     @UseGuards(AuthGuard, AdminGuard)
+    @UseInterceptors(FilesInterceptor('files'))
     async createDryer(
-        @Body() dto: CreateDryerDto,
-        // @UploadedFiles() files
+        @Body() dto,
+        @UploadedFiles() files
     ): Promise<DryerEntity> {
-        // console.log('Path: ', files)
-        return await this.dryerService.createDryer(dto)
+        return await this.dryerService.createDryer(dto, files)
     }
-
-    @Post('upload')
-    @UseGuards(AuthGuard, AdminGuard)
-    @UseInterceptors(FilesInterceptor('file', 10, {
-        storage: diskStorage({
-            destination: './uploads/productimages',
-            filename: (req, file, cb) => {
-                const filename: string = path.parse(file.originalname).name.replace(/\s/g, '') + uuid()
-                const extension: string = path.parse(file.originalname).ext
-
-                cb(null, `${filename}${extension}`)
-            }
-        })
-    }))
-    uploadImage(@UploadedFiles() files) {
-        console.log('Files: ', files)
-        return
-    }
-    // Controller
-
-
 
     @Put(':id')
     @UseGuards(AuthGuard, AdminGuard)
+    @UseInterceptors(FilesInterceptor('files'))
     async updateDryer(
         @Param('id') id: number,
-        @Body() dto: CreateDryerDto
+        @Body() dto,
+        @UploadedFiles() files
     ): Promise<DryerEntity> {
-        return await this.dryerService.updateDryer(dto, id)
+        return await this.dryerService.updateDryer(dto, files, id)
     }
 
     @Delete(':id')
@@ -77,5 +59,14 @@ export class DryerController {
         @Param('id') id: number
     ): Promise<DeleteResult> {
         return await this.dryerService.deleteDryer(id)
+    }
+
+    @Put(':id/image')
+    @UseGuards(AuthGuard, AdminGuard)
+    async deleteImage(
+        @Body() dto: DeleteImageDto,
+        @Param('id') productId: number
+    ): Promise<DryerEntity> {
+        return await this.dryerService.deleteImage(productId, dto.imageUrl)
     }
 }

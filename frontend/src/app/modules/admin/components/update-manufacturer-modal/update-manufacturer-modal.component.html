@@ -1,0 +1,27 @@
+<h2 mat-dialog-title class="title">Изменить производителя:</h2>
+<div mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Введите название производителя</mat-label>
+      <input matInput formControlName="name" />
+      <mat-error *ngIf="form.get('name').errors?.required"
+        >Это обязательное поле</mat-error
+      >
+    </mat-form-field>
+    <mat-error *ngIf="isSimilarName" class="custom-error"
+      >Производитель с таким именем уже существует в базе</mat-error
+    >
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-dialog-close mat-button>Отмена</button>
+  <button
+    type="submit"
+    (click)="updateItem()"
+    mat-raised-button
+    color="primary"
+    [disabled]="form.invalid || isSimilarName"
+  >
+    Обновить производителя
+  </button>
+</div>

@@ -1,4 +1,3 @@
-<!-- <div class="filters-wrapper"> -->
 <form [formGroup]="form">
   <mat-form-field appearance="outline">
     <mat-label>Название</mat-label>
@@ -16,15 +15,17 @@
 
   <mat-form-field appearance="outline">
     <mat-label>Производитель</mat-label>
-    <mat-select formControlName="batch">
+    <mat-select formControlName="manufacturer">
       <mat-option>Все</mat-option>
-      <mat-option *ngFor="let batch of batches" [value]="batch">{{
-        batch
-      }}</mat-option>
+      <mat-option
+        *ngFor="let manufacturer of manufacturers"
+        [value]="manufacturer.id"
+        >{{ manufacturer.name }}</mat-option
+      >
     </mat-select>
   </mat-form-field>
 </form>
-<!-- </div> -->
+
 <div class="mat-elevation-z8">
   <div *ngIf="isLoading" class="loading-shade">
     <mat-spinner></mat-spinner>
@@ -45,10 +46,10 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="batch">
+    <ng-container matColumnDef="manufacturer">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Производитель</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.batch }}
+        {{ element.manufacturer?.name }}
       </td>
     </ng-container>
 
@@ -57,10 +58,10 @@
       <td mat-cell *matCellDef="let element">{{ element.price }} UAH</td>
     </ng-container>
 
-    <ng-container matColumnDef="color">
+    <ng-container matColumnDef="colors">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Цвета</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.color.join(", ") }}
+        {{ element.colors }}
       </td>
     </ng-container>
 

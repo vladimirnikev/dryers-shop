@@ -1,3 +1,4 @@
+import { UpdateItemModalComponent } from './components/update-item-modal/update-item-modal.component';
 import { CreateItemPageComponent } from './components/create-item-page/create-item-page.component';
 import { ItemsPageComponent } from './components/items-page/items-page.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
@@ -10,9 +11,8 @@ const routes: Routes = [
   {
     path: '', component: AdminLayoutComponent, children: [
       { path: '', redirectTo: '/admin/login', pathMatch: 'full' },
-      { path: 'login', component: LoginPageComponent }, // if (token) navigate(['items'])
+      { path: 'login', component: LoginPageComponent },
       { path: 'items', component: ItemsPageComponent, canActivate: [AdminGuard] },
-      { path: 'create', component: CreateItemPageComponent, canActivate: [AdminGuard] }
     ]
   }
 ]

@@ -1,5 +1,7 @@
+import { IManufacturer } from './../../../common/interfaces/manufacturer.interface';
 import { IProduct } from 'src/common/interfaces/product.interface';
 import { createAction, props } from "@ngrx/store";
+import { IColor } from 'src/common/interfaces/color.interface';
 
 export enum EItemsActions {
   CreateProduct = '[Products] Create Product',
@@ -21,13 +23,27 @@ export enum EItemsActions {
   GetProducts = '[Products] Get Products',
   GetProductsSuccess = '[Products] Get Products Success',
   GetProductsFailed = '[Products] Get Products  Failed',
+
+  DeleteImage = '[Products] Delete Image',
+  DeleteImageSuccess = '[Products] Delete Image Success',
+  DeleteImageFailed = '[Products] Delete Image Failed',
+
+  AddProductItem = '[Products] Add Product',
+
+  ChangeManufacturerInLoadedProducts = '[Products] Change Manufacturer In Loaded Products',
+
+  DeleteProductsWithDeletedManufacturer = '[Products] Delete Products With Deleted Manufacterer',
+
+  ChangeColorInLoadedProducts = '[Products] Change Color In Loaded Products',
+
+  DeleteColorFromProducts = '[Products] Delete Color From Products'
 }
 // ------------------------
 // CREATE
 // ------------------------
 export const createProduct = createAction(
   EItemsActions.CreateProduct,
-  props<{ dto: any, files: any }>()
+  props<{ dto: any }>()
 )
 export const createProductSuccess = createAction(
   EItemsActions.CreateProductSuccess,
@@ -42,7 +58,7 @@ export const createProductFailed = createAction(
 // ------------------------
 export const updateProduct = createAction(
   EItemsActions.UpdateProduct,
-  props<{ dto: IProduct, id: number }>()
+  props<{ dto: any, id: number }>()
 )
 export const updateProductSuccess = createAction(
   EItemsActions.UpdateProductSuccess,
@@ -87,7 +103,7 @@ export const getOneProductFailed = createAction(
 // ------------------------
 export const getProducts = createAction(
   EItemsActions.GetProducts,
-  props<{ params }>() // any
+  props<{ params: any }>()
 )
 export const getProductsSuccess = createAction(
   EItemsActions.GetProductsSuccess,
@@ -97,3 +113,46 @@ export const getProductsFailed = createAction(
   EItemsActions.GetProductsFailed,
   props<{ error: Error }>()
 )
+// ------------------------
+// DELETE IMAGE
+// ------------------------
+export const deleteImage = createAction(
+  EItemsActions.DeleteImage,
+  props<{ productId: number, dto: { imageUrl: string } }>()
+)
+export const deleteImageSuccess = createAction(
+  EItemsActions.DeleteImageSuccess,
+  props<{ productId: number, imageUrl: string }>()
+)
+export const deleteImageFailed = createAction(
+  EItemsActions.DeleteImageFailed,
+  props<{ error: Error }>()
+)
+
+export const addProductItem = createAction(
+  EItemsActions.AddProductItem,
+  props<{ product: any }>()
+)
+
+export const changeManufacturerInLoadedProducts = createAction(
+  EItemsActions.ChangeManufacturerInLoadedProducts,
+  props<{ manufacturer: IManufacturer }>()
+)
+
+export const deleteProductsWithDeletedManufacturer = createAction(
+  EItemsActions.DeleteProductsWithDeletedManufacturer,
+  props<{ manufacturerId: number }>()
+)
+
+export const changeColorInLoadedProducts = createAction(
+  EItemsActions.ChangeColorInLoadedProducts,
+  props<{ color: IColor }>()
+)
+
+export const deleteColorFromProducts = createAction(
+  EItemsActions.DeleteColorFromProducts,
+  props<{ colorId: number }>()
+)
+
+
+

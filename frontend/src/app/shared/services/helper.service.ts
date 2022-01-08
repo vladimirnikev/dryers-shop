@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class HelperService {
 
   constructor() { }
@@ -10,5 +8,9 @@ export class HelperService {
   clearEmptyFilters(params) {
     Object.keys(params).forEach(key => !params[key] && params[key] !== false && delete params[key])
     return params
+  }
+
+  appendDataFromForm(dto, formData) {
+    Object.keys(dto).forEach(key => formData.append(key, dto[key]))
   }
 }

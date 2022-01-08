@@ -3,13 +3,12 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { compare } from 'bcrypt'
-import { sign } from 'jsonwebtoken';
-
-import { JWT_SECTRET } from '@app/config';
+// import { sign } from 'jsonwebtoken';
+// import { JWT_SECTRET } from '@app/config';
 import { AuthUserDto } from './dto/authUser.dto';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UserEntity } from './entities/user.entity';
-import { UserResponceInterface } from './types/userResponce.interface';
+// import { UserResponceInterface } from './types/userResponce.interface';
 
 @Injectable()
 export class UserService {
@@ -34,7 +33,6 @@ export class UserService {
         user.cart = cart
         const createdUser = await this.userRepository.save(user)
 
-        // delete createdUser.cart
         delete createdUser.password
         return createdUser
     }
@@ -65,7 +63,7 @@ export class UserService {
         return await this.userRepository.save(user)
     }
 
-    async getUserRole(id: number): Promise<{role: string}> {
+    async getUserRole(id: number): Promise<{ role: string }> {
         const user = await this.getById(id)
         if (!user) {
             throw new HttpException('User does not exist', HttpStatus.NOT_FOUND)
@@ -73,21 +71,21 @@ export class UserService {
         return { role: user.role }
     }
 
-    generateJwt(user: UserEntity): string {
-        return sign({
-            id: user.id,
-            username: user.username,
-            email: user.email
-        }, JWT_SECTRET)
-    }
+    // generateJwt(user: UserEntity): string {
+    //     return sign({
+    //         id: user.id,
+    //         username: user.username,
+    //         email: user.email
+    //     }, JWT_SECTRET)
+    // }
 
-    buildUserResponse(user: UserEntity): UserResponceInterface {
-        return {
-            user: {
-                ...user,
-                token: this.generateJwt(user)
-            }
-        }
-    }
+    // buildUserResponse(user: UserEntity): UserResponceInterface {
+    //     return {
+    //         user: {
+    //             ...user,
+    //             token: this.generateJwt(user)
+    //         }
+    //     }
+    // }
 
 }

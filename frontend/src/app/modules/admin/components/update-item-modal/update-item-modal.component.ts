@@ -1,56 +1,166 @@
-import { updateProduct } from './../../../../store/products/products.actions';
+import { selectAllColors } from './../../../../store/colors/colors.selectors';
+import { deleteImage, updateProduct } from './../../../../store/products/products.actions';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { IProduct } from 'src/common/interfaces/product.interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
+import { selectProductById, selectProductsLoadingStatus } from 'src/app/store/products/products.selectors';
+import { combineLatest, Subscriber, Subscription, zip } from 'rxjs';
+import { HelperService } from 'src/app/shared/services/helper.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { selectAllManufacturers } from 'src/app/store/manufacturers/manufacturers.selectors';
+import { IColor } from 'src/common/interfaces/color.interface';
+import { combineAll } from 'rxjs/operators';
 
 @Component({
   selector: 'app-update-item-modal',
   templateUrl: './update-item-modal.component.html',
   styleUrls: ['./update-item-modal.component.scss']
 })
-export class UpdateItemModalComponent implements OnInit {
+export class UpdateItemModalComponent implements OnInit, OnDestroy {
   @ViewChild('file') fileInput: ElementRef<HTMLElement>;
+  formData: FormData = new FormData()
+  isLoading$
+  imagesArr: string[] = []
+  newImages = []
+  files: File[] = []
+  sub: Subscription = new Subscription()
+  isNotValidColors
+  colors: IColor[]
 
-  imagesArr = this.data.images
-  batches = ['Mario', 'Laris']
+  manufacturers$ = this.store$.select(selectAllManufacturers)
   isDisable = false
 
   form = new FormGroup({
-    name: new FormControl(this.data.name, Validators.required),
-    price: new FormControl(this.data.price, Validators.required),
-    power: new FormControl(this.data.power, Validators.required),
-    availability: new FormControl(this.data.availability, Validators.required),
-    description: new FormControl(this.data.description, Validators.required),
-    images: new FormControl(this.data.images),
-    colors: new FormGroup({
-      white: new FormControl(!!this.data.color.find(color => color === 'white')),
-      black: new FormControl(!!this.data.color.find(color => color === 'black')),
-      chromium: new FormControl(!!this.data.color.find(color => color === 'chromium')),
-      gold: new FormControl(!!this.data.color.find(color => color === 'gold'))
-    }),
-    batch: new FormControl(this.data.batch, Validators.required)
+    name: new FormControl(null, Validators.required),
+    price: new FormControl(null, Validators.required),
+    power: new FormControl(null, Validators.required),
+    availability: new FormControl(null, Validators.required),
+    description: new FormControl(null, Validators.required),
+    colors: new FormGroup({}),
+    manufacturer: new FormControl(null, Validators.required)
   })
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: IProduct,
     private store$: Store,
-    private dialogRef: MatDialogRef<UpdateItemModalComponent>
+    private dialogRef: MatDialogRef<UpdateItemModalComponent>,
+    private helperService: HelperService,
   ) { }
 
   ngOnInit(): void {
+    this.isLoading$ = this.store$.select(selectProductsLoadingStatus)
+    const product$ = this.store$.select(selectProductById(Number(this.data.id)))
+    const colors$ = this.store$.select(selectAllColors)
+    this.sub.add(
+      zip(product$, colors$)
+        .subscribe(([product, colors]: [IProduct, IColor[]]) => {
+          this.colors = colors
+          this.form.setControl('colors', new FormGroup({
+            ...(<any>Object)
+              .fromEntries(colors.map(c =>
+                [c.name,
+                new FormControl(product.colors
+                  .some(color => color.name === c.name)
+                )]
+              ))
+          }))
+          this.form.patchValue({
+            name: product.name,
+            price: product.price,
+            power: product.power,
+            availability: product.availability,
+            description: product.description,
+            manufacturer: product.manufacturer?.id,
+          })
+          this.imagesArr = product.imageUrls
+          this.isNotValidColors = Object.values(this.form.get('colors').value)
+            .every(color => color === false)
+        })
+    )
+    this.sub.add(this.form.get('colors').valueChanges
+      .subscribe(colors => {
+        this.isNotValidColors = Object.values(colors).every(color => color === false)
+      }))
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe()
   }
 
   updateItem() {
-    const dto = this.form.getRawValue()
+    let dto = this.form.getRawValue()
     const selectedColors = Object.keys(dto.colors).filter(color => !!dto.colors[color])
-    dto.color = selectedColors
-    delete dto.colors
-    this.dialogRef.close({ dto, id: this.data.id })
+    dto.colors = this.colors.filter(color => selectedColors.indexOf(color.name) > -1)
+      .map(color => color.id)
+    delete dto.file
+
+    this.helperService.appendDataFromForm(dto, this.formData)
+    dto = this.formData
+
+    this.store$.dispatch(updateProduct({ dto, id: this.data.id }))
+
+    this.dialogRef.close()
   }
 
-  deleteImage(idx) { }
-  triggerClickInput() { }
-  preview(file) { }
+  deleteImage(imageUrl: string) {
+    this.store$.dispatch(deleteImage({
+      productId: this.data.id,
+      dto: { imageUrl: imageUrl }
+    }))
+  }
 
+  deleteImageForUpload(idx) {
+    this.newImages = this.newImages.filter((img, index) => index !== idx)
+    this.files = this.files.filter((file, index) => index !== idx)
+    this.formData.delete('files')
+
+    for (let i = 0; i < this.files.length; i++) {
+      this.formData.append('files', this.files[i], this.files[i].name)
+    }
+
+    this.form.patchValue({
+      images: this.newImages
+    });
+  }
+
+  preview(files) {
+    files = Array(files)[0]
+    const formData = new FormData()
+    for (let i = 0; i < files.length; i++) {
+      this.formData.append('files', files[i], files[i].name)
+    }
+
+    if (files.length === 0) {
+      return
+    }
+    const isNotValidFiles = Object.keys(files).some(key => {
+      var mimeType = files[key].type
+      if (mimeType.match(/image\/*/) == null) {
+        return
+      }
+    })
+
+    if (isNotValidFiles) {
+      return
+    }
+
+    Object.keys(files).forEach(key => {
+      var reader = new FileReader();
+      reader.readAsDataURL(files[key]);
+      reader.onload = () => {
+        this.newImages.push(reader.result)
+        this.files.push(files[key])
+      }
+    })
+
+    this.form.patchValue({
+      file: formData
+    })
+  }
+
+  triggerClickInput() {
+    this.fileInput.nativeElement.click()
+  }
 }

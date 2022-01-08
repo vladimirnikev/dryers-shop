@@ -1,0 +1,12 @@
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.custom-error {
+  position: absolute;
+  font-size: 75%;
+  bottom: 0;
+}

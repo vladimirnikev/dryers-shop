@@ -1,5 +1,4 @@
 import { BeforeUpdate, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-
 import { UserEntity } from "@app/components/user/entities/user.entity";
 
 

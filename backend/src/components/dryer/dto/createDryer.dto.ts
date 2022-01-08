@@ -1,4 +1,4 @@
-import { IsArray, IsBoolean, IsNotEmpty, IsNumber, IsString } from "class-validator"
+import { IsBoolean, IsNumber, IsString } from "class-validator"
 
 export class CreateDryerDto {
     @IsString()
@@ -7,14 +7,12 @@ export class CreateDryerDto {
     readonly price: number
     @IsBoolean()
     readonly availability: boolean
-    // @IsArray()
-    // readonly images: string[]
-    @IsArray()
-    readonly color: string[]
+    @IsString()
+    readonly colors: string
     @IsString()
     readonly description: string
     @IsString()
-    readonly batch: string
+    readonly manufacturer: number
     @IsNumber()
     readonly power: number
 }

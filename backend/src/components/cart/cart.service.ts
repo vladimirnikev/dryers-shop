@@ -1,5 +1,3 @@
-import { CHAT_ID } from '@app/tgbot';
-import { tgBot, makeMessageAboutOrder } from '@app/tgbot';
 import { MakeOrderDto } from './dto/makeOrder.dto';
 import { IncrementItemRecordQuantityDto } from './dto/incrementItemRecordQuantity.dto';
 import { CartEntity } from '@app/components/cart/entities/cart.entity';
@@ -8,8 +6,10 @@ import { HttpException, Injectable, HttpStatus } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as dayjs from 'dayjs';
-import { Repository, getConnection, getRepository, DeleteResult } from 'typeorm';
+import { Repository, getRepository } from 'typeorm';
 import { AddItemToCartDto } from './dto/addItemToCart.dto';
+import { CHAT_ID } from '@app/config';
+import { TelegramService } from '@app/modules/telegram/telegram.service';
 
 
 @Injectable()
@@ -19,6 +19,7 @@ export class CartService {
         private cartRepository: Repository<CartEntity>,
         @InjectRepository(ItemRecordEntity)
         private itemRecordRepository: Repository<ItemRecordEntity>,
+        private telegramService: TelegramService
     ) { }
 
     async createCartForUser(): Promise<CartEntity> {
@@ -91,9 +92,7 @@ export class CartService {
     }
 
     async deleteRecord(sessionId: string, dto: IncrementItemRecordQuantityDto): Promise<void> {
-        const itemRecord = await this.itemRecordRepository.findOne(dto.itemRecordId,
-            // { relations: ['item'] }
-        )
+        const itemRecord = await this.itemRecordRepository.findOne(dto.itemRecordId)
         await this.itemRecordRepository.delete(dto.itemRecordId)
 
         const cart = await this.getCartBySessionId(sessionId)
@@ -103,7 +102,6 @@ export class CartService {
     }
 
     async makeOrder(sessionId: string, dto: MakeOrderDto) {
-        // console.log('DTO:', dto)
         const cart = await this.cartRepository.findOne({ sessionId }, { relations: ['itemRecords'] })
         console.log('Cart: ', cart)
         if (!cart) {
@@ -117,7 +115,7 @@ export class CartService {
             throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR)
         }
         console.log('ORDER: ', cart)
-        tgBot.sendMessage(CHAT_ID, makeMessageAboutOrder(order))
+        this.telegramService.tgBot.sendMessage(CHAT_ID, this.telegramService.makeMessageAboutOrder(order))
     }
 
     async getOrders(query: any): Promise<CartEntity[]> {

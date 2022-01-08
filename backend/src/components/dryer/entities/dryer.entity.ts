@@ -1,12 +1,20 @@
+import { ColorEntity } from '../../color/entities/color.entity';
+import { ManufacturerEntity } from './../../manufacturer/entities/manufacturer.entity';
 import { ItemRecordEntity } from './../../cart/entities/itemRecord.entity';
-import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-
-import { CartEntity } from "@app/components/cart/entities/cart.entity";
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'dryers' })
 export class DryerEntity {
     @PrimaryGeneratedColumn()
     id: number
+
+    @CreateDateColumn({
+        type: 'timestamp without time zone',
+        nullable: false,
+        default: () => 'CURRENT_TIMESTAMP',
+        select: false,
+    })
+    createdAt: Date
 
     @Column()
     name: string
@@ -17,24 +25,28 @@ export class DryerEntity {
     @Column()
     availability: boolean
 
-    @Column({ default: '', type: 'simple-array' })
-    images: string[]
-
-    @Column({ type: 'simple-array' })
-    color: string[]
+    @Column({ type: 'simple-array', nullable: true })
+    imageUrls: string[]
 
     @Column()
     description: string
 
     @Column()
-    batch: string
-
-    @Column()
     power: number
-
-    // @ManyToOne(() => CartEntity, (cart) => cart.dryers)
-    // cart: CartEntity
 
     @OneToMany(() => ItemRecordEntity, record => record.item)
     itemRecords: ItemRecordEntity[]
+
+    @ManyToOne(() => ManufacturerEntity, (manufacturer) => manufacturer.products, {
+        onDelete: 'CASCADE'
+    })
+    manufacturer: ManufacturerEntity
+
+    @ManyToMany(() => ColorEntity, (color) => color.products, {
+        eager: true,
+        nullable: true,
+        onDelete: 'CASCADE',
+    })
+    @JoinTable()
+    colors: ColorEntity[]
 }

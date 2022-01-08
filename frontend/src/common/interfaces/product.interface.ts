@@ -1,15 +1,18 @@
 import { ESortDirection } from "../enums/sort.enum";
+import { IColor } from "./color.interface";
+import { IManufacturer } from "./manufacturer.interface";
 
 export interface IProduct {
   id: number
   name: string
   availability: boolean
-  batch: string
-  color: string[]
+  manufacturer: IManufacturer
+  colors: IColor[]
   description: string
   images: string[]
   power: number
   price: number
+  imageUrls: string[]
 }
 
 export interface IUpdateProduct {

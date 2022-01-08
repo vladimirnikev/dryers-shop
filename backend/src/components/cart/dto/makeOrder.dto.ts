@@ -1,5 +1,5 @@
+import { DeliveryMethod, PaymentMethod } from "@app/common/enums/cart.enum";
 import { IsEmail, IsEnum, IsOptional, IsPhoneNumber, IsString, ValidateIf } from "class-validator";
-import { DeliveryMethod, PaymentMethod } from "../entities/cart.entity";
 
 export class MakeOrderDto {
     @IsString()

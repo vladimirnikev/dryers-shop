@@ -1,0 +1,29 @@
+<h2 mat-dialog-title class="title">Список цветов:</h2>
+<div mat-dialog-content>
+  <mat-list class="manufacturers-list" role="list">
+    <mat-list-item *ngFor="let color of colors$ | async" role="listitem">
+      <p>{{ color.name }}</p>
+      <div class="bar">
+        <button
+          (click)="editManufacturer(color)"
+          color="primary"
+          mat-icon-button
+          aria-label="Edit icon button"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          (click)="openDeleteManufacturerModal(color.id)"
+          color="warn"
+          mat-icon-button
+          aria-label="Delete icon button"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </mat-list-item>
+  </mat-list>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" mat-dialog-close>Ок</button>
+</div>

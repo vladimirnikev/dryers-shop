@@ -5,7 +5,7 @@ export interface IGetProductsQuery {
     readonly price: string
     readonly availability: string
     readonly color: string
-    readonly batch: string
+    readonly manufacturer: string
     readonly power: string
     readonly limit: number
     readonly offset: number

@@ -13,18 +13,14 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
     const currentToken = localStorage.getItem('token');
     if (currentToken) {
-      console.log('Token: ', currentToken)
       req = req.clone({
         setHeaders: {
-          Authorization: `Token ${currentToken}`
+          Authorization: `Bearer ${currentToken}`
         }
       })
     }
     return next.handle(req)
       .pipe(
-        tap(() => { // for test
-          console.log('INTERCEPT RABOTAET') // for test
-        }), // for test
         catchError((error: HttpErrorResponse) => {
           console.log('[Error in interceptor]: ', error)
           if (error.status === 401) {

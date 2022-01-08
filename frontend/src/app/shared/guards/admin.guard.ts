@@ -30,7 +30,6 @@ export class AdminGuard implements CanActivate {
       })
     }
     this.authService.logout()
-    // this.router.navigate(['']) // admin login page ЭТОТ РЕДИРЕКТ ЕСТЬ В AuthService
     return false
   }
 }

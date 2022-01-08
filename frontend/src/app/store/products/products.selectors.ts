@@ -28,10 +28,3 @@ export const selectProductsLoadingStatus = createSelector(
   selectFeature,
   (state: PruductState) => state.isLoading
 )
-
-// export const selectProductsBatches = createSelector(
-//   selectFeature,
-//   (state: PruductState) => state.products
-//     .map(item => item.batch)
-//     .filter((item, index, arr) => arr.indexOf(item) == index)
-// )

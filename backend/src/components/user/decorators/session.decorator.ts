@@ -6,15 +6,11 @@ import { ExpressRequestInterface } from '@app/common/types/expressRequest.interf
 export const SessionId = createParamDecorator((data, ctx: ExecutionContext) => {
     const req = ctx.switchToHttp().getRequest<ExpressRequestInterface>()
     const res = ctx.switchToHttp().getResponse()
-
+    console.log(req.cookies['sessionId'])
     if (!req.cookies['sessionId']) {
         const sessionId = uuid()
         res.cookie('sessionId', sessionId, { maxAge: 30 * 24 * 60 * 60 * 1000 })
         return sessionId
     }
-
-    // if (!req.session.isVisit) {
-    //     req.session.isVisit = true
-    // }
     return req.cookies['sessionId']
 })
