@@ -18,23 +18,14 @@ export class UserController {
     @Post()
     async create(@Body() dto: CreateUserDto): Promise<UserResponceInterface> {
         const user = await this.userService.create(dto)
-        // return this.userService.buildUserResponse(user)
         return this.authService.login(user)
     }
 
-    // @Post('login')
-    // @UseGuards(JwtAuthGuard) // ???
-    // async login(@Body() dto: AuthUserDto): Promise<UserResponceInterface> {
-    //     const user = await this.userService.login(dto)
-    //     return this.userService.buildUserResponse(user)
-    // }
-    // @UseGuards(LocalAuthGuard)
     @UseGuards(LocalAuthGuard)
     @Post('login')
     async login(@User() user: UserEntity) {
         return this.authService.login(user)
     }
-
 
     @Put()
     @UseGuards(AuthGuard)
