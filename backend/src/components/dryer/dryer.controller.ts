@@ -18,7 +18,8 @@ export class DryerController {
     ) { }
 
     @Get()
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
+    @UseGuards(AuthGuard)
     async getDryers(
         @Query() query: IGetProductsQuery,
     ): Promise<{ data: DryerEntity[], totalCount: number }> {

@@ -1,3 +1,4 @@
+// import { AuthGuard } from '@app/components/user/guards/auth.guard';
 import { Body, Controller, Get, Post, Put, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UserEntity } from './entities/user.entity';
@@ -7,6 +8,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { User } from './decorators/user.decorator';
 import { LocalAuthGuard } from '@app/modules/auth/guards/local-auth.guard';
 import { AuthService } from '@app/modules/auth/auth.service';
+import { AuthUserDto } from './dto/authUser.dto';
 
 @Controller('users')
 export class UserController {
@@ -22,18 +24,17 @@ export class UserController {
         return this.authService.login(user)
     }
 
-    // @Post('login')
-    // @UseGuards(JwtAuthGuard) // ???
-    // async login(@Body() dto: AuthUserDto): Promise<UserResponceInterface> {
-    //     const user = await this.userService.login(dto)
-    //     return this.userService.buildUserResponse(user)
-    // }
-    // @UseGuards(LocalAuthGuard)
-    @UseGuards(LocalAuthGuard)
     @Post('login')
-    async login(@User() user: UserEntity) {
-        return this.authService.login(user)
+    // @UseGuards(AuthGuard) // ???
+    async login(@Body() dto: AuthUserDto): Promise<UserResponceInterface> {
+        const user = await this.userService.login(dto)
+        return this.userService.buildUserResponse(user)
     }
+    // @UseGuards(LocalAuthGuard)
+    // @Post('login')
+    // async login(@User() user: UserEntity) {
+    //     return this.authService.login(user)
+    // }
 
 
     @Put()
