@@ -1,0 +1,15 @@
+<div class="control">
+  <label [for]="id">{{ label }}<img *ngIf="required" src="assets/images/star.svg" /></label>
+  <input
+    [ngClass]="{
+      'is-tried-to-send': isTriedSubmit
+    }"
+    [formControl]="control"
+    [name]="inputName"
+    [id]="id"
+    [type]="inputType"
+    [placeholder]="placeholder"
+    (input)="doInput()"
+    (blur)="doBlur()"
+  />
+</div>

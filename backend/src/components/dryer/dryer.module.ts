@@ -10,11 +10,12 @@ import { CloudinaryModule } from '@app/modules/cloudinary/cloudinary.module';
 import { ManufacturerEntity } from '../manufacturer/entities/manufacturer.entity';
 import { ColorService } from '../color/color.service';
 
-
 @Module({
-    imports: [TypeOrmModule.forFeature([DryerEntity, ItemRecordEntity, ManufacturerEntity, ColorEntity]), CloudinaryModule],
-    controllers: [DryerController],
-    providers: [DryerService, ColorService
-    ]
+  imports: [
+    TypeOrmModule.forFeature([DryerEntity, ItemRecordEntity, ManufacturerEntity, ColorEntity]),
+    CloudinaryModule,
+  ],
+  controllers: [DryerController],
+  providers: [DryerService, ColorService],
 })
-export class DryerModule { }
+export class DryerModule {}

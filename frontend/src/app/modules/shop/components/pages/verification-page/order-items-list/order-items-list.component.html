@@ -1,0 +1,29 @@
+<table>
+  <tr class="table-header">
+    <th>Наименование</th>
+    <th>Производитель</th>
+    <th *ngIf="products | isExistNotEmptyValue: 'priceWithDiscount'">Скидка</th>
+    <th>Количество</th>
+    <th>Сумма</th>
+  </tr>
+  <tr *ngFor="let product of products">
+    <td>
+      <img [src]="product.img" />
+      <span class="name">{{ product.name }}</span>
+    </td>
+    <td>
+      <span>{{ product.manufacturer?.name }}</span>
+    </td>
+    <td *ngIf="products | isExistNotEmptyValue: 'priceWithDiscount'">
+      <span *ngIf="product.priceWithDiscount"
+        >~{{ 100 - product.priceWithDiscount / (product.price / 100) | number: '1.0-0' }}%</span
+      >
+    </td>
+    <td>
+      <span>{{ product.count }} шт.</span>
+    </td>
+    <td>
+      <span class="sum">{{ product.count * (product.priceWithDiscount || product.price) }}</span>
+    </td>
+  </tr>
+</table>

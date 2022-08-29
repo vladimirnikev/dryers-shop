@@ -1,0 +1,57 @@
+.feed-wrapper {
+  padding: 16px 8px;
+  background: #EFF3FC;
+  border: 1px solid #BFBEBE;
+  border-radius: 8px;
+}
+
+.wrapper-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-title {
+  color: #3F75BE;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.instagram-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+
+}
+
+.text {
+  color: #333333;
+  font-size: 14px;
+  line-height: 20px;
+  margin-top: 8px;
+}
+
+.posts-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+
+  .post {
+    cursor: pointer;
+
+    img {
+      width: 100%;
+      height: 180px;
+    }
+  }
+
+  .post:not(:nth-of-type(1)) {
+    margin-top: 8px;
+  }
+}

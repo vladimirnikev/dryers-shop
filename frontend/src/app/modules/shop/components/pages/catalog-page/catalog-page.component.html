@@ -1,0 +1,92 @@
+<app-loader *ngIf="isLoading$ | async"></app-loader>
+
+<section>
+  <div class="container">
+    <h2 class="page-title">Полотенцесушители электрические</h2>
+    <div class="swiper-wrapper">
+      <div class="swiper-button swiper-button-prev-unique">
+        <svg-icon src="assets/images/arrow-left.svg" alt="arrow"></svg-icon>
+      </div>
+      <div class="swiper-button swiper-button-next-unique">
+        <svg-icon src="assets/images/arrow-left.svg" alt="arrow"></svg-icon>
+      </div>
+      <swiper [config]="swiperConfig" class="catalog-menu-swiper">
+        <ng-template swiperSlide>
+          <div
+            [routerLink]="['', 'catalog', 'water']"
+            class="catalog-menu-card"
+          >
+            <img class="card-img" src="assets/images/towel.jpg" />
+            <span class="card-title">Полотенцесушители водяные</span>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div
+            [routerLink]="['', 'catalog', 'electricity']"
+            class="catalog-menu-card"
+          >
+            <img class="card-img" src="assets/images/towel.jpg" />
+            <span class="card-title">Полотенцесушители электрические</span>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div
+            [routerLink]="['', 'catalog', 'combine']"
+            class="catalog-menu-card"
+          >
+            <img class="card-img" src="assets/images/towel.jpg" />
+            <span class="card-title">Полотенцесушители комбинированные</span>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div
+            [routerLink]="['', 'catalog', 'accessories']"
+            class="catalog-menu-card"
+          >
+            <img class="card-img" src="assets/images/towel.jpg" />
+            <span class="card-title">Аксессуары</span>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div
+            [routerLink]="['', 'catalog', 'discounts']"
+            class="catalog-menu-card"
+          >
+            <img class="card-img" src="assets/images/towel.jpg" />
+            <span class="card-title">Акции</span>
+          </div>
+        </ng-template>
+      </swiper>
+    </div>
+    <div class="page-content">
+      <div class="side-layout">
+        <app-filtering-bar></app-filtering-bar>
+        <app-instagram-feed></app-instagram-feed>
+      </div>
+      <app-sorting-bar
+        (viewTypeEvent)="changeListView($event)"
+      ></app-sorting-bar>
+      <div [ngClass]="{ 'mt-64': viewType === 'row' }" class="list-wrapper">
+        <div
+          *ngIf="!!(products$ | async).length; else emptyMessage"
+          [ngClass]="{
+            'view-column': viewType === 'column',
+            'view-row': viewType === 'row'
+          }"
+          class="cards-list"
+        >
+          <app-catalog-card
+            *ngFor="let product of products$ | async"
+            [item]="product"
+            [viewType]="viewType"
+          ></app-catalog-card>
+        </div>
+        <ng-template #emptyMessage>
+          <div>По выбранным фильтрам товаров не найдено :(</div>
+        </ng-template>
+        <app-pagination *ngIf="!!(products$ | async).length"></app-pagination>
+      </div>
+    </div>
+    <app-viewed-products-list></app-viewed-products-list>
+  </div>
+</section>

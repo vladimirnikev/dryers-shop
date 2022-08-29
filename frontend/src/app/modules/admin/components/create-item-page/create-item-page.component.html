@@ -2,20 +2,13 @@
 <div mat-dialog-content>
   <form class="form" [formGroup]="form">
     <div class="image-list">
-      <mat-card
-        *ngFor="let image of imagesArr; let idx = index"
-        class="image-card"
-      >
+      <mat-card *ngFor="let image of imagesArr; let idx = index" class="image-card">
         <img class="image-preview" [src]="image" />
         <mat-card-actions align="end">
-          <button type="button" (click)="deleteImage(idx)" mat-button>
-            Удалить
-          </button>
+          <button type="button" (click)="deleteImage(idx)" mat-button>Удалить</button>
         </mat-card-actions>
       </mat-card>
-      <mat-error *ngIf="!imagesArr.length && form.dirty"
-        >Загрузите картинки товара</mat-error
-      >
+      <mat-error *ngIf="!imagesArr.length && form.dirty">Загрузите картинки товара</mat-error>
     </div>
     <button
       type="button"
@@ -24,30 +17,25 @@
       mat-raised-button
       color="primary"
     >
-      <input
-        #file
-        (change)="preview(file.files)"
-        type="file"
-        accept="image/*"
-        multiple
-      />
+      <input #file (change)="preview(file.files)" type="file" accept="image/*" multiple />
       Загрузить изображения
     </button>
 
     <mat-form-field appearance="outline">
       <mat-label>Введите имя товара</mat-label>
       <input matInput formControlName="name" />
-      <mat-error *ngIf="form.get('name').errors?.required"
-        >Это обязательное поле</mat-error
-      >
+      <mat-error *ngIf="form.get('name').errors?.required">Это обязательное поле</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Введите цену товара</mat-label>
       <input type="number" matInput formControlName="price" />
-      <mat-error *ngIf="form.get('price').errors?.required"
-        >Это обязательное поле</mat-error
-      >
+      <mat-error *ngIf="form.get('price').errors?.required">Это обязательное поле</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Введите цену товара со скидкой</mat-label>
+      <input type="number" matInput formControlName="priceWithDiscount" />
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -58,18 +46,13 @@
     <mat-form-field appearance="outline">
       <mat-label>Введите мощность (Вт)</mat-label>
       <input type="number" matInput formControlName="power" />
-      <mat-error *ngIf="form.get('power').errors?.required"
-        >Это обязательное поле</mat-error
-      >
+      <mat-error *ngIf="form.get('power').errors?.required">Это обязательное поле</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Выберите производителя</mat-label>
       <mat-select formControlName="manufacturer">
-        <mat-option
-          *ngFor="let manufacturer of manufacturers$ | async"
-          [value]="manufacturer.id"
-        >
+        <mat-option *ngFor="let manufacturer of manufacturers$ | async" [value]="manufacturer.id">
           {{ manufacturer.name }}
         </mat-option>
       </mat-select>
@@ -78,15 +61,9 @@
     <div class="color-wrapper" formGroupName="colors">
       <h4>Выберите доступные цвета:</h4>
       <p *ngFor="let color of colors">
-        <mat-checkbox [formControlName]="color.name">{{
-          color.name
-        }}</mat-checkbox>
+        <mat-checkbox [formControlName]="color.name">{{ color.name }}</mat-checkbox>
       </p>
-      <!-- <p><mat-checkbox formControlName="chromium">Хром</mat-checkbox></p> -->
-      <!-- <p><mat-checkbox formControlName="black">Черный</mat-checkbox></p> -->
-      <mat-error *ngIf="isNotValidColors && this.form.dirty"
-        >Укажите доступные цвета</mat-error
-      >
+      <mat-error *ngIf="isNotValidColors && this.form.dirty">Укажите доступные цвета</mat-error>
     </div>
 
     <div class="checkbox-field">
@@ -107,9 +84,7 @@
     (click)="createItem()"
     mat-raised-button
     color="primary"
-    [disabled]="
-      !form.valid || isDisable || isNotValidColors || !imagesArr.length
-    "
+    [disabled]="!form.valid || isDisable || isNotValidColors || !imagesArr.length"
   >
     Создать товар
   </button>

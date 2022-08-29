@@ -1,0 +1,25 @@
+<div class="container-1280">
+  <div *ngIf="isNav; else searchBar" class="nav">
+    <a (click)="closeSubMenu()" [routerLink]="['/', 'catalog', 'water']"
+      ><span>Водяные</span><img src="/assets/images/water.svg" alt="water"
+    /></a>
+    <a (click)="closeSubMenu()" [routerLink]="['/', 'catalog', 'electricity']"
+      ><span>Электрические</span><img src="/assets/images/electricity.svg" alt="electricity"
+    /></a>
+    <a (click)="closeSubMenu()" [routerLink]="['/', 'catalog', 'combine']"
+      ><span>Комбинированные</span><img src="/assets/images/combine.svg" alt="water"
+    /></a>
+    <a (click)="closeSubMenu()" [routerLink]="['/', 'catalog', 'accesories']"
+      ><span>Аксессуары</span><img src="/assets/images/accesories.svg" alt="accesories"
+    /></a>
+    <a (click)="closeSubMenu()" [routerLink]="['/', 'catalog', 'discounts']"
+      ><span>Акции</span><img src="/assets/images/discounts.svg" alt="discounts"
+    /></a>
+  </div>
+
+  <img class="bg" src="/assets/images/pattern-bg.svg" />
+</div>
+
+<ng-template #searchBar>
+  <app-search-input [isOpened]="isOpened"></app-search-input>
+</ng-template>

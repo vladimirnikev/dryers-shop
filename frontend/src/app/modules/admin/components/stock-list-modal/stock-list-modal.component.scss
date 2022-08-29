@@ -1,0 +1,10 @@
+table {
+  width: 100%;
+
+  td {
+    min-width: 80px;
+    &:last-of-type {
+      text-align: right;
+    }
+  }
+}

@@ -1,0 +1,131 @@
+.card {
+  display: flex;
+  padding: 8px 0;
+  border-bottom: 1px #BFBEBE solid;
+}
+
+.item-img {
+  height: 120px;
+  padding: 0 60px;
+
+  img {
+    height: 120px;
+    width: 120px;
+  }
+}
+
+.name {
+  font-size: 14px;
+  line-height: 20px;
+  color: #0D0D0D;
+  margin-left: 32px;
+  max-width: 352px;
+}
+
+.price-wrapper {
+  margin-left: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .price {
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 600;
+    color: #0D0D0D;
+  }
+
+  .price-text {
+    font-size: 14px;
+    line-height: 20px;
+    color: #BFBEBE;
+  }
+}
+
+.counter {
+  margin-left: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .count-text {
+    font-size: 14px;
+    line-height: 20px;
+    color: #BFBEBE;
+  }
+
+  .count {
+    font-size: 18px;
+    line-height: 24px;
+    color: #333333;
+    display: flex;
+
+    .minus {
+      background: #0D0D0D;
+      width: 8px;
+      height: 2px;
+    }
+
+    span {
+      border: 1px solid #BFBEBE;
+      padding: 2px 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &:not(.increment, .decrement) {
+        padding: 2px 16px;
+      }
+
+      &.decrement {
+        border-right: none;
+        cursor: pointer;
+      }
+
+      &.increment {
+        border-left: none;
+        cursor: pointer;
+
+        .plus {
+          position: relative;
+          width: 8px;
+          height: 8px;
+          top: 32%;
+          transform: translate(0, -50%);
+          .minus {
+            position: absolute;
+            width: 8px;
+          }
+          .minus:nth-of-type(2) {
+            transform: rotate(-90deg);
+          }
+        }
+      }
+    }
+  }
+
+  &.disabled {
+
+    .increment, .decrement {
+      opacity: 0.2;
+    }
+  }
+}
+
+.sum {
+  margin-left: 32px;
+  color: #0D0D0D;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.delete {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  cursor: pointer;
+}

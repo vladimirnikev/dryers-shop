@@ -1,0 +1,80 @@
+<div class="top-header">
+  <ul>
+    <li>
+      <a [routerLink]="['/', 'additional-information', 'payment']" class="top-header-link"
+        >Условия оплаты</a
+      >
+    </li>
+    <li>
+      <a [routerLink]="['/', 'additional-information', 'delivery']" class="top-header-link"
+        >Доставка</a
+      >
+    </li>
+    <li>
+      <a
+        [routerLink]="['/', 'additional-information', 'return-and-exchange']"
+        class="top-header-link"
+        >Возврат и обмен</a
+      >
+    </li>
+    <li>
+      <a [routerLink]="['/', 'contacts']" class="top-header-link">Контакты</a>
+    </li>
+    <!-- <li><a [routerLink]="['']" class="top-header-link">Договор-Офферта</a></li> -->
+  </ul>
+</div>
+
+<div #nav class="main-header">
+  <div class="container">
+    <a [routerLink]="['/']"><img src="/assets/images/logo.png" alt="logo" class="icon" /></a>
+
+    <button
+      #burgerButton
+      (click)="toggleCollapse()"
+      class="nav-btn hamburger hamburger--collapse"
+      [ngClass]="{ active: !isCollapsed }"
+    >
+      <span class="hamburger-box">
+        <span class="hamburger-inner"></span>
+      </span>
+    </button>
+
+    <div class="phone-wrapper">
+      <span>+38 (055) 555 55 55</span>
+      <button (click)="openRecallForm()">Обратный звонок</button>
+    </div>
+
+    <div class="nav-bar">
+      <div class="bar-item language-switcher">
+        <button>UA</button>
+        <span>/</span>
+        <button class="active">RU</button>
+      </div>
+      <button
+        [ngClass]="{ active: !isCollapsedSearchBar }"
+        class="nav-btn bar-btn bar-item"
+        (click)="toggleCollapseSearchBar()"
+      >
+        <svg-icon src="/assets/images/search-icon.svg"></svg-icon>
+      </button>
+      <button
+        [ngClass]="{ active: !isCollapsedBasketCard }"
+        class="nav-btn bar-btn bar-item"
+        (click)="toggleCollapseBasketCard()"
+      >
+        <svg-icon src="/assets/images/shop-icon.svg"></svg-icon>
+      </button>
+    </div>
+  </div>
+
+  <div [@collapse]="isCollapsed" class="sub-nav">
+    <app-sub-navigation (closeSubMenuEvent)="toggleCollapse()" [isNav]="true"></app-sub-navigation>
+  </div>
+
+  <div [@collapse]="isCollapsedSearchBar" class="sub-nav">
+    <app-sub-navigation [isOpened]="!isCollapsedSearchBar"></app-sub-navigation>
+  </div>
+  <div [@collapseBasketCard]="isCollapsedBasketCard" class="sub-nav-basket">
+    <app-basket-bar-card></app-basket-bar-card>
+  </div>
+</div>

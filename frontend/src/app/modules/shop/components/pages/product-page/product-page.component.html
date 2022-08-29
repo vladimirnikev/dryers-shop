@@ -1,0 +1,119 @@
+<app-loader *ngIf="isLoading$ | async"></app-loader>
+
+<section>
+  <div class="container">
+    <h2 class="page-title">{{ (product$ | async)?.name }}</h2>
+    <app-breadcrumbs></app-breadcrumbs>
+  </div>
+
+  <div class="product-info">
+    <div class="container">
+      <div class="product-images">
+        <div class="swiper-wrapper">
+          <button class="swiper-button btn-prev">
+            <svg-icon src="assets/images/arrow-left.svg" alt="arrow"></svg-icon>
+          </button>
+          <button class="swiper-button btn-next">
+            <svg-icon src="assets/images/arrow-left.svg" alt="arrow"></svg-icon>
+          </button>
+          <swiper
+            (swiper)="thumbsSwiper = $event"
+            [config]="verticalSwiperConfig"
+            class="vertical-swiper"
+          >
+            <ng-template *ngFor="let slide of (product$ | async)?.imageUrls" swiperSlide>
+              <img class="img-in-swiper" [src]="slide" alt="" />
+            </ng-template>
+          </swiper>
+        </div>
+        <div class="thumbs-swiper-wrapper">
+          <swiper
+            [config]="thumbsSwiperConfig"
+            class="thumbs-swiper"
+            [thumbs]="{ swiper: thumbsSwiper }"
+          >
+            <ng-template *ngFor="let slide of (product$ | async)?.imageUrls" swiperSlide>
+              <img class="img-in-swiper" [src]="slide" alt="" />
+            </ng-template>
+          </swiper>
+        </div>
+      </div>
+      <div class="product-content">
+        <div class="product-header">
+          <span class="is-exist">{{
+            (product$ | async)?.availability ? 'Есть в наличии' : 'Нет на складе'
+          }}</span>
+          <span class="articul">{{ (product$ | async)?.code }}</span>
+          <div class="manufacturer-logo">
+            <img [src]="(product$ | async)?.manufacturer" />
+          </div>
+        </div>
+        <div class="product-body">
+          <div class="product-characteristics">
+            <span class="info-title">Характеристики</span>
+            <div class="characteristics">
+              <div *ngIf="(product$ | async)?.category !== 'ACCESSORIES'" class="char-group">
+                <span class="char name">Тип полотенцесушителя</span>
+                <span class="char value">{{
+                  ((product$ | async)?.category === 'WATER' && 'Водяной') ||
+                    ((product$ | async)?.category === 'ELECTRICITY' && 'Електрический') ||
+                    ((product$ | async)?.category === 'COMBINE' && 'Комбинированный')
+                }}</span>
+              </div>
+              <div class="char-group">
+                <span class="char name">Доступные цвета:</span>
+                <div class="colors-list">
+                  <span *ngFor="let color of (product$ | async)?.colors" class="char value">{{
+                    color.name
+                  }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="actions-bar">
+            <div class="price-wrapper">
+              <span
+                *ngIf="!!(product$ | async)?.oldPrice"
+                [ngClass]="{ prev: !!(product$ | async)?.oldPrice }"
+                class="price"
+                >{{ (product$ | async)?.oldPrice }} грн.</span
+              >
+              <span [ngClass]="{ 'with-discount': !!(product$ | async)?.oldPrice }" class="price"
+                >{{ (product$ | async)?.price }} грн.</span
+              >
+            </div>
+            <div class="actions">
+              <div class="count">
+                <span (click)="decrement()" class="decrement"><div class="minus"></div></span>
+                <span>{{ count }}</span>
+                <span (click)="increment()" class="increment"
+                  ><div class="plus">
+                    <div class="minus"></div>
+                    <div class="minus"></div></div
+                ></span>
+              </div>
+              <button class="btn primary">Добавить в корзину</button>
+              <button (click)="openBuyInClickModal()" class="btn outline">
+                Покупка в один клик
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="product-desctiption">
+      <h3 class="description-title">Описание</h3>
+      <div class="description-body">
+        <p>
+          {{ (product$ | async)?.description }}
+        </p>
+        <app-faq></app-faq>
+      </div>
+    </div>
+
+    <app-viewed-products-list [currentProductId]="currentProductId"></app-viewed-products-list>
+  </div>
+</section>

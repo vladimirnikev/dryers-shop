@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from '@app/components/user/entities/user.entity';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
-import { JWT_SECTRET } from '@app/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { UserModule } from '@app/components/user/user.module';
 
@@ -13,17 +12,13 @@ import { UserModule } from '@app/components/user/user.module';
   imports: [
     PassportModule,
     JwtModule.register({
-      secret: JWT_SECTRET,
-      signOptions: { expiresIn: '3d' }
+      secret: process.env.JWT_SECTRET,
+      signOptions: { expiresIn: '3d' },
     }),
     TypeOrmModule.forFeature([UserEntity]),
-    forwardRef(() => UserModule)
+    forwardRef(() => UserModule),
   ],
-  providers: [
-    AuthService,
-    LocalStrategy,
-    JwtStrategy
-  ],
-  exports: [AuthService]
+  providers: [AuthService, LocalStrategy, JwtStrategy],
+  exports: [AuthService],
 })
-export class AuthModule { }
+export class AuthModule {}

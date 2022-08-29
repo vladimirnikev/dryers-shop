@@ -1,0 +1,5 @@
+export enum ESortType {
+  PRICE_TOP = 'PRICE_ASC',
+  PRICE_DOWN = 'PRICE_DESC',
+  NEWEST = 'CREATEDAT_DESC',
+}

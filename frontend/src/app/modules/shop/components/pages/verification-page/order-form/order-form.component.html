@@ -1,0 +1,91 @@
+<form [formGroup]="orderForm" class="form-wrapper">
+  <app-form-card
+    [icon]="'assets/images/user-form.svg'"
+    [title]="'Данные получателя'"
+  >
+    <div class="form-card-content">
+      <div class="form-control">
+        <app-input
+          label="Имя и фамилия"
+          placeholder="Ваше имя"
+          inputType="text"
+          inputName="name"
+          id="order-name"
+          formControlName="fullName"
+          [required]="true"
+          [isTriedSubmit]="isTriedSubmit"
+        ></app-input>
+        <app-input-error
+          *ngIf="
+            (orderFormFullName.dirty ||
+              orderFormFullName?.touched ||
+              isTriedSubmit) &&
+            orderFormFullName?.errors?.required
+          "
+          >Введите ваше имя</app-input-error
+        >
+      </div>
+
+      <div class="form-control">
+        <app-input
+          label="Телефон"
+          placeholder="+380(00)000 00 00"
+          inputType="text"
+          inputName="phone"
+          id="order-phone"
+          formControlName="phone"
+          [required]="true"
+          [isTriedSubmit]="isTriedSubmit"
+        ></app-input>
+        <app-input-error
+          *ngIf="
+            (orderFormPhone.dirty ||
+              orderFormPhone?.touched ||
+              isTriedSubmit) &&
+            orderFormPhone?.errors?.required
+          "
+          >Введите ваш номер телефона</app-input-error
+        >
+        <app-input-error
+          *ngIf="
+            (orderFormPhone.dirty || orderFormPhone?.touched) &&
+            orderFormPhone?.errors?.pattern
+          "
+          >Введите корректный номер телефона</app-input-error
+        >
+      </div>
+
+      <div class="form-control">
+        <app-input
+          label="Email"
+          placeholder="example@email.com"
+          inputType="text"
+          inputName="email"
+          id="order-email"
+          formControlName="email"
+        ></app-input>
+      </div>
+    </div>
+  </app-form-card>
+  <app-form-card
+    [icon]="'assets/images/wallet-form.svg'"
+    [title]="'Способ оплаты'"
+  >
+    <app-payment-selector formControlName="paymentType"></app-payment-selector>
+  </app-form-card>
+  <app-form-card
+    [icon]="'assets/images/bus-form.svg'"
+    [title]="'Способ доставки'"
+  >
+    <app-delivery-selector
+      [isTriedSubmit]="isTriedSubmit"
+      formControlName="delivery"
+    ></app-delivery-selector>
+  </app-form-card>
+  <app-form-card
+    [icon]="'assets/images/cart-form.svg'"
+    [title]="'Товары в заказе'"
+  >
+    <app-order-items-list></app-order-items-list>
+  </app-form-card>
+</form>

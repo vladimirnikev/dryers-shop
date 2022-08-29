@@ -1,0 +1,21 @@
+<div class="filter">
+  <span class="filter-name"
+    >Цена
+    <div [ngClass]="{ 'rotate-down': isHiddenFilter }" (click)="hideFilter()" class="triangle-btn">
+      <div class="triangle-up"></div></div
+  ></span>
+
+  <form [formGroup]="priceRangeForm" class="price-fields">
+    <input type="number" formControlName="min" />
+    <input type="number" formControlName="max" />
+    <button class="btn outline" [disabled]="priceRangeForm.invalid" (click)="sendData()">OK</button>
+  </form>
+
+  <ngx-slider
+    [(value)]="sliderMinValue"
+    [(highValue)]="sliderMaxValue"
+    [options]="sliderOptions"
+    (valueChange)="changeValues()"
+    (highValueChange)="changeValues()"
+  ></ngx-slider>
+</div>

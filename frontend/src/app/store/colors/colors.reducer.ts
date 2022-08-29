@@ -1,51 +1,77 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { IColor } from 'src/common/interfaces/color.interface';
-import { createColor, createColorFailed, createColorSuccess, deleteColor, deleteColorFailed, deleteColorSuccess, getColors, getColorsFailed, getColorsSuccess, updateColor, updateColorFailed, updateColorSuccess } from './colors.actions';
+import { IColorState } from 'src/app/common/interfaces/color-state.interface';
+import {
+  createColor,
+  createColorFailed,
+  createColorSuccess,
+  deleteColor,
+  deleteColorFailed,
+  deleteColorSuccess,
+  getColors,
+  getColorsFailed,
+  getColorsSuccess,
+  updateColor,
+  updateColorFailed,
+  updateColorSuccess,
+} from './colors.actions';
 
-export interface ColorState {
-  colors: IColor[]
-  isLoading: boolean
-  error: string
-}
-export const manufacturersInitialState: ColorState = {
+export const colorsInitialState: IColorState = {
   colors: [],
   isLoading: false,
-  error: ''
+  error: '',
 };
 
 const reducer = createReducer(
-  manufacturersInitialState,
-  on(getColors, (state: ColorState) => ({ ...state, isLoading: true })),
-  on(getColorsSuccess, (state: ColorState, { colors }) => ({ ...state, colors, isLoading: false })),
-  on(getColorsFailed, (state: ColorState, { error }) => ({ ...state, isLoading: false, error: error.message })),
+  colorsInitialState,
+  on(getColors, (state: IColorState) => ({ ...state, isLoading: true })),
+  on(getColorsSuccess, (state: IColorState, { colors }) => ({
+    ...state,
+    colors,
+    isLoading: false,
+  })),
+  on(getColorsFailed, (state: IColorState, { error }) => ({
+    ...state,
+    isLoading: false,
+    error: error.message,
+  })),
 
-  on(createColor, (state: ColorState) => ({ ...state, isLoading: true })),
-  on(createColorSuccess, (state: ColorState, { color }) => ({
+  on(createColor, (state: IColorState) => ({ ...state, isLoading: true })),
+  on(createColorSuccess, (state: IColorState, { color }) => ({
     ...state,
     colors: [...state.colors, color],
-    isLoading: false
+    isLoading: false,
   })),
-  on(createColorFailed, (state: ColorState, { error }) => ({ ...state, isLoading: false, error: error.message })),
-
-  on(updateColor, (state: ColorState) => ({ ...state, isLoading: true })),
-  on(updateColorSuccess, (state: ColorState, { color }) => ({
+  on(createColorFailed, (state: IColorState, { error }) => ({
     ...state,
-    colors: [
-      ...state.colors.map(c => c.id === color.id ? color : c)
-    ],
-    isLoading: false
+    isLoading: false,
+    error: error.message,
   })),
-  on(updateColorFailed, (state: ColorState, { error }) => ({ ...state, isLoading: false, error: error.message })),
 
-  on(deleteColor, (state: ColorState) => ({ ...state, isLoading: true })),
-  on(deleteColorSuccess, (state: ColorState, { colorId }) => ({
+  on(updateColor, (state: IColorState) => ({ ...state, isLoading: true })),
+  on(updateColorSuccess, (state: IColorState, { color }) => ({
     ...state,
-    colors: [...state.colors.filter(c => c.id !== colorId)],
-    isLoading: false
+    colors: [...state.colors.map((c) => (c.id === color.id ? color : c))],
+    isLoading: false,
   })),
-  on(deleteColorFailed, (state: ColorState, { error }) => ({ ...state, isLoading: false, error: error.message })),
-)
+  on(updateColorFailed, (state: IColorState, { error }) => ({
+    ...state,
+    isLoading: false,
+    error: error.message,
+  })),
 
-export function colorReducer(state: ColorState | undefined, action: Action) {
+  on(deleteColor, (state: IColorState) => ({ ...state, isLoading: true })),
+  on(deleteColorSuccess, (state: IColorState, { colorId }) => ({
+    ...state,
+    colors: [...state.colors.filter((c) => c.id !== colorId)],
+    isLoading: false,
+  })),
+  on(deleteColorFailed, (state: IColorState, { error }) => ({
+    ...state,
+    isLoading: false,
+    error: error.message,
+  })),
+);
+
+export function colorReducer(state: IColorState | undefined, action: Action) {
   return reducer(state, action);
 }

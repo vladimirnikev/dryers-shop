@@ -1,6 +1,6 @@
-import { IsString } from "class-validator";
+import { IsString } from 'class-validator';
 
 export class DeleteImageDto {
-    @IsString()
-    readonly imageUrl: string;
+  @IsString()
+  readonly imageUrl: string;
 }

@@ -1,10 +1,7 @@
-import { ColorState } from './colors.reducer';
 import { createSelector } from '@ngrx/store';
-import { AppState } from './../app.state';
+import { IColorState } from 'src/app/common/interfaces/color-state.interface';
+import { AppState } from '../app.state';
 
-export const selectFeature = (state: AppState) => state.color
+export const selectFeature = (state: AppState) => state.color;
 
-export const selectAllColors = createSelector(
-  selectFeature,
-  (state: ColorState) => state.colors
-)
+export const selectAllColors = createSelector(selectFeature, (state: IColorState) => state.colors);

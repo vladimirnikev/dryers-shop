@@ -1,0 +1,37 @@
+ul {
+  display: flex;
+  list-style: none;
+  margin-left: -32px;
+}
+
+li {
+  margin-left: 32px;
+  position: relative;
+
+  &:not(:first-of-type) {
+    &::before {
+      content: '';
+      width: 16px;
+      height: 1px;
+      background: #BFBEBE;
+      position: absolute;
+      left: -24px;
+      top: 50%;
+      transform: translate(0, -50%);
+    }
+  }
+}
+
+a {
+  text-decoration: none;
+  color: #BFBEBE;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+
+li:last-of-type {
+  a {
+    pointer-events: none;
+  }
+}

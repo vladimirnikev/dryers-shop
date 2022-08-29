@@ -1,0 +1,50 @@
+.container-1280 {
+  max-width: 1280px;
+  margin: auto;
+  border-radius: 0px 0px 16px 16px;
+  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-around;
+  position: relative;
+  z-index: 1000;
+  width: 100%;
+  justify-content: space-around;
+}
+
+a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #3F75BE;
+  font-size: 18px;
+  line-height: 24px;
+  flex: 1;
+  max-width: 170px;
+  margin: 16px 0 24px;
+  z-index: 1000;
+
+  img {
+    margin-top: 16px;
+  }
+}
+
+.bg {
+  position: absolute;
+  top: -1000px;
+  left: -500px;
+  opacity: 0.3;
+}
+
+app-search-input {
+  position: relative;
+  z-index: 1000;
+  margin: 16px auto 24px;
+}

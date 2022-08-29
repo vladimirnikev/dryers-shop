@@ -8,9 +8,8 @@ describe('UpdateManufacturerModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UpdateManufacturerModalComponent ]
-    })
-    .compileComponents();
+      declarations: [UpdateManufacturerModalComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

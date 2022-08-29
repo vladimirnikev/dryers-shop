@@ -1,0 +1,17 @@
+<div class="card">
+  <div class="card-header">
+    <span>Ваш заказ</span>
+  </div>
+  <div class="card-body">
+    <span>Стоимость доставки по тарифам перевозчика (не входит в сумму заказа)</span>
+    <span class="sum"
+      >Итого: <span>{{ sum }}грн.</span></span
+    >
+  </div>
+</div>
+
+<button (click)="confirmOrder()" class="btn primary">Подтвердить заказ</button>
+
+<span class="policy"
+  >Подтверждая заказ, вы принимаете <br /><a>Условия пользовательского соглашения</a></span
+>

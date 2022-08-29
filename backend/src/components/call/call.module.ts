@@ -6,8 +6,8 @@ import { CallService } from './call.service';
 import { TelegramModule } from '@app/modules/telegram/telegram.module';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([CallEntity]), TelegramModule],
-    controllers: [CallController],
-    providers: [CallService]
+  imports: [TypeOrmModule.forFeature([CallEntity]), TelegramModule],
+  controllers: [CallController],
+  providers: [CallService],
 })
-export class CallModule { }
+export class CallModule {}

@@ -13,7 +13,9 @@ COPY package*.json /usr/src/app
 # Install dependencies
 # RUN npm install
 RUN npm install && \
-    npm rebuild bcrypt --build-from-source
+    npm i bcrypt
+# && \
+# npm rebuild bcrypt -build-from-source
 
 # Get all the code needed to run the app
 COPY . /usr/src/app

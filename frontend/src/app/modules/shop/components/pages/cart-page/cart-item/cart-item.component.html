@@ -1,0 +1,28 @@
+<div class="card">
+  <div class="item-img">
+    <img [src]="cartRecord.item.imageUrls[0]" />
+  </div>
+  <span class="name">{{ cartRecord.item.name }}</span>
+  <div class="price-wrapper">
+    <span class="price">{{ cartRecord.item.price }} грн.</span>
+    <span class="price-text">Цена за 1 шт.</span>
+  </div>
+  <div class="counter">
+    <div class="count">
+      <span (click)="decrement()" class="decrement"
+        ><div class="minus"></div
+      ></span>
+      <span>{{ cartRecord.count }}</span>
+      <span (click)="increment()" class="increment"
+        ><div class="plus">
+          <div class="minus"></div>
+          <div class="minus"></div></div
+      ></span>
+    </div>
+    <span class="count-text">шт.</span>
+  </div>
+  <span class="sum">{{ cartRecord.item.price * cartRecord.count }} грн.</span>
+  <button (click)="deleteItem()" class="delete">
+    <img src="assets/images/close.svg" />
+  </button>
+</div>

@@ -1,0 +1,42 @@
+.wrapper {
+  padding: 16px 24px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid #BFBEBE;
+}
+
+.img-bg {
+  position: absolute;
+  top: -600px;
+  left: -435px;
+  opacity: 0.4;
+}
+
+.content {
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cards-wrapper {
+  display: flex;
+  margin-top: 16px;
+  margin-bottom: 8px;
+
+  app-product-card {
+    display: block;
+    height: 100%;
+    &:not(:nth-of-type(1)) {
+      margin-left: 32px;
+    }
+  }
+}

@@ -7,6 +7,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
   imports: [TypeOrmModule.forFeature([ColorEntity])],
   providers: [ColorService],
-  controllers: [ColorController]
+  controllers: [ColorController],
 })
-export class ColorModule { }
+export class ColorModule {}

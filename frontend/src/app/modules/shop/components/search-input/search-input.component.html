@@ -1,0 +1,17 @@
+<div class="wrapper">
+  <input
+    #input
+    (keyup.enter)="search()"
+    [(ngModel)]="searchValue"
+    type="text"
+    placeholder="Поиск..."
+  />
+  <button>
+    <img
+      (click)="search()"
+      class="icon"
+      src="/assets/images/search-icon.svg"
+      alt="search-icon"
+    />
+  </button>
+</div>

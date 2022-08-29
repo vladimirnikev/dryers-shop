@@ -1,0 +1,60 @@
+.filter-name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  line-height: 20px;
+  color: #0D0D0D;
+}
+
+.triangle-btn {
+  cursor: pointer;
+  padding: 4px;
+  transform: rotate(0deg);
+  transition: 300ms;
+
+  &.rotate-down {
+    transform: rotate(-180deg);
+    transition: 300ms;
+  }
+}
+
+.triangle-up {
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-bottom: 5px solid #0D0D0D;
+}
+
+.price-fields {
+  display: flex;
+  margin-top: 16px;
+
+  input {
+    border: 1px solid #BFBEBE;
+    padding: 10px 16px;
+    color: #BFBEBE;
+    width: 100%;
+
+    &:nth-of-type(2) {
+      border-left: none;
+    }
+
+    &[type=number]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+    }
+  }
+
+  .btn {
+    padding: 0;
+    margin-left: 8px;
+    color: #FF6700;
+    border: 1px solid #FF6700;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
+}

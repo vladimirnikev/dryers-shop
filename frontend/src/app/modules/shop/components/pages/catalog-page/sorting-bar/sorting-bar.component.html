@@ -1,0 +1,43 @@
+<div class="wrapper">
+  <span class="wrapper-title">Сортировка:</span>
+  <div class="sort-bar">
+    <button
+      [ngClass]="{ active: currentSortType === 'PRICE_DESC' }"
+      (click)="sortItems('price', 'DESC')"
+      class="tab"
+    >
+      От дорогих
+    </button>
+    <button
+      [ngClass]="{ active: currentSortType === 'PRICE_ASC' }"
+      (click)="sortItems('price', 'ASC')"
+      class="tab"
+    >
+      От дешёвых
+    </button>
+    <button
+      [ngClass]="{ active: currentSortType === 'CREATEDAT_DESC' }"
+      (click)="sortItems('createdAt', 'DESC')"
+      class="tab"
+    >
+      Новинки
+    </button>
+  </div>
+
+  <div class="view-bar">
+    <div
+      (click)="changeListView({ viewType: 'row' })"
+      class="view-icon"
+      [ngClass]="{ active: viewType === 'row' }"
+    >
+      <svg-icon src="assets/images/cards-view-3-col.svg" alt="icon"></svg-icon>
+    </div>
+    <div
+      (click)="changeListView({ viewType: 'column' })"
+      class="view-icon"
+      [ngClass]="{ active: viewType === 'column' }"
+    >
+      <svg-icon src="assets/images/cards-view-list.svg" alt="icon"></svg-icon>
+    </div>
+  </div>
+</div>

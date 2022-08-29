@@ -1,0 +1,42 @@
+section {
+  padding: 4px 0 12px 0;
+}
+
+.page-title {
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 42px;
+  color: #0D0D0D;
+  letter-spacing: 0.065em;
+}
+
+app-breadcrumbs {
+  display: block;
+  margin-top: 8px;
+}
+
+app-order-form {
+  display: block;
+  width: 100%;
+}
+
+.page-content {
+  margin-top: 40px;
+  display: flex;
+}
+
+.aside-cards {
+  margin-left: 32px;
+  display: flex;
+  flex-direction: column;
+}
+
+app-faq {
+  display: block;
+  margin-top: 40px;
+}
+
+app-order-confirm-card {
+  display: block;
+  max-width: 256px;
+}

@@ -1,0 +1,75 @@
+section {
+  padding: 4px 0 24px 0;
+}
+
+.page-title {
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 42px;
+  color: #0D0D0D;
+  letter-spacing: 0.065em;
+}
+
+.page-content {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.left-side {
+  max-width: 448px;
+}
+
+.shop-photo {
+  width: 448px;
+  height: 252px;
+}
+
+.cards-list {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  .contacts-card {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 40%;
+
+    &:nth-of-type(3), &:nth-of-type(4) {
+      margin-top: 4px;
+    }
+
+    &:nth-of-type(2), &:nth-of-type(4) {
+      margin-left: 32px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      line-height: 26px;
+      color: #BFBEBE;
+    }
+
+    .card-text {
+      margin-top: 4px;
+      font-size: 14px;
+      line-height: 20px;
+      color: #000000;
+    }
+  }
+}
+
+.social-networks {
+  display: flex;
+  margin-top: 24px;
+
+  .social-logo {
+    &:not(:nth-of-type(1)) {
+      margin-left: 8px;
+    }
+  }
+
+  img {
+    width: 48px;
+    height: 48px;
+  }
+}

@@ -1,0 +1,12 @@
+<div class="select-wrapper">
+  <ng-container *ngFor="let item of paymentTypes">
+    <button
+      [disabled]="disabled"
+      (click)="selectType(item.type)"
+      [class.selected]="!disabled && selected === item.type"
+    >
+      <span class="radio-circle"></span>
+      <p>{{ item?.text }}</p>
+    </button>
+  </ng-container>
+</div>

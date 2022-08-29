@@ -1,8 +1,8 @@
-import { IsNumber, IsString } from "class-validator"
+import { IsNumber } from 'class-validator';
 
 export class AddItemToCartDto {
-    @IsNumber()
-    readonly item: number
-    @IsString()
-    readonly color: string
+  @IsNumber()
+  readonly item: number;
+  @IsNumber()
+  readonly count: number;
 }

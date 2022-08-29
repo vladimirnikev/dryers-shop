@@ -1,0 +1,82 @@
+<div
+  (click)="navigateToItem($event)"
+  class="card"
+  *ngIf="viewType === 'column'; else cardForRowContainer"
+>
+  <div class="img-wrapper">
+    <img *ngIf="item?.imageUrls" [src]="item?.imageUrls[0]" alt="towel-photo" />
+  </div>
+  <div class="card-content">
+    <div class="card-text">
+      <span class="card-title">{{ item?.name }}</span>
+      <span [ngClass]="{ orange: !item?.availability }" class="label">{{
+        item?.availability ? "Есть в наличии" : "Нет в наличии"
+      }}</span>
+    </div>
+    <div class="card-price">
+      <span
+        *ngIf="!!item?.oldPrice"
+        [ngClass]="{ prev: item?.oldPrice }"
+        class="price"
+        >{{ item?.oldPrice | currency: "UAH":"грн.":"1.2-2":"ua" }}</span
+      >
+      <span [ngClass]="{ 'with-discount': item?.oldPrice }" class="price"
+        >{{ item?.price | currency: "UAH":"грн.":"1.2-2":"ua" }}
+      </span>
+    </div>
+    <div class="actions-bar">
+      <div #buttonWithOwnEvent class="count">
+        <span (click)="decrement()" class="decrement"
+          ><div class="minus"></div
+        ></span>
+        <span>{{ count }}</span>
+        <span (click)="increment()" class="increment"
+          ><div class="plus">
+            <div class="minus"></div>
+            <div class="minus"></div></div
+        ></span>
+      </div>
+      <button #buttonWithOwnEvent class="btn primary" (click)="addItemToCart()">
+        Добавить в корзину
+      </button>
+      <button
+        #buttonWithOwnEvent
+        (click)="openBuyInClickModal()"
+        class="btn outline"
+      >
+        Покупка в один клик
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #cardForRowContainer>
+  <div (click)="navigateToItem($event)" class="card basic">
+    <div class="img-wrapper">
+      <img [src]="item?.imageUrls[0]" alt="towel-photo" />
+    </div>
+    <div class="card-content">
+      <div class="card-text">
+        <span [ngClass]="{ orange: !item?.availability }" class="label">{{
+          item?.availability ? "Есть в наличии" : "Нет в наличии"
+        }}</span>
+        <span class="card-title">{{ item?.name }}</span>
+      </div>
+      <div class="card-price">
+        <span
+          *ngIf="!!item?.oldPrice"
+          [ngClass]="{ prev: item?.oldPrice }"
+          class="price"
+          >{{ item?.oldPrice | currency: "UAH":"грн.":"1.2-2":"ua" }}</span
+        >
+        <span [ngClass]="{ 'with-discount': item?.oldPrice }" class="price"
+          >{{ item?.price | currency: "UAH":"грн.":"1.2-2":"ua" }}
+        </span>
+      </div>
+
+      <button #buttonWithOwnEvent class="btn primary" (click)="addItemToCart()">
+        Добавить в корзину
+      </button>
+    </div>
+  </div>
+</ng-template>

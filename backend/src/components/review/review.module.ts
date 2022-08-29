@@ -3,6 +3,6 @@ import { Module } from '@nestjs/common';
 import { ReviewEntity } from './entities/review.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([ReviewEntity])]
+  imports: [TypeOrmModule.forFeature([ReviewEntity])],
 })
-export class ReviewModule { }
+export class ReviewModule {}

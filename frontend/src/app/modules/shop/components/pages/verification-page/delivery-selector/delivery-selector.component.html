@@ -1,0 +1,151 @@
+<div class="select-wrapper">
+  <ng-container *ngFor="let item of deliveryTypes">
+    <div [class.selected]="!disabled && selectedDelivery === item.type" class="selector">
+      <button
+        [class.selected]="!disabled && selectedDelivery === item.type"
+        (click)="selectType(item.type)"
+      >
+        <span class="radio-circle"></span>
+        <p>{{ item?.text }}</p>
+      </button>
+
+      <form
+        [formGroup]="deliveryForm"
+        *ngIf="selectedDelivery === 'post' && item.type === 'post'"
+        class="select-wrapper"
+      >
+        <div class="form-control ml-50">
+          <app-input
+            id="delivery-city"
+            name="city"
+            inputType="text"
+            label="Город"
+            placeholder="Ваш населенный пункт"
+            formControlName="city"
+            [isTriedSubmit]="isTriedSubmit"
+            [required]="true"
+          ></app-input>
+          <app-input-error
+            *ngIf="
+              (formCity.dirty || formCity.touched || isTriedSubmit) && formCity?.errors?.required
+            "
+            >Введите ваш населенный пункт</app-input-error
+          >
+        </div>
+        <ng-container *ngFor="let item of postTypeSelectors | slice: 0:1">
+          <div class="selector-inside">
+            <button
+              [disabled]="disabled"
+              (click)="selectPostType(item.type)"
+              [class.selected]="!disabled && selectedPost === item.type"
+            >
+              <span class="radio-circle"></span>
+              <p>{{ item?.text }}</p>
+            </button>
+          </div>
+        </ng-container>
+        <div *ngIf="selectedPost === 'office'" class="form-control ml-50">
+          <app-input
+            id="post-office"
+            inputName="office"
+            inputType="text"
+            label="Отделение новой почты"
+            placeholder="Новая Почта"
+            formControlName="office"
+            [isTriedSubmit]="isTriedSubmit"
+            [required]="true"
+          ></app-input>
+          <app-input-error
+            *ngIf="
+              (formOffice.dirty || formOffice.touched || isTriedSubmit) &&
+              formOffice?.errors?.required
+            "
+            >Введите удобное для вас отделение</app-input-error
+          >
+        </div>
+        <ng-container *ngFor="let item of postTypeSelectors | slice: 1:2">
+          <div class="selector-inside">
+            <button
+              [disabled]="disabled"
+              (click)="selectPostType(item.type)"
+              [class.selected]="!disabled && selectedPost === item.type"
+            >
+              <span class="radio-circle"></span>
+              <p>{{ item?.text }}</p>
+            </button>
+          </div>
+        </ng-container>
+        <form formGroupName="courier" class="courier-form" *ngIf="selectedPost === 'courier'">
+          <div class="form-control">
+            <app-input
+              id="courier-street"
+              inputName="street"
+              inputType="text"
+              label="Улица"
+              placeholder="Название улицы"
+              formControlName="street"
+              [isTriedSubmit]="isTriedSubmit"
+              [required]="true"
+            ></app-input>
+            <app-input-error
+              *ngIf="
+                (formCourierStreet.dirty || formCourierStreet.touched || isTriedSubmit) &&
+                formCourierStreet?.errors?.required
+              "
+              >Введите улицу</app-input-error
+            >
+          </div>
+          <div class="form-control">
+            <app-input
+              id="courier-house"
+              inputName="house"
+              inputType="text"
+              label="Дом"
+              placeholder="Номер дома"
+              formControlName="houseNumber"
+              [isTriedSubmit]="isTriedSubmit"
+              [required]="true"
+            ></app-input>
+            <app-input-error
+              *ngIf="
+                (formCourierHouseNumber.dirty || formCourierHouseNumber.touched || isTriedSubmit) &&
+                formCourierHouseNumber?.errors?.required
+              "
+              >Введите номер дома</app-input-error
+            >
+          </div>
+          <div class="form-control">
+            <app-input
+              id="courier-apartment"
+              inputName="apartment"
+              inputType="text"
+              label="Квартира"
+              placeholder="Номер квартиры"
+              formControlName="apartmentNumber"
+            ></app-input>
+          </div>
+          <div class="form-control">
+            <app-input
+              id="courier-entrance"
+              inputName="entrance"
+              inputType="text"
+              label="Подъезд"
+              placeholder="Номер подъезда"
+              formControlName="entrance"
+            ></app-input>
+          </div>
+          <div class="form-control">
+            <app-input
+              id="courier-floor"
+              inputName="floor"
+              inputType="text"
+              label="Этаж"
+              placeholder="Номер этажа"
+              formControlName="floor"
+            ></app-input>
+          </div>
+        </form>
+      </form>
+    </div>
+  </ng-container>
+</div>

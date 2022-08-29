@@ -1,5 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/theming";
+@import "~hamburgers/_sass/hamburgers/hamburgers.scss";
+@import 'swiper/scss';
+@import 'swiper/scss/navigation';
+@import 'swiper/scss/pagination';
+@import "~swiper/css/free-mode";
+@import "~swiper/css/thumbs";
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -16,11 +22,9 @@ $angular-starter-accent: mat-palette($mat-pink, A200, A100, A400);
 $angular-starter-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$angular-starter-theme: mat-light-theme(
-  $angular-starter-primary,
+$angular-starter-theme: mat-light-theme($angular-starter-primary,
   $angular-starter-accent,
-  $angular-starter-warn
-);
+  $angular-starter-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -33,12 +37,22 @@ $angular-starter-theme: mat-light-theme(
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: "Roboto";
+  font-family: "Raleway", sans-serif;
+  // font-family: "Roboto";
 }
 
 html,
 body {
   height: 100%;
+  -webkit-font-feature-settings: "lnum";
+  -moz-font-feature-settings: "lnum";
+  font-feature-settings: "lnum";
+}
+
+.container {
+  max-width: 1120px;
+  width: 100%;
+  margin: auto;
 }
 
 .header {
@@ -78,14 +92,276 @@ body {
 .green-snackbar {
   background: green;
   color: #ffffff;
+
   button {
     color: #ffffff;
   }
 }
+
 .red-snackbar {
   background: rgb(255, 60, 60);
   color: #ffffff;
+
   button {
     color: #ffffff;
+  }
+}
+
+
+// ---- Burger Menu ---- //
+.hamburger {
+  padding: 24px 16px;
+
+  .hamburger-box {
+    width: 32px;
+    height: 32px;
+
+    .hamburger-inner {
+
+      &,
+      &::before,
+      &::after {
+        width: 32px;
+        height: 3.5px;
+      }
+    }
+  }
+
+  &.is-active {
+
+    .hamburger-inner,
+    .hamburger-inner::before,
+    .hamburger-inner::after {
+      background: #3F75BE;
+      transition: 300ms;
+    }
+  }
+
+  &:hover {
+
+    .hamburger-inner,
+    .hamburger-inner::before,
+    .hamburger-inner::after {
+      background: #3F75BE;
+      transition: 150ms;
+    }
+  }
+}
+
+// ---- Swiper ---- //
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  padding-top: 40px;
+  padding-bottom: 80px;
+}
+
+.swiper-pagination-bullet {
+  min-width: 40px;
+  height: 16px;
+  border: 2px solid #3F75BE;
+  border-radius: 8px;
+  background: #ffffff;
+  opacity: 1;
+  transition: 300ms min-width;
+  margin: 0 10px !important;
+}
+
+.swiper-pagination-bullet-active {
+  transition: 300ms min-width;
+  min-width: 120px;
+  background: #3F75BE;
+}
+
+.sales-swiper {
+  .swiper-slide {
+    padding-top: 0;
+    padding-bottom: 18px;
+    height: auto;
+  }
+
+  .swiper-button-next, .swiper-button-prev {
+    color: #3F75BE;
+    &::after {
+      font-size: 32px;
+    }
+  }
+
+  .swiper-button-next {
+    right: 4px;
+  }
+
+  .swiper-button-prev {
+    left: 4px;
+  }
+}
+
+.catalog-menu-swiper {
+  width: auto;
+  margin: 0 32px 0;
+
+  .swiper-button-next, .swiper-button-prev {
+    color: #3F75BE;
+    &::after {
+      font-size: 16px;
+    }
+  }
+
+  .swiper-slide {
+    padding: 0;
+  }
+
+  &.viewed {
+    width: 100%;
+    .swiper-slide {
+      // width: 270px !important;
+    }
+  }
+}
+
+.vertical-swiper {
+  height: 256px;
+  width: 64px;
+  margin: 0;
+  border: 1px #BFBEBE solid;
+
+  .swiper-slide {
+    padding-top: 0;
+    padding-bottom: 0;
+    border-top: 0.5px #BFBEBE solid;
+    border-bottom: 0.5px #BFBEBE solid;
+    opacity: 0.6;
+    &.swiper-slide-thumb-active {
+      opacity: 1;
+    }
+
+    &.swiper-slide-active {
+      border-top: 0;
+    }
+
+    img {
+      width: 56px;
+      height: 56px;
+      display: block;
+      margin: 4px auto;
+    }
+
+    &:first-of-type {
+      border-top: 0px #BFBEBE solid;
+    }
+
+    &:last-of-type {
+      border-bottom: 0px #BFBEBE solid;
+    }
+  }
+}
+
+.thumbs-swiper {
+  .swiper-slide {
+    padding: 0;
+  }
+}
+
+.btn {
+  padding: 4px 16px;
+  border-radius: 3px;
+  border: none;
+  width: 100%;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  cursor: pointer;
+
+  &.primary {
+    background: #3F75BE;
+    color: #ffffff;
+
+    &.orange {
+      background: #FF6700;
+    }
+  }
+
+  &.outline {
+    color: #3F75BE;
+    border: 1px solid #3F75BE;
+    background: #ffffff
+  }
+}
+
+.section-title {
+  line-height: 140%;
+  font-weight: 700;
+  font-size: 40px;
+  color: #FF6700;
+}
+
+
+// ---- Ngx Slider ---- //
+.ngx-slider {
+  margin: 26px 0 15px;
+}
+.ngx-slider .ngx-slider-selection {
+  background: #FF6700 !important;
+}
+
+.ngx-slider .ngx-slider-bar {
+  height: 2px !important;
+}
+
+.ngx-slider .ngx-slider-pointer {
+  width: 20px !important;
+  height: 20px !important;
+  top: -9px !important;
+  background: #FFFFFF !important;
+  filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.15)) drop-shadow(4px 0px 10px rgba(0, 0, 0, 0.15)) drop-shadow(-4px 0px 10px rgba(0, 0, 0, 0.15));
+  &::after {
+    // width: 6px !important;
+    // height: 6px !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%);
+    background: #FF6700 !important;
+  }
+}
+
+.ngx-slider-span.ngx-slider-pointer.ngx-slider-pointer-max {
+  right: 0 !important;
+  left: auto;
+}
+
+.ngx-slider .ngx-slider-bubble {
+  color: #BFBEBE !important;
+  font-size: 12px;
+  line-height: 16px;
+  bottom: -32px !important;
+}
+
+//
+
+app-product-page {
+   overflow: hidden;
+   display: block;
+}
+
+app-input {
+  &.ng-invalid.ng-touched {
+    input {
+      border: 1px solid #d23030 !important;
+    }
+  }
+
+  &.ng-invalid {
+    input.is-tried-to-send {
+      border: 1px solid #d23030 !important;
+    }
+  }
+}
+
+app-form-card:last-of-type {
+  .card-body {
+    padding: 0;
   }
 }

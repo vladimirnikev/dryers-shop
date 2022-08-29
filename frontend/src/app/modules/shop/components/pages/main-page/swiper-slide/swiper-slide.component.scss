@@ -1,0 +1,30 @@
+.slide-wrapper {
+  display: flex;
+  align-items: center;
+
+  .text-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start
+  }
+
+  .slide-title {
+    line-height: 140%;
+    font-weight: 700;
+
+    &:nth-of-type(1) {
+      font-size: 30px;
+      color: #0D0D0D;
+    }
+
+    &:nth-of-type(2) {
+      font-size: 40px;
+      color: #FF6700;
+      margin-top: 8px;
+    }
+  }
+}
+
+app-basic-button {
+  margin-top: 24px;
+}

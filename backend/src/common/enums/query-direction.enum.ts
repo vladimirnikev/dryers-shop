@@ -1,4 +1,4 @@
 export enum EQueryDirection {
-    ASC = 'ASC',
-    DESC = 'DESC'
+  ASC = 'ASC',
+  DESC = 'DESC',
 }

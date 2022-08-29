@@ -1,10 +1,10 @@
-import { IsOptional, IsPhoneNumber, IsString } from "class-validator";
+import { IsOptional, IsPhoneNumber, IsString } from 'class-validator';
 
 export class CreateCallDto {
-    @IsPhoneNumber('UA')
-    readonly phone: string
+  @IsPhoneNumber('UA')
+  readonly phone: string;
 
-    @IsString()
-    @IsOptional()
-    readonly time: string
+  @IsString()
+  @IsOptional()
+  readonly time: string;
 }

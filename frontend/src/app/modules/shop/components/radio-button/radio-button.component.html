@@ -1,0 +1,6 @@
+<button
+  (click)="select()"
+  [ngClass]="control.value === value ? 'checked' : 'not-checked'"
+>
+  <ng-content></ng-content>
+</button>

@@ -1,32 +1,40 @@
 <mat-toolbar color="primary">
-  <span>WarmShop</span>
+  <span>WarmShop Admin</span>
 
-  <div>
-    <!-- ngIf ADMIN -->
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-      <mat-icon>menu</mat-icon>
+  <div *ngIf="!!currentUser">
+    <button mat-button [matMenuTriggerFor]="productsMenu">
+      <mat-icon>add_shopping_cart</mat-icon> Продукты
     </button>
-    <mat-menu #menu="matMenu">
-      <!-- <button mat-menu-item [routerLink]="['create']">Создать товар</button> -->
-      <button mat-menu-item (click)="openCreateProductModal()">
-        Создать товар
-      </button>
+    <mat-menu #productsMenu="matMenu">
+      <button mat-button (click)="openCreateProductModal()">Создать товар</button>
+      <button mat-menu-item [routerLink]="['items']">Список продуктов</button>
+    </mat-menu>
 
-      <button mat-menu-item [routerLink]="['items']">Список товаров</button>
+    <button mat-button [matMenuTriggerFor]="discountsMenu">
+      <mat-icon>discounts</mat-icon> Акции
+    </button>
+
+    <mat-menu #discountsMenu="matMenu">
+      <button mat-menu-item [routerLink]="['stock', 'create']">Добавить новую акцию</button>
+      <button mat-menu-item (click)="openStocksListModal()">Список акций</button>
+    </mat-menu>
+    <button mat-button [matMenuTriggerFor]="manufacturerMenu">
+      <mat-icon>domain</mat-icon> Производители
+    </button>
+
+    <mat-menu #manufacturerMenu="matMenu">
       <button mat-menu-item (click)="openCreateManufacturerModal()">
         Добавить нового производителя
       </button>
-      <button mat-menu-item (click)="openManufacturersListModal()">
-        Список производителей
-      </button>
-      <button mat-menu-item (click)="openCreateColorModal()">
-        Добавить новый цвет
-      </button>
-      <button mat-menu-item (click)="openColorsListModal()">
-        Список цветов
-      </button>
-      <button mat-menu-item>Список заказов</button>
-      <button mat-menu-item>Список звонков</button>
+      <button mat-menu-item (click)="openManufacturersListModal()">Список производителей</button>
+    </mat-menu>
+    <button mat-button [matMenuTriggerFor]="colorsMenu">
+      <mat-icon>color_lens</mat-icon> Цвета
+    </button>
+
+    <mat-menu #colorsMenu="matMenu">
+      <button mat-menu-item (click)="openCreateColorModal()">Добавить новый цвет</button>
+      <button mat-menu-item (click)="openColorsListModal()">Список цветов</button>
     </mat-menu>
   </div>
 </mat-toolbar>

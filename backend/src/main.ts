@@ -4,23 +4,28 @@ if (!process.env.IS_TS_NODE) {
 }
 
 import * as dayjs from 'dayjs';
-import * as utc from 'dayjs/plugin/utc'
+import * as utc from 'dayjs/plugin/utc';
 import * as cookieParser from 'cookie-parser';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    cors: true,
+    cors: {
+      credentials: true,
+      origin: process.env.FRONTEND_URL,
+    },
   });
-  dayjs.extend(utc)
+  dayjs.extend(utc);
 
-  app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,
-    forbidNonWhitelisted: true
-  }))
-  app.use(cookieParser())
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
+  app.use(cookieParser());
 
-  await app.listen(3000)
+  await app.listen(3000);
 }
 bootstrap();

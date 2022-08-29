@@ -1,0 +1,86 @@
+<div [ngClass]="{ hidden: isHiddenFilterBar }" class="wrapper">
+  <div class="header-filters">
+    <svg-icon src="assets/images/filter-icon.svg"></svg-icon>
+    <span class="header-title"
+      >Фильтры
+      <svg-icon
+        class="hide-btn"
+        (click)="hideFilterBar()"
+        src="assets/images/arrow-left.svg"
+      ></svg-icon
+    ></span>
+  </div>
+
+  <form [formGroup]="filterForm" class="filters">
+    <app-price-filter
+      (isHiddenFilterEvent)="hidePriceFilter($event)"
+      (sliderEvent)="changePriceRange($event)"
+      [ngClass]="{ hidden: isHiddenPriceFilter }"
+    ></app-price-filter>
+    <div [ngClass]="{ hidden: isHiddenManufacturerFilter }" class="manufacturer filter">
+      <span class="filter-name"
+        >Производитель
+        <div (click)="hideFilter('manufacturer')" class="triangle-btn">
+          <div class="triangle-up"></div></div
+      ></span>
+      <div class="checkbox-list">
+        <div *ngFor="let manufacturer of manufacturers$ | async" class="checkbox-field">
+          <input
+            #checkbox
+            [id]="'manufacturer-' + manufacturer.id"
+            type="checkbox"
+            [value]="manufacturer.id"
+            (change)="onCheckChange($event, 'manufacturer')"
+          />
+          <label [for]="'manufacturer-' + manufacturer.id">{{ manufacturer.name }}</label>
+        </div>
+      </div>
+    </div>
+    <div [ngClass]="{ hidden: isHiddenExistFilter }" class="exist filter">
+      <span class="filter-name"
+        >Наличие
+        <div (click)="hideFilter('exist')" class="triangle-btn">
+          <div class="triangle-up"></div></div
+      ></span>
+      <div class="checkbox-field">
+        <input
+          #checkbox
+          [value]="true"
+          (change)="onCheckChange($event, 'availability')"
+          id="availability"
+          type="checkbox"
+        />
+        <label for="availability">В наличии</label>
+      </div>
+      <div class="checkbox-field">
+        <input
+          #checkbox
+          [value]="false"
+          (change)="onCheckChange($event, 'availability')"
+          id="isNotExist"
+          type="checkbox"
+        />
+        <label for="isNotExist">Под заказ</label>
+      </div>
+    </div>
+    <div [ngClass]="{ hidden: isHiddenColorFilter }" class="color filter">
+      <span class="filter-name"
+        >Цвет
+        <div (click)="hideFilter('color')" class="triangle-btn">
+          <div class="triangle-up"></div></div
+      ></span>
+      <div *ngFor="let color of colors$ | async" class="checkbox-field">
+        <input
+          #checkbox
+          [value]="color.id"
+          (change)="onCheckChange($event, 'color')"
+          [id]="'color-' + color.id"
+          type="checkbox"
+        />
+        <label [for]="'color-' + color.id">{{ color.name }}</label>
+      </div>
+    </div>
+  </form>
+
+  <div (click)="resetFilters()" class="btn outline">Сбросить фильтры</div>
+</div>

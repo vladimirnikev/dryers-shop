@@ -1,0 +1,163 @@
+.top-header {
+  padding: 8px 0;
+
+  ul {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  li {
+    list-style: none;
+    &:not(:nth-of-type(1)) {
+      margin-left: 32px;
+    }
+
+    a {
+      text-decoration: none;
+      color: #000000;
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 600;
+    }
+  }
+}
+
+.main-header {
+  background: #eff3fc;
+
+  .container {
+    display: flex;
+    align-items: center;
+  }
+
+  a {
+    display: inline-block;
+    margin: 4px 0;
+  }
+
+  .nav-btn {
+    transition: 50ms;
+    height: 90.5px;
+    svg-icon {
+      font-size: 36px !important;
+      svg {
+        path {
+          font-size: 36px;
+          transition: 50ms;
+        }
+      }
+    }
+
+    &.active {
+      transition: 500ms;
+      background: #ffffff;
+
+      svg-icon {
+        svg {
+          path {
+            fill: #3F75BE;
+            transition: 300ms;
+          }
+        }
+      }
+    }
+
+    &:hover {
+      svg-icon {
+        svg {
+          path {
+            fill: #3F75BE;
+            transition: 150ms;
+          }
+        }
+      }
+    }
+  }
+
+  .hamburger {
+    margin-left: 64px;
+    opacity: 1;
+    transition: 500ms;
+  }
+}
+
+.sub-nav {
+  position: absolute;
+  overflow: hidden;
+  z-index: 10000;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 1280px;
+  box-shadow: 0px 40px 40px rgba(0, 0, 0, 0.1);
+  border-radius: 0px 0px 16px 16px;
+}
+
+.sub-nav-basket {
+  position: absolute;
+  overflow: hidden;
+  z-index: 10000;
+  width: 392px;
+  right: calc((100vw - 1136px) / 2);
+  transform: translate(0, 0);
+  box-shadow: 0px 10px 10px rgb(0 0 0 / 15%);
+  border-radius: 0px 0px 4px 4px;
+  background-color: #ffffff;
+}
+
+.phone-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 48px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+  color: #333333;
+
+  button {
+    margin-top: 8px;
+    color: #ff6700;
+    border: none;
+    cursor: pointer;
+    background: none;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 24px;
+  }
+}
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  .bar-item:not(.language-switcher) {
+    margin-left: 32px;
+  }
+
+  button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    &.bar-btn {
+      padding: 24px 16px;
+    }
+  }
+
+  .language-switcher {
+    * {
+      font-size: 18px;
+      line-height: 24px;
+      font-weight: 600;
+      color: #333333;
+    }
+
+    span {
+      padding: 0 2px;
+    }
+
+    .active {
+      color: #ff6700;
+    }
+  }
+}

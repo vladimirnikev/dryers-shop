@@ -1,0 +1,26 @@
+<div class="timer-wrapper">
+  <p>
+    <span>{{
+      daysToDday.toString().length < 2 ? "0" + daysToDday : daysToDday
+    }}</span>
+    <span>д.</span>
+  </p>
+  <p>
+    <span>{{
+      hoursToDday.toString().length < 2 ? "0" + hoursToDday : hoursToDday
+    }}</span>
+    <span>ч.</span>
+  </p>
+  <p>
+    <span>{{
+      minutesToDday.toString().length < 2 ? "0" + minutesToDday : minutesToDday
+    }}</span>
+    <span>м.</span>
+  </p>
+  <p>
+    <span>{{
+      secondsToDday.toString().length < 2 ? "0" + secondsToDday : secondsToDday
+    }}</span>
+    <span>с.</span>
+  </p>
+</div>

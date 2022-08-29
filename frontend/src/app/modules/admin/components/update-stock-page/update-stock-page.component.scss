@@ -1,0 +1,99 @@
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  mat-slide-toggle {
+    margin-top: 8px;
+  }
+}
+
+.image-list {
+  margin-top: 24px;
+
+  .image-preview {
+    display: block;
+    width: fit-content;
+    margin: auto;
+  }
+}
+
+.upload-button {
+  max-width: 200px;
+  margin: 8px auto;
+  cursor: pointer;
+
+  input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    cursor: pointer;
+    display: none;
+  }
+}
+
+.btn-delete {
+  display: block;
+  margin: 0 auto !important;
+  max-width: 200px;
+  width: 100%;
+}
+
+mat-form-field {
+  margin-top: 16px;
+}
+
+mat-error {
+  margin-top: 4px;
+  font-size: 12px;
+
+  &.error-custom {
+    position: relative;
+    top: -20px;
+  }
+}
+
+h3.title {
+  font-size: 18px;
+}
+
+.products-list {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+
+  .table {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    table {
+      width: 100%;
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+    mat-form-field:nth-of-type(2) {
+      margin-left: 16px;
+    }
+  }
+}
+
+.page-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+  padding-bottom: 48px;
+
+  button {
+    width: 300px;
+  }
+}

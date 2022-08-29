@@ -1,0 +1,31 @@
+<div class="wrapper">
+  <div class="content">
+    <div class="title-wrapper">
+      <h3 class="section-title">Распродажа</h3>
+      <app-timer></app-timer>
+    </div>
+    <div class="cards-wrapper">
+      <swiper [config]="swiperConfig" class="sales-swiper">
+        <ng-template swiperSlide
+          ><app-product-card></app-product-card
+        ></ng-template>
+        <ng-template swiperSlide
+          ><app-product-card></app-product-card
+        ></ng-template>
+        <ng-template swiperSlide
+          ><app-product-card></app-product-card
+        ></ng-template>
+        <ng-template swiperSlide
+          ><app-product-card></app-product-card
+        ></ng-template>
+        <ng-template swiperSlide
+          ><app-product-card></app-product-card
+        ></ng-template>
+        <ng-template swiperSlide
+          ><app-product-card></app-product-card
+        ></ng-template>
+      </swiper>
+    </div>
+  </div>
+  <img class="img-bg" src="/assets/images/pattern-bg.svg" alt="lines" />
+</div>

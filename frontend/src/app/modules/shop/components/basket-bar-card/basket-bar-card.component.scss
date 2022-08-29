@@ -1,0 +1,113 @@
+.basket-card {
+  margin: 16px 8px;
+
+  &.empty {
+    display: flex;
+    flex-direction: column;
+
+    .card-title {
+      color: #FF6700;
+      font-size: 18px;
+      line-height: 24px;
+      font-weight: 600;
+    }
+
+    .card-text {
+      margin-top: 16px;
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .btn {
+      margin-top: 16px;
+    }
+  }
+}
+
+.items-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  display: flex;
+  padding: 8px 0;
+  border-bottom: 1px solid #BFBEBE;
+  position: relative;
+  padding-right: 56px;
+
+  .img-wrapper {
+    width: 96px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .close-icon {
+    justify-content: flex-end;
+    position: absolute;
+    right: 30px;
+    cursor: pointer;
+  }
+}
+
+.text-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-left: 16px;
+  max-width: 224px;
+  width: 100%;
+
+  .item-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 18px;
+    line-height: 22px;
+  }
+}
+
+.flex-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding: 0 16px;
+  align-items: center;
+
+  span.action {
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+.price {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+
+  span {
+    font-size: 14px;
+    line-height: 20px;
+    margin-right: 8px;
+    display: block;
+  }
+}
+
+.buttons-wrapper {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+
+  .btn.primary {
+    margin-left: 8px;
+  }
+}

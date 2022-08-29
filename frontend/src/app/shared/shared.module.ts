@@ -1,26 +1,24 @@
-
-import { MaterialModule } from './../modules/material/material.module';
-import { AuthService } from './services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpService } from './services/http.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MaterialModule } from '../modules/material/material.module';
+import { AuthService } from './services/auth.service';
+import { HttpService } from './services/http.service';
 import { INTERCEPTOR_PROVIDER } from './interceptors';
 import { ProductsService } from './services/products.service';
 import { ConfirmModalTemplateComponent } from './components/confirm-modal-template/confirm-modal-template.component';
 import { HelperService } from './services/helper.service';
 import { ManufacturersService } from './services/manufacturers.service';
 import { ColorsService } from './services/colors.service';
+import { IsExistNotEmptyValuePipe } from './pipes/is-exist-not-empty-value.pipe';
+import { StocksService } from './services/stocks.service';
+import { ValidatorService } from './services/validator.service';
+import { UserService } from './services/user.service';
+import { CartService } from './services/cart.service';
 
 @NgModule({
-  declarations: [
-    ConfirmModalTemplateComponent
-  ],
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    MaterialModule
-  ],
+  declarations: [ConfirmModalTemplateComponent, IsExistNotEmptyValuePipe],
+  imports: [CommonModule, HttpClientModule, MaterialModule],
 
   providers: [
     INTERCEPTOR_PROVIDER,
@@ -29,7 +27,12 @@ import { ColorsService } from './services/colors.service';
     ProductsService,
     HelperService,
     ManufacturersService,
-    ColorsService
-  ]
+    ColorsService,
+    StocksService,
+    ValidatorService,
+    UserService,
+    CartService,
+  ],
+  exports: [IsExistNotEmptyValuePipe],
 })
-export class SharedModule { }
+export class SharedModule {}

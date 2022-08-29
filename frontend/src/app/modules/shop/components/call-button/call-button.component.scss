@@ -1,0 +1,17 @@
+.call-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: #FF6700;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15), 4px 0px 10px rgba(0, 0, 0, 0.15), -4px 0px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity 300ms;
+  &:hover {
+    opacity: 1;
+    transition: opacity 300ms;
+  }
+}

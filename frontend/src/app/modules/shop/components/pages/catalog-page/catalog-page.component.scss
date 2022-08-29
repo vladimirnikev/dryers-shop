@@ -1,0 +1,142 @@
+section {
+  padding-top: 4px;
+  padding-bottom: 32px;
+}
+
+.page-title {
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 42px;
+  color: #0D0D0D;
+  letter-spacing: 0.065em;
+}
+
+.catalog-menu-card {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  border: 2px solid #BFBEBE;
+  border-radius: 8px;
+  cursor: pointer;
+
+  .card-img {
+    width: 64px;
+    height: 64px;
+  }
+
+  .card-title {
+    margin-left: 16px;
+    font-size: 16px;
+    line-height: 22px;
+    color: #0D0D0D;
+  }
+}
+
+.swiper-wrapper {
+  position: relative;
+  margin: 16px 0 40px;
+  .swiper-button {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    cursor: pointer;
+    svg-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    &.swiper-button-prev-unique {
+      left: 8px;
+    }
+    &.swiper-button-next-unique {
+      right: 8px;
+      svg-icon {
+        svg {
+          transform: rotate(180deg);
+        }
+      }
+    }
+    &.swiper-button-disabled {
+      svg-icon {
+        svg {
+          path{
+            stroke: rgb(170, 170, 170);
+          }
+        }
+      }
+    }
+  }
+}
+
+.page-content {
+  display: grid;
+  grid-template-areas: "filter sort sort"
+  "filter cards cards"
+  "filter cards cards";
+  grid-template-rows: auto 1fr 1fr;
+  grid-template-columns: auto 1fr;
+  column-gap: 32px;
+}
+
+.side-layout{
+  grid-area: filter;
+
+  app-instagram-feed {
+    margin-top: 32px;
+    display: block;
+  }
+}
+
+app-sorting-bar {
+  grid-area: sort;
+}
+
+.list-wrapper {
+  grid-area: cards;
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  app-pagination {
+    margin-top: 24px;
+  }
+
+  &.mt-64 {
+    margin-top: -8px;
+  }
+}
+.cards-list {
+  display: flex;
+
+  app-catalog-card {
+    display: block;
+  }
+
+  app-catalog-card:not(:nth-of-type(1)) {
+    margin-top: 24px;
+  }
+
+  &.view-column {
+    flex-direction: column;
+    width: 100%;
+  }
+  &.view-row {
+    margin-left: -40px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 8px;
+
+    app-catalog-card {
+      height: fit-content;
+      margin-top: 0;
+      margin-left: 40px;
+      margin-top: 16px;
+    }
+  }
+}
+
+app-viewed-products-list {
+  margin-top: 80px;
+  display: block;
+}

@@ -1,0 +1,27 @@
+<div *ngIf="!!(viewedProducts$ | async).length" class="wrapper">
+  <h3 class="list-title">Ранее вы просматривали</h3>
+  <div class="swiper-wrapper">
+    <div class="swiper-button swiper-button-prev-unique">
+      <svg-icon src="assets/images/arrow-left.svg" alt="arrow"></svg-icon>
+    </div>
+    <div class="swiper-button swiper-button-next-unique">
+      <svg-icon src="assets/images/arrow-left.svg" alt="arrow"></svg-icon>
+    </div>
+    <swiper #swiper [config]="swiperConfig" class="viewed catalog-menu-swiper">
+      <ng-template *ngFor="let product of viewedProducts$ | async" swiperSlide>
+        <div
+          [routerLink]="['', 'catalog', product.category.toLowerCase(), 'product', product.id]"
+          class="item"
+        >
+          <img [src]="product.imageUrls[0]" />
+          <div class="content">
+            <div class="card-title">
+              {{ product.name }}
+            </div>
+            <div class="price">{{ product.price }}</div>
+          </div>
+        </div>
+      </ng-template>
+    </swiper>
+  </div>
+</div>

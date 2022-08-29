@@ -17,9 +17,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSortModule } from '@angular/material/sort';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatListModule } from '@angular/material/list';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { NgModule } from '@angular/core';
 import { MatCommonModule } from '@angular/material/core';
+
 const MaterialComponents = [
   MatCommonModule,
   MatButtonModule,
@@ -40,12 +42,12 @@ const MaterialComponents = [
   MatDialogModule,
   MatSortModule,
   MatProgressSpinnerModule,
-  MatListModule
+  MatListModule,
+  MatSlideToggleModule,
 ];
-
 
 @NgModule({
   imports: [...MaterialComponents],
   exports: [...MaterialComponents],
 })
-export class MaterialModule { }
+export class MaterialModule {}

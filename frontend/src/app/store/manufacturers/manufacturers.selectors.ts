@@ -1,9 +1,10 @@
 import { createSelector } from '@ngrx/store';
-import { AppState } from './../app.state';
-import { ManufacturerState } from './manufacturers.reducer';
-export const selectFeature = (state: AppState) => state.manufacturer
+import { IManufacturerState } from 'src/app/common/interfaces/manufacturer-state.interface';
+import { AppState } from '../app.state';
+
+export const selectFeature = (state: AppState) => state.manufacturer;
 
 export const selectAllManufacturers = createSelector(
   selectFeature,
-  (state: ManufacturerState) => state.manufacturers
-)
+  (state: IManufacturerState) => state.manufacturers,
+);

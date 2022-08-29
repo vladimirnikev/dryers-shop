@@ -1,0 +1,30 @@
+.wrapper {
+  position: relative;
+}
+
+input {
+  background: #EFF3FC;
+  width: 736px;
+  height: 40px;
+  border-radius: 8px;
+  border: 2px solid #3F75BE;
+  padding: 6.5px 10px;
+  font-family: 'Raleway', sans-serif;
+  color: #333333;
+  font-size: 18px;
+  line-height: 150%;
+}
+
+button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.icon {
+  width: 24px;
+  height: 24px;
+}

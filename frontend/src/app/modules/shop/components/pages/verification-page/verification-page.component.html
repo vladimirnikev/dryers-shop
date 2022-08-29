@@ -1,0 +1,20 @@
+<section>
+  <div class="container">
+    <h3 class="page-title">Оформление заказа</h3>
+    <app-breadcrumbs></app-breadcrumbs>
+
+    <div class="page-content">
+      <app-order-form
+        [isTriedSubmit]="isTriedSubmit"
+        (formEvent)="setFormData($event)"
+      ></app-order-form>
+      <div class="aside-cards">
+        <app-order-confirm-card
+          (confirmOrderEvent)="makeOrder()"
+          [sum]="sum"
+        ></app-order-confirm-card>
+        <app-faq></app-faq>
+      </div>
+    </div>
+  </div>
+</section>

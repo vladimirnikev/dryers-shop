@@ -1,49 +1,41 @@
 import { Observable } from 'rxjs';
-import { environment } from './../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import urljoin from 'url-join'
+import urljoin from 'url-join';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class HttpService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   get<T>(url: string, httpOptions: object = {}): Observable<T> {
     return this.http.get<T>(urljoin(this.getServerBaseUrl(), url), {
-      ...httpOptions
-    })
+      ...httpOptions,
+    });
   }
 
-  post<T>(url: string,
-    body: unknown | null = null,
-    httpOptions: object = {}
-  ): Observable<T> {
+  post<T>(url: string, body: unknown | null = null, httpOptions: object = {}): Observable<T> {
     return this.http.post<T>(urljoin(this.getServerBaseUrl(), url), body, {
-      ...httpOptions
-    })
+      ...httpOptions,
+    });
   }
 
-  put<T>(url: string,
-    body: unknown | null = null,
-    httpOptions: object = {}
-  ): Observable<T> {
+  put<T>(url: string, body: unknown | null = null, httpOptions: object = {}): Observable<T> {
     return this.http.put<T>(urljoin(this.getServerBaseUrl(), url), body, {
-      ...httpOptions
-    })
+      ...httpOptions,
+    });
   }
 
   delete<T>(url: string, httpOptions: object = {}): Observable<T> {
     return this.http.delete<T>(urljoin(this.getServerBaseUrl(), url), {
-      ...httpOptions
-    })
+      ...httpOptions,
+    });
   }
 
   getServerBaseUrl() {
     if (environment.serverBaseUrl) {
-      return environment.serverBaseUrl
+      return environment.serverBaseUrl;
     }
-    return 'http://localhost:3000'
+    return 'http://localhost:3000';
   }
-
 }

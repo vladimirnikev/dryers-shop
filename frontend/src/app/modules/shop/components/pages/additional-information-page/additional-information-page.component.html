@@ -1,0 +1,82 @@
+<section>
+  <div class="container">
+    <h3 class="page-title">
+      {{
+        (lastPartOfPath === 'payment' && 'Оплата') ||
+          (lastPartOfPath === 'delivery' && 'Доставка') ||
+          (lastPartOfPath === 'return-and-exchange' && 'Возврат и обмен')
+      }}
+    </h3>
+    <app-breadcrumbs></app-breadcrumbs>
+
+    <div class="page-content">
+      <div class="left-side">
+        <div class="tabs">
+          <a
+            [routerLink]="['/', 'additional-information', 'payment']"
+            routerLinkActive="active-link"
+            class="tab"
+            >Оплата</a
+          >
+          <a
+            [routerLink]="['/', 'additional-information', 'delivery']"
+            routerLinkActive="active-link"
+            class="tab"
+            >Доставка</a
+          >
+          <a
+            [routerLink]="['/', 'additional-information', 'return-and-exchange']"
+            routerLinkActive="active-link"
+            class="tab"
+            >Возврат и обмен</a
+          >
+        </div>
+      </div>
+      <div class="right-side">
+        <ng-component
+          [ngTemplateOutlet]="
+            (lastPartOfPath === 'payment' && payment) ||
+            (lastPartOfPath === 'delivery' && delivery) ||
+            (lastPartOfPath === 'return-and-exchange' && returnAndExchange)
+          "
+        ></ng-component>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #payment>
+  <div class="side-content">
+    <span class="side-title">Оплата отопительного оборудования и кондиционеров </span>
+    <div class="side-text">
+      <p>
+        Вы можете купить отопительное оборудование и кондиционеры, оплатив его любым удобным
+        способом:
+      </p>
+
+      <p>
+        1. Предоплата по счету-фактуре или платежным переводом - данный вид оплаты максимально
+        ускорит выполнение заказа и не требует дополнительных комиссионных платежей (оплата без НДС,
+        единый налог).
+      </p>
+      <p>
+        2. Оплата наложенным платежом при получении заказа на отделении Новой Почты. Стоимость
+        услуги "Наложенный платеж" оплачивает покупатель, то есть к цене оборудования добавится
+        стоимость услуги Новой почты за оформление платежа + 2% от стоимости заказа.
+      </p>
+      <p>
+        3. Предоплата по счету-фактуре с НДС - в этом случае возможно изменение цены, поэтому,
+        пожалуйста, предварительно уточняйте стоимость заказа.
+      </p>
+
+      <p>
+        Если у Вас возникли вопросы или требуются уточнения, пожалуйста, звоните +38 (055) 555 55 55
+      </p>
+      <p>Владелец сайта warm.com.ua – ФЛП Заика С.А. (ИНН XXXXXXXXXX)</p>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #delivery> delivery </ng-template>
+
+<ng-template #returnAndExchange> returnAndExchange </ng-template>

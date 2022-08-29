@@ -1,0 +1,32 @@
+<div class="pagination-wrapper">
+  <svg-icon
+    (click)="goToPrevPage()"
+    src="assets/images/arrow-left.svg"
+  ></svg-icon>
+  <div class="pages">
+    <span
+      *ngFor="
+        let page of pagesCounter(
+          (productsTotalCount$ | async) / (limit$ | async)
+        );
+        let idx = index
+      "
+      (click)="changePage(idx)"
+      [ngClass]="{ active: currentPage === idx }"
+      >{{ idx + 1 }}</span
+    >
+  </div>
+  <svg-icon
+    (click)="goToNextPage()"
+    src="assets/images/arrow-left.svg"
+  ></svg-icon>
+</div>
+<div class="items-count-wrapper">
+  <span class="count-title">Отображать:</span>
+  <div class="counts">
+    <span (click)="changeLimit($event, 9)" class="active">9 товаров</span>
+    <span (click)="changeLimit($event, 18)">18 товаров</span>
+    <span (click)="changeLimit($event, 27)">27 товаров</span>
+    <span (click)="changeLimit($event, 36)">36 товаров</span>
+  </div>
+</div>

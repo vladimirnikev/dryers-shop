@@ -1,0 +1,132 @@
+.overlay {
+  visibility: hidden;
+  opacity: 0;
+
+  &.open {
+    visibility: inherit;
+    opacity: 1;
+  }
+
+  display: block;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+
+  background: rgba(0, 0, 0, 0.2);
+  transition: opacity 250ms ease-in;
+
+  .modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 24px 16px;
+    border-radius: 16px;
+    border: 1px solid #BFBEBE;
+    box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  button.close {
+    background: none;
+    color: inherit;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+    outline: none;
+
+    position: absolute;
+    top: 12px;
+    right: 12px;
+  }
+}
+
+.modal-title {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  color: #FF6700;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  p {
+    font-size: 14px;
+    line-height: 20px;
+    color: #0D0D0D;
+    max-width: 360px;
+    margin-top: 8px;
+  }
+}
+
+form {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+
+  .form-control {
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+
+    &.error {
+      .error-message {
+        color: #d23030;
+        font-size: 12px;
+        margin-top: 4px;
+      }
+      input {
+        border: 1px solid #d23030;
+      }
+    }
+
+    label {
+      color: #0D0D0D;
+      font-size: 14px;
+      line-height: 20px;
+      display: flex;
+      align-items: center;
+      width: fit-content;
+
+      img {
+        margin-left: 8px;
+      }
+    }
+
+    input, textarea {
+      margin-top: 8px;
+      padding: 10px;
+      border: 1px solid #BFBEBE;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 20px;
+      color: #0D0D0D;
+
+      &::placeholder {
+        color: #BFBEBE;
+      }
+    }
+
+    textarea {
+      width: 360px;
+      height: 54px;
+      resize: none;
+    }
+  }
+
+  .btn {
+    margin-top: 16px;
+    border: 1px #FF6700 solid;
+    color: #FF6700;
+
+    &.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}

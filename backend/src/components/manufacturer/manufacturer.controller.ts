@@ -3,40 +3,33 @@ import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nes
 import { ManufacturerEntity } from './entities/manufacturer.entity';
 import { CreateManufacturerDto } from './dto/create-manufacturer.dto';
 import { DeleteResult } from 'typeorm';
-import { AuthGuard } from '../user/guards/auth.guard';
 import { AdminGuard } from '../user/guards/admin.guard';
+import { JwtAuthGuard } from '@app/modules/auth/guards/jwt-auth.guard';
 
 @Controller('manufacturers')
 export class ManufacturerController {
-    constructor(
-        private manufacturerService: ManufacturerService
-    ) { }
+  constructor(private manufacturerService: ManufacturerService) {}
 
-    @Get()
-    getAll(): Promise<ManufacturerEntity[]> {
-        return this.manufacturerService.getAll()
-    }
+  @Get()
+  getAll(): Promise<ManufacturerEntity[]> {
+    return this.manufacturerService.getAll();
+  }
 
-    @Post()
-    @UseGuards(AuthGuard, AdminGuard)
-    create(
-        @Body() dto: CreateManufacturerDto
-    ): Promise<ManufacturerEntity> {
-        return this.manufacturerService.create(dto)
-    }
+  @Post()
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  create(@Body() dto: CreateManufacturerDto): Promise<ManufacturerEntity> {
+    return this.manufacturerService.create(dto);
+  }
 
-    @Put(':id')
-    @UseGuards(AuthGuard, AdminGuard)
-    update(
-        @Body() dto: CreateManufacturerDto,
-        @Param() id
-    ): Promise<ManufacturerEntity> {
-        return this.manufacturerService.update(dto, id)
-    }
+  @Put(':id')
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  update(@Body() dto: CreateManufacturerDto, @Param() id): Promise<ManufacturerEntity> {
+    return this.manufacturerService.update(dto, id);
+  }
 
-    @Delete(':id')
-    @UseGuards(AuthGuard, AdminGuard)
-    delete(@Param() id): Promise<DeleteResult> {
-        return this.manufacturerService.delete(id)
-    }
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  delete(@Param() id): Promise<DeleteResult> {
+    return this.manufacturerService.delete(id);
+  }
 }

@@ -1,6 +1,5 @@
-import { props } from '@ngrx/store';
-import { createAction } from '@ngrx/store';
-import { IManufacturer } from 'src/common/interfaces/manufacturer.interface';
+import { props, createAction } from '@ngrx/store';
+import { IManufacturer } from 'src/app/common/interfaces/manufacturer.interface';
 
 export enum EManufacturersActions {
   GetManufacturers = '[Manufacturers] Get Manufacturers',
@@ -19,62 +18,52 @@ export enum EManufacturersActions {
   DeleteManufacturerSuccess = '[Manufacturers] Delete Manufacturer Success',
   DeleteManufacturerFailed = '[Manufacturers] Delete Manufacturer Failed',
 }
-// ------------------------
-// GET
-// ------------------------
-export const getManufacturers = createAction(
-  EManufacturersActions.GetManufacturers
-)
+
+export const getManufacturers = createAction(EManufacturersActions.GetManufacturers);
 export const getManufacturersSuccess = createAction(
   EManufacturersActions.GetManufacturersSuccess,
-  props<{ manufacturers: IManufacturer[] }>()
-)
+  props<{ manufacturers: IManufacturer[] }>(),
+);
 export const getManufacturersFailed = createAction(
   EManufacturersActions.GetManufacturersFailed,
-  props<{ error: Error }>()
-)
-// ------------------------
-// Create
-// ------------------------
+  props<{ error: Error }>(),
+);
+
 export const createManufacturer = createAction(
   EManufacturersActions.CreateManufacturer,
-  props<{ dto: any }>()
-)
+  props<{ dto: any }>(),
+);
 export const createManufacturerSuccess = createAction(
   EManufacturersActions.CreateManufacturerSuccess,
-  props<{ manufacturer: IManufacturer }>()
-)
+  props<{ manufacturer: IManufacturer }>(),
+);
 export const createManufacturerFailed = createAction(
   EManufacturersActions.CreateManufacturerFailed,
-  props<{ error: Error }>()
-)
-// ------------------------
-// Update
-// ------------------------
+  props<{ error: Error }>(),
+);
+
 export const updateManufacturer = createAction(
   EManufacturersActions.UpdateManufacturer,
-  props<{ dto: any, id: number }>()
-)
+  props<{ dto: any; id: number }>(),
+);
 export const updateManufacturerSuccess = createAction(
   EManufacturersActions.UpdateManufacturerSuccess,
-  props<{ manufacturer: IManufacturer }>()
-)
+  props<{ manufacturer: IManufacturer }>(),
+);
 export const updateManufacturerFailed = createAction(
   EManufacturersActions.UpdateManufacturerFailed,
-  props<{ error: Error }>()
-)
-// ------------------------
-// Delete
-// ------------------------
+  props<{ error: Error }>(),
+);
+
 export const deleteManufacturer = createAction(
   EManufacturersActions.DeleteManufacturer,
-  props<{ id: number }>()
-)
+  props<{ id: number }>(),
+);
 export const deleteManufacturerSuccess = createAction(
   EManufacturersActions.DeleteManufacturerSuccess,
-  props<{ id: number }>()
-)
+  props<{ id: number }>(),
+);
 export const deleteManufacturerFailed = createAction(
   EManufacturersActions.DeleteManufacturerFailed,
-  props<{ error: Error }>()
-)
+  props<{ error: Error }>(),
+);

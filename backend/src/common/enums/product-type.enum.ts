@@ -1,0 +1,6 @@
+export enum EProductType {
+  WATER = 'WATER',
+  ELECTRICITY = 'ELECTRICITY',
+  COMBINE = 'COMBINE',
+  ACCESSORIES = 'ACCESSORIES',
+}

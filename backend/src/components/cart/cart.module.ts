@@ -7,12 +7,9 @@ import { CartService } from './cart.service';
 import { TelegramModule } from '@app/modules/telegram/telegram.module';
 
 @Module({
-    imports: [
-        TypeOrmModule.forFeature([CartEntity, ItemRecordEntity]),
-        TelegramModule
-    ],
-    controllers: [CartController],
-    providers: [CartService],
-    exports: [CartService]
+  imports: [TypeOrmModule.forFeature([CartEntity, ItemRecordEntity]), TelegramModule],
+  controllers: [CartController],
+  providers: [CartService],
+  exports: [CartService],
 })
-export class CartModule { }
+export class CartModule {}

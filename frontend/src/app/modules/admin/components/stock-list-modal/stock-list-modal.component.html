@@ -1,0 +1,41 @@
+<h2 mat-dialog-title class="title">Список акций:</h2>
+<div mat-dialog-content>
+  <table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Название</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.name }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="isActive">
+      <th mat-header-cell *matHeaderCellDef>Состояние</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.isActive ? 'Включен' : 'Выключен' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          (click)="closeModal()"
+          [routerLink]="['stock', 'update', element.id]"
+          mat-icon-button
+          aria-label="edit icon"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button (click)="openDeleteStockModal(element.id)" mat-icon-button aria-label="delete icon">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" mat-dialog-close>Ок</button>
+</div>
