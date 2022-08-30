@@ -4,29 +4,21 @@
   <div class="container">
     <h3 class="page-title">Корзина</h3>
     <app-breadcrumbs></app-breadcrumbs>
-    <div
-      *ngIf="(currentCart$ | async)?.itemRecords.length; else empty"
-      class="cards-list"
-    >
+    <div *ngIf="(currentCart$ | async)?.itemRecords.length; else empty" class="cards-list">
       <app-cart-item
         *ngFor="let item of (currentCart$ | async).itemRecords"
         [cartRecord]="item"
       ></app-cart-item>
     </div>
 
-    <div
-      *ngIf="(currentCart$ | async)?.itemRecords.length"
-      class="cart-actions"
-    >
+    <div *ngIf="(currentCart$ | async)?.itemRecords.length" class="cart-actions">
       <div class="cart-sum">
         <span>Итого:</span>
         <div class="sum">{{ (currentCart$ | async)?.totalSum }} грн.</div>
       </div>
       <div class="actions">
-        <button class="btn primary">К оформлению</button>
-        <button (click)="openBuyInClickModal()" class="btn outline">
-          Покупка в один клик
-        </button>
+        <button [routerLink]="['', 'verification']" class="btn primary">К оформлению</button>
+        <button (click)="openBuyInClickModal()" class="btn outline">Покупка в один клик</button>
       </div>
     </div>
     <app-viewed-products-list></app-viewed-products-list>
@@ -37,8 +29,6 @@
   <div class="empty-cart">
     <span class="cart-title">Корзина пуста</span>
     <span class="cart-subtitle">Но это можно исправить :)</span>
-    <button [routerLink]="['', 'catalog', 'water']" class="btn primary">
-      В каталог
-    </button>
+    <button [routerLink]="['', 'catalog', 'water']" class="btn primary">В каталог</button>
   </div>
 </ng-template>

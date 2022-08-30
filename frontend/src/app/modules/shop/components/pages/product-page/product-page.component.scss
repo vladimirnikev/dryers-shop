@@ -133,6 +133,12 @@ app-breadcrumbs {
         .outline {
           grid-area: outline-btn
         }
+
+        &.d-flex {
+          display: flex;
+          justify-content: center;
+          margin-top: 8px;
+        }
       }
 
       .btn {
@@ -206,6 +212,59 @@ app-breadcrumbs {
                 transform: rotate(-90deg);
               }
             }
+          }
+        }
+      }
+
+      .exist-link {
+        display: flex;
+        align-items: center;
+        width: fit-content;
+        cursor: pointer;
+        .link-text {
+          margin-left: 8px;
+          box-sizing: border-box;
+          border-bottom: 1px solid #000;
+          transition: 150ms;
+          font-size: 14px;
+        }
+
+        svg-icon {
+          svg {
+            path {
+              fill: #3F75BE;
+            }
+          }
+        }
+
+        &:hover {
+          .link-text {
+          color: #7b7b7b;
+          transition: 150ms;
+          }
+        }
+      }
+
+      .bar-item {
+        background: none;
+        border: none;
+        position: relative;
+        padding: 8px;
+        cursor: pointer;
+        .circle {
+          position: absolute;
+          background: #EFF3FC;
+          position: absolute;
+          border-radius: 50%;
+          width: 24px;
+          height: 24px;
+          top: -2px;
+          left: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          span {
+            font-size: 14px;
           }
         }
       }

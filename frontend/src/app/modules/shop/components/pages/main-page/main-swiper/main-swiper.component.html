@@ -1,6 +1,5 @@
 <swiper [config]="swiperConfig">
-  <ng-template swiperSlide><app-swiper-slide></app-swiper-slide></ng-template>
-  <ng-template swiperSlide><app-swiper-slide></app-swiper-slide></ng-template>
-  <ng-template swiperSlide><app-swiper-slide></app-swiper-slide></ng-template>
-  <ng-template swiperSlide><app-swiper-slide></app-swiper-slide></ng-template>
+  <ng-template *ngFor="let stock of stocks$ | async" swiperSlide
+    ><app-swiper-slide [stock]="stock"></app-swiper-slide
+  ></ng-template>
 </swiper>

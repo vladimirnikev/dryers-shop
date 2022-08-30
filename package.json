@@ -13,7 +13,10 @@
     "dev:backend": "cd backend && npm run start",
     "init": "concurrently -n frontend,backend -c magenta,cyan  \"npm run init:frontend\" \"npm run init:backend\"",
     "init:frontend": "cd frontend && npm i",
-    "init:backend": "cd backend && npm i"
+    "init:backend": "cd backend && npm i",
+    "lint": "concurrently -n frontend,backend -c magenta,cyan  \"npm run lint:frontend\" \"npm run lint:backend\"",
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:backend": "cd backend && npm run lint"
   },
   "dependencies": {
     "concurrently": "^6.4.0"

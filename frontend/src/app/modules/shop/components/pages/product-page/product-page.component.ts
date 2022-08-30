@@ -6,6 +6,8 @@ import { IProduct } from 'src/app/common/interfaces/product.interface';
 import SwiperCore, { FreeMode, Navigation, Thumbs } from 'swiper';
 import * as productSelectors from 'src/app/store/products/products.selectors';
 import * as productActions from 'src/app/store/products/products.actions';
+import * as cartActions from 'src/app/store/cart/cart.actions';
+import * as cartSelectors from 'src/app/store/cart/cart.selectors';
 import { ModalService } from '../../../services/modal.service';
 
 SwiperCore.use([FreeMode, Navigation, Thumbs]);
@@ -48,6 +50,8 @@ export class ProductPageComponent implements OnInit, OnDestroy {
 
   currentProductId: number;
 
+  isExistInCart: boolean;
+
   constructor(
     private route: ActivatedRoute,
     private modalService: ModalService,
@@ -63,6 +67,12 @@ export class ProductPageComponent implements OnInit, OnDestroy {
       this.route.params.subscribe(({ id }) => {
         this.store.dispatch(productActions.getOneProduct({ id }));
         this.currentProductId = id;
+      }),
+    );
+
+    this.sub.add(
+      this.store.select(cartSelectors.selectProductsInCardIds).subscribe((ids) => {
+        this.isExistInCart = ids?.some((id) => +id === +this.currentProductId);
       }),
     );
   }
@@ -84,5 +94,11 @@ export class ProductPageComponent implements OnInit, OnDestroy {
 
   openBuyInClickModal() {
     this.modalService.openBuyInClickModal();
+  }
+
+  addProductToCart() {
+    this.store.dispatch(
+      cartActions.addProductToCart({ item: +this.currentProductId, count: this.count }),
+    );
   }
 }

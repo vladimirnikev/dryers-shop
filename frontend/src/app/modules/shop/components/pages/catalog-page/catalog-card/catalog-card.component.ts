@@ -1,17 +1,21 @@
-import { Component, Input, ViewChildren } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalService } from 'src/app/modules/shop/services/modal.service';
 import { EViewType } from 'src/app/common/enums/viewType.enum';
 import { IProduct } from 'src/app/common/interfaces/product.interface';
 import * as cartActions from 'src/app/store/cart/cart.actions';
+import * as cartSelectors from 'src/app/store/cart/cart.selectors';
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-catalog-card',
   templateUrl: './catalog-card.component.html',
   styleUrls: ['./catalog-card.component.scss'],
 })
-export class CatalogCardComponent {
+export class CatalogCardComponent implements OnInit, OnDestroy {
+  sub = new Subscription();
+
   count = 1;
 
   @Input() item: IProduct;
@@ -20,7 +24,21 @@ export class CatalogCardComponent {
 
   @Input() viewType: EViewType;
 
+  isExistInCart: boolean;
+
   constructor(private modalService: ModalService, private router: Router, private store: Store) {}
+
+  ngOnInit(): void {
+    this.sub.add(
+      this.store.select(cartSelectors.selectProductsInCardIds).subscribe((ids) => {
+        this.isExistInCart = ids?.some((id) => +id === +this.item.id);
+      }),
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
 
   increment() {
     this.count += 1;

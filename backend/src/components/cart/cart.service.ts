@@ -55,17 +55,23 @@ export class CartService {
 
     if (!cart.itemRecords.length) {
       itemRecord = await this.createItemRecord(dto, cart);
+      cart.totalSum += itemRecord.item.price * itemRecord.count;
     } else {
       const idx = cart.itemRecords.findIndex((el) => el.item.id === dto.item);
       if (idx < 0) {
         itemRecord = await this.createItemRecord(dto, cart);
+        cart.totalSum += itemRecord.item.price * itemRecord.count;
       } else {
         itemRecord = cart.itemRecords[idx];
+        const itemRecordSumPriceBeforeChanged = itemRecord.item.price * itemRecord.count;
         itemRecord.count = itemRecord.count + dto.count;
+        const itemRecordSumPriceAfterChanged = itemRecord.item.price * itemRecord.count;
         await this.itemRecordRepository.save(itemRecord);
+        cart.totalSum =
+          cart.totalSum - itemRecordSumPriceBeforeChanged + itemRecordSumPriceAfterChanged;
       }
     }
-    cart.totalSum += itemRecord.item.price * itemRecord.count;
+
     const changedCart = await this.cartRepository.save(cart);
     return {
       totalSum: changedCart.totalSum,

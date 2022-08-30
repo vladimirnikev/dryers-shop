@@ -2,6 +2,10 @@ import { NavigationEnd, Router } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { filter } from 'rxjs/operators';
+import * as cartSelectors from 'src/app/store/cart/cart.selectors';
+import * as cartActions from 'src/app/store/cart/cart.actions';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { ModalService } from '../../services/modal.service';
 
 @Component({
@@ -54,12 +58,18 @@ export class HeaderComponent implements OnInit {
 
   isCollapsedBasketCard = true;
 
-  constructor(private modalService: ModalService, private route: Router) {}
+  cartProductsCount$: Observable<number>;
+
+  constructor(private modalService: ModalService, private route: Router, private store: Store) {
+    this.cartProductsCount$ = this.store.select(cartSelectors.selectCartProductsCount);
+  }
 
   ngOnInit(): void {
     this.route.events
       .pipe(filter((e) => e instanceof NavigationEnd))
       .subscribe(() => this.closeSubMenu());
+
+    this.store.dispatch(cartActions.getCart());
   }
 
   toggleCollapse() {

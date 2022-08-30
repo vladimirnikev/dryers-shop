@@ -57,12 +57,16 @@
       >
         <svg-icon src="/assets/images/search-icon.svg"></svg-icon>
       </button>
-      <button
+      <!-- <button
         [ngClass]="{ active: !isCollapsedBasketCard }"
         class="nav-btn bar-btn bar-item"
         (click)="toggleCollapseBasketCard()"
-      >
+      > -->
+      <button class="nav-btn bar-btn bar-item" [routerLink]="['cart']">
         <svg-icon src="/assets/images/shop-icon.svg"></svg-icon>
+        <div *ngIf="!!(cartProductsCount$ | async)" class="circle">
+          <span class="count">{{ cartProductsCount$ | async }}</span>
+        </div>
       </button>
     </div>
   </div>
@@ -74,7 +78,7 @@
   <div [@collapse]="isCollapsedSearchBar" class="sub-nav">
     <app-sub-navigation [isOpened]="!isCollapsedSearchBar"></app-sub-navigation>
   </div>
-  <div [@collapseBasketCard]="isCollapsedBasketCard" class="sub-nav-basket">
+  <!-- <div [@collapseBasketCard]="isCollapsedBasketCard" class="sub-nav-basket">
     <app-basket-bar-card></app-basket-bar-card>
-  </div>
+  </div> -->
 </div>

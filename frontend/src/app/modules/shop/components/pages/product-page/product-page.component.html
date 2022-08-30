@@ -83,7 +83,7 @@
               >
             </div>
             <div class="actions">
-              <div class="count">
+              <div *ngIf="!isExistInCart; else existInCart" class="count">
                 <span (click)="decrement()" class="decrement"><div class="minus"></div></span>
                 <span>{{ count }}</span>
                 <span (click)="increment()" class="increment"
@@ -92,11 +92,26 @@
                     <div class="minus"></div></div
                 ></span>
               </div>
-              <button class="btn primary">Добавить в корзину</button>
-              <button (click)="openBuyInClickModal()" class="btn outline">
+              <button *ngIf="!isExistInCart" (click)="addProductToCart()" class="btn primary">
+                Добавить в корзину
+              </button>
+              <button *ngIf="!isExistInCart" (click)="openBuyInClickModal()" class="btn outline">
                 Покупка в один клик
               </button>
             </div>
+            <ng-template #existInCart>
+              <div [routerLink]="['', 'cart']" *ngIf="isExistInCart" class="actions d-flex">
+                <div class="exist-link" *ngIf="isExistInCart">
+                  <button class="bar-item">
+                    <svg-icon src="/assets/images/shop-icon.svg"></svg-icon>
+                    <div class="circle">
+                      <span class="symbol">✓</span>
+                    </div>
+                  </button>
+                  <span class="link-text">В корзине</span>
+                </div>
+              </div>
+            </ng-template>
           </div>
         </div>
       </div>

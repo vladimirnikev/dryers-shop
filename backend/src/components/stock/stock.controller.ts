@@ -8,6 +8,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -22,8 +23,8 @@ export class StockController {
   constructor(private stockService: StockService) {}
 
   @Get()
-  async getStocks(): Promise<StockEntity[]> {
-    return await this.stockService.getStocks();
+  async getStocks(@Query() query): Promise<StockEntity[]> {
+    return await this.stockService.getStocks(query);
   }
 
   @Get(':id')

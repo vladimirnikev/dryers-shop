@@ -22,7 +22,10 @@ export class StockService {
     private cloudinaryService: CloudinaryService,
   ) {}
 
-  async getStocks(): Promise<StockEntity[]> {
+  async getStocks(query): Promise<StockEntity[]> {
+    if (query.isActive) {
+      return await this.stockRepository.find({ where: { isActive: true } });
+    }
     return await this.stockRepository.find();
   }
 

@@ -13,3 +13,11 @@ export const selectIsLoading = createSelector(
   selectFeature,
   (state: ICartState) => state.isLoading,
 );
+
+export const selectCartProductsCount = createSelector(selectFeature, (state: ICartState) =>
+  state.currentCart?.itemRecords.map((item) => item.count).reduce((prev, curr) => prev + curr, 0),
+);
+
+export const selectProductsInCardIds = createSelector(selectFeature, (state: ICartState) =>
+  state.currentCart?.itemRecords.map((itemRecord) => itemRecord.item.id),
+);

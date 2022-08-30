@@ -1,7 +1,4 @@
-<div
-  *ngIf="(currentCart$ | async)?.itemRecords?.length; else emptyCard"
-  class="basket-card"
->
+<div *ngIf="(currentCart$ | async)?.itemRecords?.length; else emptyCard" class="basket-card">
   <div class="items-wrapper">
     <div *ngFor="let item of (currentCart$ | async)?.itemRecords" class="item">
       <div class="img-wrapper"><img [src]="item.item.imageUrls[0]" /></div>
@@ -14,14 +11,12 @@
   </div>
   <div class="flex-wrapper">
     <span class="action">Очистить корзину</span>
-    <span class="price"
-      ><span>Итого:</span> {{ (currentCart$ | async)?.totalSum }}</span
-    >
+    <span class="price"><span>Итого:</span> {{ (currentCart$ | async)?.totalSum }}</span>
   </div>
 
   <div class="buttons-wrapper">
     <button class="btn outline">Покупка в один клик</button>
-    <button class="btn primary">К оформлению</button>
+    <button [routerLink]="['', 'cart']" class="btn primary">К оформлению</button>
   </div>
 </div>
 
@@ -29,11 +24,9 @@
   <div class="basket-card empty">
     <span class="card-title">Ваша корзина пустая</span>
     <span class="card-text"
-      >Исправить это просто: выберите в каталоге интересующий товар и нажмите
-      кнопку «В корзину».</span
+      >Исправить это просто: выберите в каталоге интересующий товар и нажмите кнопку «В
+      корзину».</span
     >
-    <button [routerLink]="['', 'catalog', 'water']" class="btn outline">
-      Перейти в каталог
-    </button>
+    <button [routerLink]="['', 'catalog', 'water']" class="btn outline">Перейти в каталог</button>
   </div>
 </ng-template>
