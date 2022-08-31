@@ -67,5 +67,17 @@ export class CartEffects {
     ),
   );
 
+  makeOrder$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(cartActions.makeOrder),
+      switchMap(({ data }) =>
+        this.cartService.makeOrder(data).pipe(
+          map(() => cartActions.makeOrderSuccess()),
+          catchError((error) => of(cartActions.makeOrderFailed(error))),
+        ),
+      ),
+    ),
+  );
+
   constructor(private actions$: Actions, private cartService: CartService) {}
 }

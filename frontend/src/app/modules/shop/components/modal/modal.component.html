@@ -18,6 +18,11 @@
         *ngIf="(modalType$ | async) === 'buy-in-click'"
         [ngTemplateOutlet]="buyInClick"
       ></ng-container>
+
+      <ng-container
+        *ngIf="(modalType$ | async) === 'success-order'"
+        [ngTemplateOutlet]="successOrder"
+      ></ng-container>
     </div>
   </div>
 </ng-container>
@@ -31,16 +36,12 @@
       <div
         [ngClass]="{
           error:
-            (recallFormPhone?.dirty ||
-              recallFormPhone?.touched ||
-              isInvalidRecallForm) &&
+            (recallFormPhone?.dirty || recallFormPhone?.touched || isInvalidRecallForm) &&
             recallFormPhone?.errors
         }"
         class="form-control"
       >
-        <label for="recall-phone"
-          >Номер телефона<img src="assets/images/star.svg"
-        /></label>
+        <label for="recall-phone">Номер телефона<img src="assets/images/star.svg" /></label>
         <input
           formControlName="phone"
           name="phone"
@@ -50,9 +51,7 @@
         />
         <span
           *ngIf="
-            (recallFormPhone?.dirty ||
-              recallFormPhone?.touched ||
-              isInvalidRecallForm) &&
+            (recallFormPhone?.dirty || recallFormPhone?.touched || isInvalidRecallForm) &&
             recallFormPhone?.errors?.required
           "
           class="error-message"
@@ -61,9 +60,7 @@
         </span>
         <span
           *ngIf="
-            (recallFormPhone?.dirty ||
-              recallFormPhone?.touched ||
-              isInvalidRecallForm) &&
+            (recallFormPhone?.dirty || recallFormPhone?.touched || isInvalidRecallForm) &&
             recallFormPhone?.errors?.pattern
           "
           class="error-message"
@@ -75,16 +72,12 @@
       <div
         [ngClass]="{
           error:
-            (recallFormFullName?.dirty ||
-              recallFormFullName?.touched ||
-              isInvalidRecallForm) &&
+            (recallFormFullName?.dirty || recallFormFullName?.touched || isInvalidRecallForm) &&
             recallFormFullName?.errors
         }"
         class="form-control"
       >
-        <label for="recall-name"
-          >Ваше имя<img src="assets/images/star.svg"
-        /></label>
+        <label for="recall-name">Ваше имя<img src="assets/images/star.svg" /></label>
         <input
           formControlName="fullName"
           name="name"
@@ -94,9 +87,7 @@
         />
         <span
           *ngIf="
-            (recallFormFullName?.dirty ||
-              recallFormFullName?.touched ||
-              isInvalidRecallForm) &&
+            (recallFormFullName?.dirty || recallFormFullName?.touched || isInvalidRecallForm) &&
             recallFormFullName?.errors?.required
           "
           class="error-message"
@@ -136,16 +127,12 @@
       <div
         [ngClass]="{
           error:
-            (existingFormPhone?.dirty ||
-              existingFormPhone?.touched ||
-              isInvalidExistingForm) &&
+            (existingFormPhone?.dirty || existingFormPhone?.touched || isInvalidExistingForm) &&
             existingFormPhone?.errors
         }"
         class="form-control"
       >
-        <label for="existing-phone"
-          >Номер телефона<img src="assets/images/star.svg"
-        /></label>
+        <label for="existing-phone">Номер телефона<img src="assets/images/star.svg" /></label>
         <input
           formControlName="phone"
           name="phone"
@@ -155,9 +142,7 @@
         />
         <span
           *ngIf="
-            (existingFormPhone?.dirty ||
-              existingFormPhone?.touched ||
-              isInvalidExistingForm) &&
+            (existingFormPhone?.dirty || existingFormPhone?.touched || isInvalidExistingForm) &&
             existingFormPhone?.errors?.required
           "
           class="error-message"
@@ -166,9 +151,7 @@
         </span>
         <span
           *ngIf="
-            (existingFormPhone?.dirty ||
-              existingFormPhone?.touched ||
-              isInvalidExistingForm) &&
+            (existingFormPhone?.dirty || existingFormPhone?.touched || isInvalidExistingForm) &&
             existingFormPhone?.errors?.pattern
           "
           class="error-message"
@@ -187,9 +170,7 @@
         }"
         class="form-control"
       >
-        <label for="existing-name"
-          >Ваше имя<img src="assets/images/star.svg"
-        /></label>
+        <label for="existing-name">Ваше имя<img src="assets/images/star.svg" /></label>
         <input
           formControlName="fullName"
           name="name"
@@ -213,9 +194,7 @@
       <div
         [ngClass]="{
           error:
-            (existingFormEmail?.dirty ||
-              existingFormEmail?.touched ||
-              isInvalidExistingForm) &&
+            (existingFormEmail?.dirty || existingFormEmail?.touched || isInvalidExistingForm) &&
             existingFormEmail?.errors?.email
         }"
         class="form-control"
@@ -230,9 +209,7 @@
         />
         <span
           *ngIf="
-            (existingFormEmail?.dirty ||
-              existingFormEmail?.touched ||
-              isInvalidExistingForm) &&
+            (existingFormEmail?.dirty || existingFormEmail?.touched || isInvalidExistingForm) &&
             existingFormEmail?.errors?.email
           "
           class="error-message"
@@ -240,9 +217,7 @@
           Введите корректный email
         </span>
       </div>
-      <button (click)="sendExistingForm()" class="btn outline">
-        Отправить
-      </button>
+      <button (click)="sendExistingForm()" class="btn outline">Отправить</button>
     </form>
   </div>
 </ng-template>
@@ -263,9 +238,7 @@
         }"
         class="form-control"
       >
-        <label for="buy-in-click-phone"
-          >Номер телефона<img src="assets/images/star.svg"
-        /></label>
+        <label for="buy-in-click-phone">Номер телефона<img src="assets/images/star.svg" /></label>
         <input
           formControlName="phone"
           name="phone"
@@ -307,9 +280,7 @@
         }"
         class="form-control"
       >
-        <label for="buy-in-click-name"
-          >Ваше имя<img src="assets/images/star.svg"
-        /></label>
+        <label for="buy-in-click-name">Ваше имя<img src="assets/images/star.svg" /></label>
         <input
           formControlName="fullName"
           name="fullName"
@@ -371,9 +342,14 @@
           placeholder="Введите текст комментария"
         ></textarea>
       </div>
-      <button (click)="sendBuyInClickForm()" class="btn outline">
-        Отправить
-      </button>
+      <button (click)="sendBuyInClickForm()" class="btn outline">Отправить</button>
     </form>
+  </div>
+</ng-template>
+
+<ng-template #successOrder>
+  <div class="modal-content">
+    <span class="modal-title">Заказ успешно оформлен</span>
+    <p>Мы свяжемся с вами в ближайшее время, если нужно будет уточнить детали.</p>
   </div>
 </ng-template>

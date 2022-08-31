@@ -11,19 +11,19 @@ export function createDeliveryValidator(): ValidatorFn {
     const isValidHouseNumber = !!form.value?.address?.courier?.houseNumber;
     const isValidCourierData = isValidStreet && isValidHouseNumber;
 
-    if (deliveryType === 'post') {
+    if (deliveryType === 'POST') {
       isValid = isValidCity;
 
-      if (postType === 'office') {
+      if (postType === 'OFFICE') {
         isValid = isValidCity && isValidOffice;
       }
 
-      if (postType === 'courier') {
+      if (postType === 'COURIER') {
         isValid = isValidCity && isValidCourierData;
       }
     }
 
-    if (deliveryType === 'shop') {
+    if (deliveryType === 'SHOP') {
       isValid = true;
     }
 

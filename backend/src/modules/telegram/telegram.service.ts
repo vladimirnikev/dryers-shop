@@ -15,18 +15,18 @@ export class TelegramService {
         case DeliveryMethod.POST:
           return 'Новая почта';
         case DeliveryMethod.SHOP:
-          return 'заберет в магазине';
+          return 'Заберет в магазине';
       }
     };
 
     const generatePaymentMethod = (method: string) => {
       switch (method) {
         case PaymentMethod.CASH:
-          return 'наложенный платеж';
+          return 'Наложенный платеж';
         case PaymentMethod.CARD:
-          return 'перевод на карту';
-        case PaymentMethod.IN_SHOP:
-          return 'в магазине';
+          return 'Перевод на карту';
+        case PaymentMethod.CARD_ONLINE:
+          return 'Картой онлайн';
       }
     };
 
@@ -43,17 +43,33 @@ export class TelegramService {
     };
 
     return `Поступил новый заказ.
-1. Имя: ${order.name}
-2. Фамилия: ${order.surname}
-3. Номер телефона: ${order.phone}
-4. Город: ${order.city}
-5. Способ доставки: ${generateDeliveryMethod(order.deliveryMethod)}
-6. Место доставки: ${order.deliveryTo}
-7. Метод оплаты: ${generatePaymentMethod(order.paymentMethod)}
-${order.comments ? '8. Комментарии к заказу: ' + order.comments : ''}
+- ФИО: ${order.fullName}
+- Номер телефона: ${order.phone}
+- Способ доставки: ${generateDeliveryMethod(order.deliveryType)}
+${
+  order.deliveryType === 'POST'
+    ? `- Город: ${order.city}
+- Тип доставки: ${
+        order.postType === 'OFFICE'
+          ? `В отделение ${order.office}`
+          : `Курьер
+- Улица: ${order.street}
+- Номер дома: ${order.houseNumber}
+${!!order.entrance ? `- Подъезд: ${order.entrance}` : `- Подъезд не указан`}
+${!!order.floor ? `- Этаж": ${order.floor}` : '- Этаж не указан'}
+${
+  !!order.apartmentNumber
+    ? `- Номер квартиры: ${order.apartmentNumber}`
+    : '- Номер квартиры не указан'
+}`
+      }`
+    : ''
+}
+- Метод оплаты: ${generatePaymentMethod(order.paymentType)}
+
 Список товаров: 
 ${generateProductList(order.itemRecords)}.
-Cумма к оплате: ${order.totalSum}UAH`;
+Cумма к оплате: ${order.totalSum} UAH`;
   }
 
   checkCurrentTimeForMessage(phone: string, time: string, name?: string): string {

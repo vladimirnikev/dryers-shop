@@ -23,6 +23,11 @@ export class ModalService {
     this.modalType.next(EModalType.BUY_IN_CLICK);
   }
 
+  openSuccessOrderModal() {
+    this.display.next('open');
+    this.modalType.next(EModalType.SUCCESS_ORDER);
+  }
+
   close() {
     this.display.next('close');
   }

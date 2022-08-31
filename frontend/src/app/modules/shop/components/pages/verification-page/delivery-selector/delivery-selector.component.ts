@@ -28,22 +28,22 @@ export class DeliverySelectorComponent implements OnInit, OnDestroy, ControlValu
 
   deliveryTypes = [
     {
-      type: 'shop',
+      type: 'SHOP',
       text: 'Самовывоз (г. Одесса, Староконный рынок)',
     },
     {
-      type: 'post',
+      type: 'POST',
       text: 'Доставка "Нова Пошта"',
     },
   ];
 
   postTypeSelectors = [
     {
-      type: 'office',
+      type: 'OFFICE',
       text: 'Доставка в отделение',
     },
     {
-      type: 'courier',
+      type: 'COURIER',
       text: 'Курьерская доставка',
     },
   ];
@@ -79,7 +79,7 @@ export class DeliverySelectorComponent implements OnInit, OnDestroy, ControlValu
       this.deliveryForm.valueChanges.subscribe((v) => {
         const clearForm = this.helperService.removeEmptyValuesInObject(v);
         this.onChanged({
-          deliveryType: 'post',
+          deliveryType: 'POST',
           postType: this.selectedPost,
           address: { ...clearForm },
         });
@@ -94,7 +94,7 @@ export class DeliverySelectorComponent implements OnInit, OnDestroy, ControlValu
   selectType(type: string) {
     this.formCourier.reset();
     this.formOffice.reset();
-    if (type === 'post') {
+    if (type === 'POST') {
       this.formCity.setValidators([Validators.required]);
       this.formOffice.setValidators([Validators.required]);
       this.onTouched(); // <-- mark as touched
@@ -113,7 +113,7 @@ export class DeliverySelectorComponent implements OnInit, OnDestroy, ControlValu
   selectPostType(type: string) {
     this.formCourier.reset();
     this.formOffice.reset();
-    if (type === 'courier') {
+    if (type === 'COURIER') {
       this.formCourierStreet.setValidators([Validators.required]);
       this.formCourierHouseNumber.setValidators([Validators.required]);
       this.onTouched(); // <-- mark as touched

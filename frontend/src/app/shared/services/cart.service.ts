@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ICart } from 'src/app/common/interfaces/cart.interface';
+import { IOrderFormData } from 'src/app/common/interfaces/order-form-data.interface';
 import { HttpService } from './http.service';
 
 @Injectable()
@@ -25,5 +26,9 @@ export class CartService {
 
   deleteProductFromCart(itemRecordId: number): Observable<void> {
     return this.httpService.delete(`cart/${itemRecordId}`);
+  }
+
+  makeOrder(data: IOrderFormData): Observable<void> {
+    return this.httpService.post('cart/order', data);
   }
 }

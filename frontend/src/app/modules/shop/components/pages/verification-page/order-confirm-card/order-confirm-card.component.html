@@ -5,7 +5,7 @@
   <div class="card-body">
     <span>Стоимость доставки по тарифам перевозчика (не входит в сумму заказа)</span>
     <span class="sum"
-      >Итого: <span>{{ sum }}грн.</span></span
+      >Итого: <span>{{ cartSum$ | async | currency: 'UAH':'грн.':'1.2-2':'ua' }}</span></span
     >
   </div>
 </div>

@@ -6,5 +6,10 @@ export enum DeliveryMethod {
 export enum PaymentMethod {
   CASH = 'CASH',
   CARD = 'CARD',
-  IN_SHOP = 'IN_SHOP',
+  CARD_ONLINE = 'CARD-ONLINE',
+}
+
+export enum PostMethod {
+  OFFICE = 'OFFICE',
+  COURIER = 'COURIER',
 }

@@ -30,8 +30,8 @@ export class OrderFormComponent implements OnInit, OnDestroy {
         ],
       ],
       email: [''],
-      paymentType: ['cash', [Validators.required]],
-      delivery: [{ deliveryType: 'shop' }, [createDeliveryValidator()]],
+      paymentType: ['CASH', [Validators.required]],
+      delivery: [{ deliveryType: 'SHOP' }, [createDeliveryValidator()]],
     });
   }
 

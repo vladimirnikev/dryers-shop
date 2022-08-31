@@ -14,7 +14,9 @@
     <div *ngIf="(currentCart$ | async)?.itemRecords.length" class="cart-actions">
       <div class="cart-sum">
         <span>Итого:</span>
-        <div class="sum">{{ (currentCart$ | async)?.totalSum }} грн.</div>
+        <div class="sum">
+          {{ (currentCart$ | async)?.totalSum | currency: 'UAH':'грн.':'1.2-2':'ua' }}
+        </div>
       </div>
       <div class="actions">
         <button [routerLink]="['', 'verification']" class="btn primary">К оформлению</button>

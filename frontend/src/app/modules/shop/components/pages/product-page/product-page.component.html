@@ -76,11 +76,11 @@
                 *ngIf="!!(product$ | async)?.oldPrice"
                 [ngClass]="{ prev: !!(product$ | async)?.oldPrice }"
                 class="price"
-                >{{ (product$ | async)?.oldPrice }} грн.</span
+                >{{ (product$ | async)?.oldPrice | currency: 'UAH':'грн.':'1.2-2':'ua' }}</span
               >
-              <span [ngClass]="{ 'with-discount': !!(product$ | async)?.oldPrice }" class="price"
-                >{{ (product$ | async)?.price }} грн.</span
-              >
+              <span [ngClass]="{ 'with-discount': !!(product$ | async)?.oldPrice }" class="price">{{
+                (product$ | async)?.price | currency: 'UAH':'грн.':'1.2-2':'ua'
+              }}</span>
             </div>
             <div class="actions">
               <div *ngIf="!isExistInCart; else existInCart" class="count">

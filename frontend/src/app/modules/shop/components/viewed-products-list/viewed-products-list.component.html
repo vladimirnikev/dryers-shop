@@ -18,7 +18,7 @@
             <div class="card-title">
               {{ product.name }}
             </div>
-            <div class="price">{{ product.price }}</div>
+            <div class="price">{{ product.price | currency: 'UAH':'грн.':'1.2-2':'ua' }}</div>
           </div>
         </div>
       </ng-template>

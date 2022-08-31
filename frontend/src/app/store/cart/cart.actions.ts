@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { ICart } from 'src/app/common/interfaces/cart.interface';
+import { IOrderFormData } from 'src/app/common/interfaces/order-form-data.interface';
 
 export enum ECartActions {
   GetCart = '[Cart] Get Cart',
@@ -21,6 +22,10 @@ export enum ECartActions {
   DeleteProductFromCart = '[Cart] Delete Product From Cart',
   DeleteProductFromCartSuccess = '[Cart] Delete Product From Cart Success',
   DeleteProductFromCartFailed = '[Cart] Delete Product From Cart Failed',
+
+  MakeOrder = '[Cart] Make Order',
+  MakeOrderSuccess = '[Cart] Make Order Success',
+  MakeOrderFailed = '[Cart] Make Order Failed',
 }
 
 export const getCart = createAction(ECartActions.GetCart);
@@ -76,5 +81,12 @@ export const deleteProductFromCartSuccess = createAction(
 );
 export const deleteProductFromCartFailed = createAction(
   ECartActions.DeleteProductFromCartFailed,
+  props<{ error: Error }>(),
+);
+
+export const makeOrder = createAction(ECartActions.MakeOrder, props<{ data: IOrderFormData }>());
+export const makeOrderSuccess = createAction(ECartActions.MakeOrderSuccess);
+export const makeOrderFailed = createAction(
+  ECartActions.MakeOrderFailed,
   props<{ error: Error }>(),
 );

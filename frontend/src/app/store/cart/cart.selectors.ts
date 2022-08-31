@@ -21,3 +21,13 @@ export const selectCartProductsCount = createSelector(selectFeature, (state: ICa
 export const selectProductsInCardIds = createSelector(selectFeature, (state: ICartState) =>
   state.currentCart?.itemRecords.map((itemRecord) => itemRecord.item.id),
 );
+
+export const selectCartSum = createSelector(
+  selectFeature,
+  (state: ICartState) => state.currentCart?.totalSum,
+);
+
+export const selectItemRecords = createSelector(
+  selectFeature,
+  (state: ICartState) => state.currentCart?.itemRecords,
+);

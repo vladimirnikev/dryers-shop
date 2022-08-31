@@ -4,12 +4,10 @@ import {
   CreateDateColumn,
   Entity,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { UserEntity } from '@app/components/user/entities/user.entity';
-import { DeliveryMethod, PaymentMethod } from '@app/common/enums/cart.enum';
+import { DeliveryMethod, PaymentMethod, PostMethod } from '@app/common/enums/cart.enum';
 
 @Entity({ name: 'carts' })
 export class CartEntity {
@@ -32,10 +30,7 @@ export class CartEntity {
   itemRecords: ItemRecordEntity[];
 
   @Column({ default: '' })
-  name: string;
-
-  @Column({ default: '' })
-  surname: string;
+  fullName: string;
 
   @Column({ default: '' })
   phone: string;
@@ -43,32 +38,36 @@ export class CartEntity {
   @Column({ default: '' })
   email: string;
 
+  @Column({ type: 'enum', default: PaymentMethod.CASH, enum: PaymentMethod })
+  paymentType: PaymentMethod;
+
+  @Column({ type: 'enum', default: DeliveryMethod.SHOP, enum: DeliveryMethod })
+  deliveryType: DeliveryMethod;
+
+  @Column({ type: 'enum', nullable: true, enum: PostMethod })
+  postType: PostMethod;
+
   @Column({ default: '' })
   city: string;
 
   @Column({ default: '' })
-  deliveryTo: string;
+  office: string;
 
-  @Column({
-    type: 'enum',
-    enum: DeliveryMethod,
-    default: DeliveryMethod.SHOP,
-  })
-  deliveryMethod: string;
+  @Column({ default: '' })
+  street: string;
 
-  @Column({
-    type: 'enum',
-    enum: PaymentMethod,
-    default: PaymentMethod.CASH,
-  })
-  paymentMethod: string;
+  @Column({ default: '' })
+  houseNumber: string;
 
-  @Column({ nullable: true })
-  comments: string;
+  @Column({ default: '' })
+  floor: string;
+
+  @Column({ default: '' })
+  entrance: string;
+
+  @Column({ default: '' })
+  apartmentNumber: string;
 
   @Column({ default: false })
   isOrdered: boolean;
-
-  @OneToOne(() => UserEntity, (user) => user.cart, { onDelete: 'CASCADE' })
-  user: UserEntity;
 }

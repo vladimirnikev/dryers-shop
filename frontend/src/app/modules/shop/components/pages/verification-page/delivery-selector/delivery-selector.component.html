@@ -11,7 +11,7 @@
 
       <form
         [formGroup]="deliveryForm"
-        *ngIf="selectedDelivery === 'post' && item.type === 'post'"
+        *ngIf="selectedDelivery === 'POST' && item.type === 'POST'"
         class="select-wrapper"
       >
         <div class="form-control ml-50">
@@ -44,7 +44,7 @@
             </button>
           </div>
         </ng-container>
-        <div *ngIf="selectedPost === 'office'" class="form-control ml-50">
+        <div *ngIf="selectedPost === 'OFFICE'" class="form-control ml-50">
           <app-input
             id="post-office"
             inputName="office"
@@ -75,7 +75,7 @@
             </button>
           </div>
         </ng-container>
-        <form formGroupName="courier" class="courier-form" *ngIf="selectedPost === 'courier'">
+        <form formGroupName="courier" class="courier-form" *ngIf="selectedPost === 'COURIER'">
           <div class="form-control">
             <app-input
               id="courier-street"

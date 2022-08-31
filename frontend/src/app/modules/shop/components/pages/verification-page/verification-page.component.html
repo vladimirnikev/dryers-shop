@@ -1,3 +1,5 @@
+<app-loader *ngIf="isLoading$ | async"></app-loader>
+
 <section>
   <div class="container">
     <h3 class="page-title">Оформление заказа</h3>
@@ -9,10 +11,7 @@
         (formEvent)="setFormData($event)"
       ></app-order-form>
       <div class="aside-cards">
-        <app-order-confirm-card
-          (confirmOrderEvent)="makeOrder()"
-          [sum]="sum"
-        ></app-order-confirm-card>
+        <app-order-confirm-card (confirmOrderEvent)="makeOrder()"></app-order-confirm-card>
         <app-faq></app-faq>
       </div>
     </div>

@@ -8,6 +8,7 @@ import * as dayjs from 'dayjs';
 import { Repository, getRepository } from 'typeorm';
 import { AddItemToCartDto } from './dto/addItemToCart.dto';
 import { TelegramService } from '@app/modules/telegram/telegram.service';
+import { flatObject } from '@app/common/helpers/flatObject';
 
 @Injectable()
 export class CartService {
@@ -140,7 +141,10 @@ export class CartService {
     if (!cart) {
       throw new HttpException('Cart does not exist', HttpStatus.NOT_FOUND);
     }
-    Object.assign(cart, dto);
+
+    const structuredDto = flatObject(dto);
+
+    Object.assign(cart, structuredDto);
     cart.isOrdered = true;
     cart.sessionId = null;
     const order = await this.cartRepository.save(cart);

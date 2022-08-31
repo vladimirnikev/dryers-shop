@@ -2,28 +2,32 @@
   <tr class="table-header">
     <th>Наименование</th>
     <th>Производитель</th>
-    <th *ngIf="products | isExistNotEmptyValue: 'priceWithDiscount'">Скидка</th>
+    <th *ngIf="itemsInCart$ | async | isExistNotEmptyValue: 'item':'oldPrice'">Скидка</th>
     <th>Количество</th>
     <th>Сумма</th>
   </tr>
-  <tr *ngFor="let product of products">
+  <tr *ngFor="let itemRecord of itemsInCart$ | async">
     <td>
-      <img [src]="product.img" />
-      <span class="name">{{ product.name }}</span>
+      <img [src]="itemRecord.item.imageUrls[0]" />
+      <span class="name">{{ itemRecord.item.name }}</span>
     </td>
     <td>
-      <span>{{ product.manufacturer?.name }}</span>
+      <span>{{ itemRecord.item.manufacturer?.name }}</span>
     </td>
-    <td *ngIf="products | isExistNotEmptyValue: 'priceWithDiscount'">
-      <span *ngIf="product.priceWithDiscount"
-        >~{{ 100 - product.priceWithDiscount / (product.price / 100) | number: '1.0-0' }}%</span
+    <td *ngIf="itemsInCart$ | async | isExistNotEmptyValue: 'item':'oldPrice'">
+      <span *ngIf="itemRecord.item.oldPrice"
+        >~{{
+          100 - itemRecord.item.price / (itemRecord.item.oldPrice / 100) | number: '1.0-0'
+        }}%</span
       >
     </td>
     <td>
-      <span>{{ product.count }} шт.</span>
+      <span>{{ itemRecord.count }} шт.</span>
     </td>
     <td>
-      <span class="sum">{{ product.count * (product.priceWithDiscount || product.price) }}</span>
+      <span class="sum">{{
+        itemRecord.count * itemRecord.item.price | currency: 'UAH':'грн.':'1.2-2':'ua'
+      }}</span>
     </td>
   </tr>
 </table>

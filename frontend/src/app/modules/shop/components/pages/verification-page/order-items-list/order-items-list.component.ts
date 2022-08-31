@@ -1,4 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { ICartItem } from 'src/app/common/interfaces/cart-item.interface';
+import * as cartSelectors from 'src/app/store/cart/cart.selectors';
 
 @Component({
   selector: 'app-order-items-list',
@@ -6,22 +10,9 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./order-items-list.component.scss'],
 })
 export class OrderItemsListComponent {
-  @Input() products: any[] = [
-    {
-      img: 'assets/images/dryer.jpg',
-      name: 'Электрополотенцесушитель Стандарт П5 450х500 LARIS',
-      manufacturer: { name: 'Laris' },
-      price: 1000,
-      priceWithDiscount: 899,
-      count: 2,
-    },
-    {
-      img: 'assets/images/dryer.jpg',
-      name: 'Электрополотенцесушитель Стандарт П5 450х500 LARIS',
-      manufacturer: { name: 'Laris' },
-      price: 1000,
-      priceWithDiscount: 800,
-      count: 2,
-    },
-  ];
+  itemsInCart$: Observable<ICartItem[]>;
+
+  constructor(private store: Store) {
+    this.itemsInCart$ = this.store.select(cartSelectors.selectItemRecords);
+  }
 }

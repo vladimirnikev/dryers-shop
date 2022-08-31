@@ -15,9 +15,9 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class PaymentSelectorComponent implements ControlValueAccessor {
   paymentTypes = [
-    { type: 'cash', text: 'Оплата наличными при получении' },
-    { type: 'card', text: 'Оплата картой при получении (Visa/MasterCard)' },
-    { type: 'card-online', text: 'Оплата картой онлайн (Visa/MasterCard)' },
+    { type: 'CASH', text: 'Оплата наличными при получении' },
+    { type: 'CARD', text: 'Оплата картой при получении (Visa/MasterCard)' },
+    { type: 'CARD-ONLINE', text: 'Оплата картой онлайн (Visa/MasterCard)' },
   ];
 
   selected: string;

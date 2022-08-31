@@ -6,8 +6,8 @@
     <span class="label">Есть в наличии</span>
     <span class="card-title">Электрополотенцесушитель Стандарт П5 450х500 LARIS (слева)</span>
     <div class="price-wrapper">
-      <span class="prev-price"> 4400 грн.</span>
-      <span class="price">3300 грн.</span>
+      <span class="prev-price"> {{ 4400 | currency: 'UAH':'грн.':'1.2-2':'ua' }}</span>
+      <span class="price">{{ 3300 | currency: 'UAH':'грн.':'1.2-2':'ua' }}</span>
     </div>
     <button #buttonWithOwnEvent class="btn primary">Добавить в корзину</button>
   </div>

@@ -4,7 +4,6 @@ import * as cartActions from './cart.actions';
 
 export const cartInitialState: ICartState = {
   currentCart: null,
-  loadingCartItemsIds: [],
   isLoading: false,
   error: '',
 };
@@ -86,6 +85,21 @@ const reducer = createReducer(
     ...state,
     isLoading: false,
     error: error.message,
+  })),
+
+  on(cartActions.makeOrder, (state: ICartState) => ({
+    ...state,
+    isLoading: true,
+  })),
+  on(cartActions.makeOrderSuccess, (state: ICartState) => ({
+    ...state,
+    currentCart: null,
+    isLoading: false,
+  })),
+  on(cartActions.makeOrderFailed, (state: ICartState, { error }) => ({
+    ...state,
+    error: error.message,
+    isLoading: false,
   })),
 );
 
