@@ -93,7 +93,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   }
 
   openBuyInClickModal() {
-    this.modalService.openBuyInClickModal();
+    this.modalService.openBuyInClickModal(this.currentProductId);
   }
 
   addProductToCart() {

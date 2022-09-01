@@ -1,7 +1,7 @@
 import { MakeOrderDto } from './dto/makeOrder.dto';
 import { CartEntity } from '@app/components/cart/entities/cart.entity';
 import { ItemRecordEntity } from './entities/itemRecord.entity';
-import { HttpException, Injectable, HttpStatus } from '@nestjs/common';
+import { HttpException, Injectable, HttpStatus, NotFoundException } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as dayjs from 'dayjs';
@@ -9,6 +9,8 @@ import { Repository, getRepository } from 'typeorm';
 import { AddItemToCartDto } from './dto/addItemToCart.dto';
 import { TelegramService } from '@app/modules/telegram/telegram.service';
 import { flatObject } from '@app/common/helpers/flatObject';
+import { MakeOrderInClickDto } from './dto/makeOrderInClick.dto';
+import { DryerEntity } from '../dryer/entities/dryer.entity';
 
 @Injectable()
 export class CartService {
@@ -17,6 +19,8 @@ export class CartService {
     private cartRepository: Repository<CartEntity>,
     @InjectRepository(ItemRecordEntity)
     private itemRecordRepository: Repository<ItemRecordEntity>,
+    @InjectRepository(DryerEntity)
+    private productRepository: Repository<DryerEntity>,
     private telegramService: TelegramService,
   ) {}
 
@@ -196,5 +200,54 @@ export class CartService {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async makeOrderInClick(sessionId: string, dto: MakeOrderInClickDto): Promise<void> {
+    if (dto.productId) {
+      const product = await this.productRepository.findOne(dto.productId);
+
+      if (!product) {
+        throw new NotFoundException('Product does not exist');
+      }
+
+      const itemDataForMessage = {
+        code: product.code,
+        color: product.color?.name,
+        name: product.name,
+        price: product.price,
+      };
+
+      this.telegramService.tgBot.sendMessage(
+        process.env.TELEGRAM_CHAT_ID,
+        this.telegramService.makeMessageAboutOrderInClick(dto, itemDataForMessage),
+      );
+      return;
+    }
+
+    const cart = await this.cartRepository.findOne({
+      where: { sessionId },
+      relations: ['itemRecords'],
+    });
+
+    if (!cart) {
+      throw new NotFoundException('Cart does not exist');
+    }
+
+    const itemsDataForMessage = cart.itemRecords.map((record) => ({
+      count: record.count,
+      code: record.item.code,
+      color: record.item.color?.name,
+      name: record.item.name,
+      price: record.item.price,
+    }));
+
+    const totalSum = cart.totalSum;
+
+    this.telegramService.tgBot.sendMessage(
+      process.env.TELEGRAM_CHAT_ID,
+      this.telegramService.makeMessageAboutOrderInClick(dto, itemsDataForMessage, totalSum),
+    );
+
+    return;
   }
 }

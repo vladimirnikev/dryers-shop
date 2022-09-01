@@ -20,6 +20,7 @@ import { SessionId } from '../user/decorators/session.decorator';
 import { AddItemToCartDto } from './dto/addItemToCart.dto';
 import { JwtAuthGuard } from '@app/modules/auth/guards/jwt-auth.guard';
 import { ItemRecordEntity } from './entities/itemRecord.entity';
+import { MakeOrderInClickDto } from './dto/makeOrderInClick.dto';
 @Controller('cart')
 export class CartController {
   constructor(private cartService: CartService) {}
@@ -74,5 +75,13 @@ export class CartController {
   @Post('order')
   async makeOrder(@SessionId() sessionId: string, @Body() dto: MakeOrderDto) {
     await this.cartService.makeOrder(sessionId, dto);
+  }
+
+  @Post('buy-in-click')
+  async makeOrderInClick(
+    @SessionId() sessionId: string,
+    @Body() dto: MakeOrderInClickDto,
+  ): Promise<void> {
+    await this.cartService.makeOrderInClick(sessionId, dto);
   }
 }

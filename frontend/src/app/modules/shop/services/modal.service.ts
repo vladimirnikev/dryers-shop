@@ -8,6 +8,8 @@ export class ModalService {
 
   private modalType: Subject<EModalType> = new Subject();
 
+  private buyInClickProductId: BehaviorSubject<number> = new BehaviorSubject(null);
+
   openRecallModal() {
     this.display.next('open');
     this.modalType.next(EModalType.RECALL);
@@ -18,7 +20,10 @@ export class ModalService {
     this.modalType.next(EModalType.EXISTING);
   }
 
-  openBuyInClickModal() {
+  openBuyInClickModal(productId?: number) {
+    if (productId) {
+      this.buyInClickProductId.next(productId);
+    }
     this.display.next('open');
     this.modalType.next(EModalType.BUY_IN_CLICK);
   }
@@ -38,5 +43,17 @@ export class ModalService {
 
   watchModalType(): Observable<EModalType> {
     return this.modalType.asObservable();
+  }
+
+  watchBuyInClickProductId(): Observable<number> {
+    return this.buyInClickProductId.asObservable();
+  }
+
+  buyInClickProductIdValue(): number {
+    return this.buyInClickProductId.value;
+  }
+
+  resetBuyInClickProductId() {
+    this.buyInClickProductId.next(null);
   }
 }

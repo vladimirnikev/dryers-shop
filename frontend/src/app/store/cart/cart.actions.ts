@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { ICart } from 'src/app/common/interfaces/cart.interface';
 import { IOrderFormData } from 'src/app/common/interfaces/order-form-data.interface';
+import { IOrderInClickData } from 'src/app/common/interfaces/order-in-click-data.interface';
 
 export enum ECartActions {
   GetCart = '[Cart] Get Cart',
@@ -26,6 +27,10 @@ export enum ECartActions {
   MakeOrder = '[Cart] Make Order',
   MakeOrderSuccess = '[Cart] Make Order Success',
   MakeOrderFailed = '[Cart] Make Order Failed',
+
+  MakeOrderInClick = '[Cart] Make Order In Click',
+  MakeOrderInClickSuccess = '[Cart] Make Order In Click Success',
+  MakeOrderInClickFailed = '[Cart] Make Order In Click Failed',
 }
 
 export const getCart = createAction(ECartActions.GetCart);
@@ -88,5 +93,15 @@ export const makeOrder = createAction(ECartActions.MakeOrder, props<{ data: IOrd
 export const makeOrderSuccess = createAction(ECartActions.MakeOrderSuccess);
 export const makeOrderFailed = createAction(
   ECartActions.MakeOrderFailed,
+  props<{ error: Error }>(),
+);
+
+export const makeOrderInClick = createAction(
+  ECartActions.MakeOrderInClick,
+  props<{ data: IOrderInClickData }>(),
+);
+export const makeOrderInClickSuccess = createAction(ECartActions.MakeOrderInClickSuccess);
+export const makeOrderInClickFailed = createAction(
+  ECartActions.MakeOrderInClickFailed,
   props<{ error: Error }>(),
 );

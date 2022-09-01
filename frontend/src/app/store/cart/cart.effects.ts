@@ -79,5 +79,17 @@ export class CartEffects {
     ),
   );
 
+  makeOrderInClick$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(cartActions.makeOrderInClick),
+      switchMap(({ data }) =>
+        this.cartService.makeOrderInClick(data).pipe(
+          map(() => cartActions.makeOrderInClickSuccess()),
+          catchError((error) => of(cartActions.makeOrderInClickFailed(error))),
+        ),
+      ),
+    ),
+  );
+
   constructor(private actions$: Actions, private cartService: CartService) {}
 }

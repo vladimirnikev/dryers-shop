@@ -223,7 +223,7 @@
 </ng-template>
 
 <ng-template #buyInClick>
-  <div class="modal-content">
+  <div *ngIf="!isBuyInClickFormSent; else successMessage" class="modal-content">
     <span class="modal-title">Покупка в один клик</span>
     <p>Всего пара пунктов и мы свяжемся с вами!</p>
 
@@ -345,6 +345,12 @@
       <button (click)="sendBuyInClickForm()" class="btn outline">Отправить</button>
     </form>
   </div>
+  <ng-template #successMessage>
+    <div class="modal-content">
+      <span class="modal-title">Ваша заявка принята</span>
+      <p>Спасибо. Мы свяжемся с вами в ближайшее время!</p>
+    </div>
+  </ng-template>
 </ng-template>
 
 <ng-template #successOrder>

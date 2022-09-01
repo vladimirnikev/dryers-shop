@@ -52,7 +52,7 @@ export class CatalogCardComponent implements OnInit, OnDestroy {
   }
 
   openBuyInClickModal() {
-    this.modalService.openBuyInClickModal();
+    this.modalService.openBuyInClickModal(this.item.id);
   }
 
   navigateToItem(event) {

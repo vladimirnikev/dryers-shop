@@ -49,6 +49,9 @@ export class DryerEntity {
   @Column({ type: 'simple-array', nullable: true })
   imageUrls: string[];
 
+  @Column({ nullable: true })
+  code: string;
+
   @Column()
   description: string;
 

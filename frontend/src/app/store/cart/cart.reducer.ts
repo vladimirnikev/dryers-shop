@@ -101,6 +101,20 @@ const reducer = createReducer(
     error: error.message,
     isLoading: false,
   })),
+
+  on(cartActions.makeOrderInClick, (state: ICartState) => ({
+    ...state,
+    isLoading: true,
+  })),
+  on(cartActions.makeOrderInClickSuccess, (state: ICartState) => ({
+    ...state,
+    isLoading: false,
+  })),
+  on(cartActions.makeOrderInClickFailed, (state: ICartState, { error }) => ({
+    ...state,
+    error: error.message,
+    isLoading: false,
+  })),
 );
 
 export function cartReducer(state: ICartState | undefined, action: Action) {

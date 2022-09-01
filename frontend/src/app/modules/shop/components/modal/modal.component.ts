@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 import { EModalType } from 'src/app/common/enums/modalType.enum';
+import * as cartActions from 'src/app/store/cart/cart.actions';
+import { HelperService } from 'src/app/shared/services/helper.service';
 import { ModalService } from '../../services/modal.service';
+import { IOrderInClickData } from '../../../../common/interfaces/order-in-click-data.interface';
 
 @Component({
   selector: 'app-modal',
@@ -10,6 +14,8 @@ import { ModalService } from '../../services/modal.service';
   styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent implements OnInit {
+  sub = new Subscription();
+
   display$: Observable<'open' | 'close'>;
 
   modalType$: Observable<EModalType>;
@@ -26,7 +32,14 @@ export class ModalComponent implements OnInit {
 
   isInvalidBuyInClickForm: boolean;
 
-  constructor(private modalService: ModalService, fb: FormBuilder) {
+  isBuyInClickFormSent: boolean;
+
+  constructor(
+    private modalService: ModalService,
+    fb: FormBuilder,
+    private store: Store,
+    private helperService: HelperService,
+  ) {
     this.recallForm = fb.group({
       phone: [
         '',
@@ -83,6 +96,7 @@ export class ModalComponent implements OnInit {
     this.isInvalidRecallForm = false;
     this.isInvalidBuyInClickForm = false;
     this.isInvalidExistingForm = false;
+    this.isBuyInClickFormSent = false;
     this.modalService.close();
   }
 
@@ -116,10 +130,26 @@ export class ModalComponent implements OnInit {
       return;
     }
 
-    console.log(this.buyInClickForm.value);
+    const productId = this.modalService.buyInClickProductIdValue();
+
+    const data = this.helperService.removeEmptyValuesInObject(
+      this.buyInClickForm.value,
+    ) as unknown as IOrderInClickData;
+
+    if (productId) {
+      this.store.dispatch(cartActions.makeOrderInClick({ data: { ...data, productId } }));
+      this.isInvalidBuyInClickForm = false;
+      this.buyInClickForm.reset();
+      this.modalService.resetBuyInClickProductId();
+      this.isBuyInClickFormSent = true;
+      return;
+    }
+
+    this.store.dispatch(cartActions.makeOrderInClick({ data: { ...data } }));
     this.isInvalidBuyInClickForm = false;
     this.buyInClickForm.reset();
-    this.close();
+    this.modalService.resetBuyInClickProductId();
+    this.isBuyInClickFormSent = true;
   }
 
   get recallFormPhone() {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ICart } from 'src/app/common/interfaces/cart.interface';
 import { IOrderFormData } from 'src/app/common/interfaces/order-form-data.interface';
+import { IOrderInClickData } from 'src/app/common/interfaces/order-in-click-data.interface';
 import { HttpService } from './http.service';
 
 @Injectable()
@@ -30,5 +31,9 @@ export class CartService {
 
   makeOrder(data: IOrderFormData): Observable<void> {
     return this.httpService.post('cart/order', data);
+  }
+
+  makeOrderInClick(data: IOrderInClickData): Observable<void> {
+    return this.httpService.post('cart/buy-in-click', data);
   }
 }
