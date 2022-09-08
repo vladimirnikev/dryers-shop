@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { EModalType } from 'src/app/common/enums/modalType.enum';
 import * as cartActions from 'src/app/store/cart/cart.actions';
 import { HelperService } from 'src/app/shared/services/helper.service';
+import * as userActions from 'src/app/store/users/users.action';
 import { ModalService } from '../../services/modal.service';
 import { IOrderInClickData } from '../../../../common/interfaces/order-in-click-data.interface';
 
@@ -32,7 +33,7 @@ export class ModalComponent implements OnInit {
 
   isInvalidBuyInClickForm: boolean;
 
-  isBuyInClickFormSent: boolean;
+  isFormSent: boolean;
 
   constructor(
     private modalService: ModalService,
@@ -96,7 +97,7 @@ export class ModalComponent implements OnInit {
     this.isInvalidRecallForm = false;
     this.isInvalidBuyInClickForm = false;
     this.isInvalidExistingForm = false;
-    this.isBuyInClickFormSent = false;
+    this.isFormSent = false;
     this.modalService.close();
   }
 
@@ -106,10 +107,11 @@ export class ModalComponent implements OnInit {
       return;
     }
 
-    console.log(this.recallForm.value);
+    const data = this.recallForm.value;
+    this.store.dispatch(userActions.makeCallRequest({ data }));
     this.isInvalidRecallForm = false;
     this.recallForm.reset();
-    this.close();
+    this.isFormSent = true;
   }
 
   sendExistingForm() {
@@ -141,7 +143,7 @@ export class ModalComponent implements OnInit {
       this.isInvalidBuyInClickForm = false;
       this.buyInClickForm.reset();
       this.modalService.resetBuyInClickProductId();
-      this.isBuyInClickFormSent = true;
+      this.isFormSent = true;
       return;
     }
 
@@ -149,7 +151,7 @@ export class ModalComponent implements OnInit {
     this.isInvalidBuyInClickForm = false;
     this.buyInClickForm.reset();
     this.modalService.resetBuyInClickProductId();
-    this.isBuyInClickFormSent = true;
+    this.isFormSent = true;
   }
 
   get recallFormPhone() {

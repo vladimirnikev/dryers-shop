@@ -5,6 +5,9 @@ export class CreateCallDto {
   readonly phone: string;
 
   @IsString()
+  readonly fullName: string;
+
+  @IsString()
   @IsOptional()
-  readonly time: string;
+  readonly message: string;
 }

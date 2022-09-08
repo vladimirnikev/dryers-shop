@@ -26,7 +26,7 @@ export class CallService {
       await this.callRepository.save(call);
       this.telegramService.tgBot.sendMessage(
         process.env.TELEGRAM_CHAT_ID,
-        this.telegramService.checkCurrentTimeForMessage(dto.phone, dto.time),
+        this.telegramService.checkCurrentTimeForMessage(dto.phone, dto.fullName, dto.message),
       );
     } catch (error) {
       throw new HttpException('Что-то пошло не так', HttpStatus.INTERNAL_SERVER_ERROR);

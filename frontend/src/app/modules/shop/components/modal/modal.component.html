@@ -28,7 +28,7 @@
 </ng-container>
 
 <ng-template #recall>
-  <div class="modal-content">
+  <div *ngIf="!isFormSent; else successMessage" class="modal-content">
     <span class="modal-title">У вас есть вопрос?</span>
     <p>Оставьте свои данные и мы свяжемся с вами в ближайшее время</p>
 
@@ -223,7 +223,7 @@
 </ng-template>
 
 <ng-template #buyInClick>
-  <div *ngIf="!isBuyInClickFormSent; else successMessage" class="modal-content">
+  <div *ngIf="!isFormSent; else successMessage" class="modal-content">
     <span class="modal-title">Покупка в один клик</span>
     <p>Всего пара пунктов и мы свяжемся с вами!</p>
 
@@ -345,17 +345,18 @@
       <button (click)="sendBuyInClickForm()" class="btn outline">Отправить</button>
     </form>
   </div>
-  <ng-template #successMessage>
-    <div class="modal-content">
-      <span class="modal-title">Ваша заявка принята</span>
-      <p>Спасибо. Мы свяжемся с вами в ближайшее время!</p>
-    </div>
-  </ng-template>
 </ng-template>
 
 <ng-template #successOrder>
   <div class="modal-content">
     <span class="modal-title">Заказ успешно оформлен</span>
     <p>Мы свяжемся с вами в ближайшее время, если нужно будет уточнить детали.</p>
+  </div>
+</ng-template>
+
+<ng-template #successMessage>
+  <div class="modal-content">
+    <span class="modal-title">Ваша заявка принята</span>
+    <p>Спасибо. Мы свяжемся с вами в ближайшее время!</p>
   </div>
 </ng-template>

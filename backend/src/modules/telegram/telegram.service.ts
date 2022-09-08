@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CartEntity } from '@app/components/cart/entities/cart.entity';
-import * as dayjs from 'dayjs';
 import * as TelegramBot from 'node-telegram-bot-api';
 import { ItemRecordEntity } from '@app/components/cart/entities/itemRecord.entity';
 import { DeliveryMethod, PaymentMethod } from '@app/common/enums/cart.enum';
@@ -79,18 +78,16 @@ ${this.generateProductList(order.itemRecords)}.
 Cумма к оплате: ${order.totalSum} UAH`;
   }
 
-  checkCurrentTimeForMessage(phone: string, time: string, name?: string): string {
-    const currentHour = dayjs().get('hour');
-    const startHour = 8;
-    const endHour = 17;
-    if (currentHour < endHour && currentHour > startHour) {
-      return `Поступила новая просьба перезвонить.${
-        name ? ' Имя - ' + name + '.' : ''
-      } Номер телефона - ${phone}.`;
-    }
-    return `Поступила новая просьба перезвонить.${
-      name ? ' Имя - ' + name + '.' : ''
-    } Номер телефона - ${phone}. Желаемое время звонка - завтра в ${time}`;
+  checkCurrentTimeForMessage(phone: string, name: string, message: string): string {
+    return `Поступила новая просьба перезвонить.
+${name ? 'Имя: ' + name + '.' : ''} 
+Номер телефона: ${phone}.
+${
+  message
+    ? `Сообщение:
+${message}`
+    : ''
+}`;
   }
 
   makeMessageAboutOrderInClick(

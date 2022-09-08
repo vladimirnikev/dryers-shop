@@ -1,5 +1,6 @@
 import { LoginData } from 'src/app/common/interfaces/loginData.interface';
 import { createAction, props } from '@ngrx/store';
+import { ICallRequest } from 'src/app/common/interfaces/call-request.interfase';
 
 export enum EUserActions {
   LoginUser = '[User] Login User',
@@ -15,6 +16,10 @@ export enum EUserActions {
   GetCurrentUserSessionId = '[User] Get Current User Session Id',
   GetCurrentUserSessionIdSuccess = '[User] Get Current User Session Id Success',
   GetCurrentUserSessionIdFailed = '[User] Get Current User Session Id Failed',
+
+  MakeCallRequest = '[User] Make Call Request',
+  MakeCallRequestSuccess = '[User] Make Call Request Success',
+  MakeCallRequestFailed = '[User] Make Call Request Failed',
 }
 
 export const loginUser = createAction(EUserActions.LoginUser, props<{ loginData: LoginData }>());
@@ -43,5 +48,15 @@ export const getCurrentUserSessionIdSuccess = createAction(
 );
 export const getCurrentUserSessionIdFailed = createAction(
   EUserActions.GetCurrentUserSessionIdFailed,
+  props<{ error: Error }>(),
+);
+
+export const makeCallRequest = createAction(
+  EUserActions.MakeCallRequest,
+  props<{ data: ICallRequest }>(),
+);
+export const makeCallRequestSuccess = createAction(EUserActions.MakeCallRequestSuccess);
+export const makeCallRequestFailed = createAction(
+  EUserActions.MakeCallRequestFailed,
   props<{ error: Error }>(),
 );

@@ -9,7 +9,10 @@ export class CallEntity {
   phone: string;
 
   @Column()
-  time: string;
+  fullName: string;
+
+  @Column()
+  message: string;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

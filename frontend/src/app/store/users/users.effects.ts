@@ -38,13 +38,23 @@ export class UsersEffects {
       switchMap(() =>
         this.userService.getCurrentUserSessionId().pipe(
           map((sessionId) => {
-            console.log('SUCCESS');
             return userActions.getCurrentUserSessionIdSuccess({ sessionId: sessionId.value });
           }),
           catchError((err) => {
-            console.log('Failed');
             return of(userActions.getCurrentUserSessionIdFailed(err));
           }),
+        ),
+      ),
+    ),
+  );
+
+  makeCallRequest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(userActions.makeCallRequest),
+      switchMap(({ data }) =>
+        this.userService.makeCallRequest(data).pipe(
+          map(() => userActions.makeCallRequestSuccess()),
+          catchError((err) => of(userActions.makeCallRequestFailed(err))),
         ),
       ),
     ),
