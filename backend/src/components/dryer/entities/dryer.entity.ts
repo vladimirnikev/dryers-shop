@@ -10,6 +10,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { StockEntity } from '@app/components/stock/entities/stock.entity';
 import { EProductType } from '@app/common/enums/product-type.enum';
@@ -26,6 +27,14 @@ export class DryerEntity {
     select: false,
   })
   createdAt: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp without time zone',
+    nullable: false,
+    default: () => 'CURRENT_TIMESTAMP',
+    select: false,
+  })
+  updatedAt: Date;
 
   @Column()
   name: string;

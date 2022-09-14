@@ -9,10 +9,6 @@ import { interval, Subscription } from 'rxjs';
 export class TimerComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
 
-  public dateNow = new Date();
-
-  public dDay = new Date('Jan 01 2023 00:00:00');
-
   milliSecondsInASecond = 1000;
 
   hoursInADay = 24;
@@ -30,6 +26,14 @@ export class TimerComponent implements OnInit, OnDestroy {
   public hoursToDday = 0;
 
   public daysToDday = 0;
+
+  public dateNow = new Date();
+
+  // public dDay = new Date('Jan 01 2023 00:00:00');
+  public dDay = new Date(
+    this.dateNow.getTime() +
+      72 * this.minutesInAnHour * this.SecondsInAMinute * this.milliSecondsInASecond,
+  );
 
   private getTimeDifference() {
     this.timeDifference = this.dDay.getTime() - new Date().getTime();

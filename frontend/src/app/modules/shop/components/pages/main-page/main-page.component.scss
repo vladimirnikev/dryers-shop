@@ -183,7 +183,7 @@ app-sale-list {
 
   .cards-list {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     margin-top: 24px;
 
     .card {

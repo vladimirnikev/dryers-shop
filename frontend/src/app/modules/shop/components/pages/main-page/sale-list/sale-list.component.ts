@@ -28,6 +28,10 @@ export class SaleListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(productActions.getProducts({ params: { discount: true } }));
+    this.store.dispatch(
+      productActions.getProducts({
+        params: { discount: true, limit: 8, sortBy: 'updatedAt', sortDirection: 'ASC' },
+      }),
+    );
   }
 }

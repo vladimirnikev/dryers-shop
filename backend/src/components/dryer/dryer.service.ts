@@ -33,6 +33,7 @@ export class DryerService {
     const queryBuilder = getRepository(DryerEntity)
       .createQueryBuilder('dryers')
       .addSelect('dryers.createdAt')
+      .addSelect('dryers.updatedAt')
       .orderBy('dryers.createdAt', 'DESC')
       .leftJoinAndSelect('dryers.manufacturer', 'manufacturer')
       .leftJoinAndSelect('dryers.colors', 'colors')
@@ -95,6 +96,9 @@ export class DryerService {
         minPower,
         maxPower,
       });
+    }
+    if (query.discount) {
+      queryBuilder.andWhere('dryers.oldPrice IS NOT NULL').andWhere('dryers.availability = true');
     }
     if (query.limit) {
       queryBuilder.take(query.limit);

@@ -2,27 +2,12 @@
   <div class="content">
     <div class="title-wrapper">
       <h3 class="section-title">Распродажа</h3>
-      <app-timer></app-timer>
+      <!-- <app-timer></app-timer> -->
     </div>
     <div class="cards-wrapper">
       <swiper [config]="swiperConfig" class="sales-swiper">
-        <ng-template swiperSlide
-          ><app-product-card></app-product-card
-        ></ng-template>
-        <ng-template swiperSlide
-          ><app-product-card></app-product-card
-        ></ng-template>
-        <ng-template swiperSlide
-          ><app-product-card></app-product-card
-        ></ng-template>
-        <ng-template swiperSlide
-          ><app-product-card></app-product-card
-        ></ng-template>
-        <ng-template swiperSlide
-          ><app-product-card></app-product-card
-        ></ng-template>
-        <ng-template swiperSlide
-          ><app-product-card></app-product-card
+        <ng-template swiperSlide *ngFor="let product of products$ | async"
+          ><app-product-card [item]="product"></app-product-card
         ></ng-template>
       </swiper>
     </div>

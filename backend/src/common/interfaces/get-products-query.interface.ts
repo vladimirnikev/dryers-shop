@@ -12,4 +12,5 @@ export interface IGetProductsQuery {
   readonly sortBy: string;
   readonly sortDirection: EQueryDirection;
   readonly type: string;
+  readonly discount: boolean;
 }

@@ -1,14 +1,35 @@
 <div (click)="navigateToItem($event)" class="card-wrapper">
   <div class="img-wrapper">
-    <img class="card-img" src="assets/images/dryer.jpg" alt="dryer" />
+    <img class="card-img" [src]="item.imageUrls[0]" alt="dryer" />
   </div>
   <div class="content">
-    <span class="label">Есть в наличии</span>
-    <span class="card-title">Электрополотенцесушитель Стандарт П5 450х500 LARIS (слева)</span>
+    <span class="label">{{ item?.availability ? 'Есть в наличии' : 'Нет в наличии' }}</span>
+    <span class="card-title">{{ item.name }}</span>
     <div class="price-wrapper">
-      <span class="prev-price"> {{ 4400 | currency: 'UAH':'грн.':'1.2-2':'ua' }}</span>
-      <span class="price">{{ 3300 | currency: 'UAH':'грн.':'1.2-2':'ua' }}</span>
+      <span *ngIf="item.oldPrice" class="prev-price">
+        {{ item.oldPrice | currency: 'UAH':'грн.':'1.2-2':'ua' }}</span
+      >
+      <span class="price">{{ item.price | currency: 'UAH':'грн.':'1.2-2':'ua' }}</span>
     </div>
-    <button #buttonWithOwnEvent class="btn primary">Добавить в корзину</button>
+    <button
+      *ngIf="!isExistInCart; else existInCart"
+      #buttonWithOwnEvent
+      class="btn primary"
+      (click)="addToCart()"
+    >
+      Добавить в корзину
+    </button>
   </div>
 </div>
+
+<ng-template #existInCart>
+  <div [routerLink]="['', 'cart']" class="exist-link" *ngIf="isExistInCart">
+    <button class="bar-item">
+      <svg-icon src="/assets/images/shop-icon.svg"></svg-icon>
+      <div class="circle">
+        <span class="symbol">✓</span>
+      </div>
+    </button>
+    <span class="link-text">В корзине</span>
+  </div>
+</ng-template>
