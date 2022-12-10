@@ -20,7 +20,7 @@ export class StockService {
     @InjectRepository(DryerEntity)
     private readonly dryerRepository: Repository<DryerEntity>,
     private cloudinaryService: CloudinaryService,
-  ) { }
+  ) {}
 
   async getStocks(query): Promise<StockEntity[]> {
     if (query.isActive) {

@@ -32,7 +32,7 @@ export class UpdateColorModalComponent implements OnInit, OnDestroy {
     private store$: Store,
     @Inject(MAT_DIALOG_DATA) public data,
     private dialogRef: MatDialogRef<UpdateColorModalComponent>,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.form.setValue({

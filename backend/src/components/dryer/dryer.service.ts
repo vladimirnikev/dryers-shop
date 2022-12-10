@@ -27,7 +27,7 @@ export class DryerService {
     @InjectRepository(ColorEntity)
     private readonly colorsRepository: Repository<ColorEntity>,
     private cloudinaryService: CloudinaryService,
-  ) { }
+  ) {}
 
   async getDryers(query: IGetProductsQuery): Promise<{ data: DryerEntity[]; totalCount: number }> {
     const queryBuilder = this.dryerRepository

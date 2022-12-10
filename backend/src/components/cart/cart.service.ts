@@ -22,7 +22,7 @@ export class CartService {
     @InjectRepository(DryerEntity)
     private productRepository: Repository<DryerEntity>,
     private telegramService: TelegramService,
-  ) { }
+  ) {}
 
   async createCartForUser(): Promise<CartEntity> {
     const cart = new CartEntity();

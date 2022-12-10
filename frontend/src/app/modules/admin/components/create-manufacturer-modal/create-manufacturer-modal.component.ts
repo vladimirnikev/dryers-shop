@@ -39,7 +39,7 @@ export class CreateManufacturerModalComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<CreateManufacturerModalComponent>,
     private snackBar: MatSnackBar,
     private helperService: HelperService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.sub.add(

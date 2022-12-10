@@ -17,7 +17,7 @@ export class ManufacturerService {
     @InjectRepository(ManufacturerEntity)
     private readonly manufacturerRepository: Repository<ManufacturerEntity>,
     private cloudinaryService: CloudinaryService,
-  ) { }
+  ) {}
 
   async getAll(): Promise<ManufacturerEntity[]> {
     return await this.manufacturerRepository.find();

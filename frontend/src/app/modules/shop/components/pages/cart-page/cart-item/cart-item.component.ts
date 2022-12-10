@@ -1,11 +1,4 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  OnDestroy,
-  ElementRef,
-  ViewChildren,
-} from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ElementRef, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
@@ -31,7 +24,7 @@ export class CartItemComponent implements OnInit, OnDestroy {
     private store: Store,
     private translocoService: TranslocoService,
     private router: Router,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.sub.add(

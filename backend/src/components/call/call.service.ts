@@ -13,7 +13,7 @@ export class CallService {
     @InjectRepository(CallEntity)
     private callRepository: Repository<CallEntity>,
     private telegramService: TelegramService,
-  ) { }
+  ) {}
 
   async getCalls(): Promise<CallEntity[]> {
     return await this.callRepository.find();

@@ -6,7 +6,7 @@ import { TranslocoService } from '@ngneat/transloco';
 export class MainResolverService implements Resolve<any> {
   name: string;
 
-  constructor(private translocoService: TranslocoService) { }
+  constructor(private translocoService: TranslocoService) {}
 
   // eslint-disable-next-line
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {

@@ -132,4 +132,4 @@ registerLocaleData(localeUa, 'ua');
     MobileService,
   ],
 })
-export class ShopModule { }
+export class ShopModule {}

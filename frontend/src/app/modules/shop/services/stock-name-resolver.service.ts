@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class StockNameResolverService implements Resolve<any> {
-  constructor(private store: Store) { }
+  constructor(private store: Store) {}
 
   // eslint-disable-next-line
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {

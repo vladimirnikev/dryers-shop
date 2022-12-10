@@ -55,22 +55,25 @@ export class TelegramService {
 - ФИО: ${order.fullName}
 - Номер телефона: ${order.phone}
 - Способ доставки: ${generateDeliveryMethod(order.deliveryType)}
-${order.deliveryType === 'POST'
-        ? `- Город: ${order.city}
-- Тип доставки: ${order.postType === 'OFFICE'
+${
+  order.deliveryType === 'POST'
+    ? `- Город: ${order.city}
+- Тип доставки: ${
+        order.postType === 'OFFICE'
           ? `В отделение ${order.office}`
           : `Курьер
 - Улица: ${order.street}
 - Номер дома: ${order.houseNumber}
 ${!!order.entrance ? `- Подъезд: ${order.entrance}` : `- Подъезд не указан`}
 ${!!order.floor ? `- Этаж": ${order.floor}` : '- Этаж не указан'}
-${!!order.apartmentNumber
-            ? `- Номер квартиры: ${order.apartmentNumber}`
-            : '- Номер квартиры не указан'
-          }`
-        }`
-        : ''
-      }
+${
+  !!order.apartmentNumber
+    ? `- Номер квартиры: ${order.apartmentNumber}`
+    : '- Номер квартиры не указан'
+}`
+      }`
+    : ''
+}
 - Метод оплаты: ${generatePaymentMethod(order.paymentType)}
 
 Список товаров: 
@@ -82,11 +85,12 @@ Cумма к оплате: ${totalSum} UAH`;
     return `Поступила новая просьба перезвонить.
 ${name ? 'Имя: ' + name + '.' : ''} 
 Номер телефона: ${phone}.
-${message
-        ? `Сообщение:
+${
+  message
+    ? `Сообщение:
 ${message}`
-        : ''
-      }`;
+    : ''
+}`;
   }
 
   makeMessageAboutOrderInClick(
