@@ -35,6 +35,9 @@ export class ModalComponent implements OnInit {
 
   isFormSent: boolean;
 
+  mobileRegex =
+    '^(?:\\+38)?(?:\\(0[0-9][0-9]\\)[ .-]?[0-9]{3}[ .-]?[0-9]{2}[ .-]?[0-9]{2}|0[0-9][0-9][ .-]?[0-9]{3}[ .-]?[0-9]{2}[ .-]?[0-9]{2}|0[0-9][0-9][0-9]{7})$';
+
   constructor(
     private modalService: ModalService,
     fb: FormBuilder,
@@ -42,43 +45,19 @@ export class ModalComponent implements OnInit {
     private helperService: HelperService,
   ) {
     this.recallForm = fb.group({
-      phone: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(
-            /^(?:\+38)?(?:\(0[0-9][0-9]\)[ .-]?[0-9]{3}[ .-]?[0-9]{2}[ .-]?[0-9]{2}|0[0-9][0-9][ .-]?[0-9]{3}[ .-]?[0-9]{2}[ .-]?[0-9]{2}|0[0-9][0-9][0-9]{7})$/gm,
-          ),
-        ],
-      ],
+      phone: ['', [Validators.required, Validators.pattern(this.mobileRegex)]],
       fullName: ['', [Validators.required]],
       message: [''],
     });
 
     this.existingForm = fb.group({
-      phone: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(
-            /^(?:\+38)?(?:\(0[0-9][0-9]\)[ .-]?[0-9]{3}[ .-]?[0-9]{2}[ .-]?[0-9]{2}|0[0-9][0-9][ .-]?[0-9]{3}[ .-]?[0-9]{2}[ .-]?[0-9]{2}|0[0-9][0-9][0-9]{7})$/gm,
-          ),
-        ],
-      ],
+      phone: ['', [Validators.required, Validators.pattern(this.mobileRegex)]],
       fullName: ['', [Validators.required]],
       email: ['', [Validators.email]],
     });
 
     this.buyInClickForm = fb.group({
-      phone: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(
-            /^(?:\+38)?(?:\(0[0-9][0-9]\)[ .-]?[0-9]{3}[ .-]?[0-9]{2}[ .-]?[0-9]{2}|0[0-9][0-9][ .-]?[0-9]{3}[ .-]?[0-9]{2}[ .-]?[0-9]{2}|0[0-9][0-9][0-9]{7})$/gm,
-          ),
-        ],
-      ],
+      phone: ['', [Validators.required, Validators.pattern(this.mobileRegex)]],
       fullName: ['', [Validators.required]],
       email: ['', [Validators.email]],
       message: [''],
@@ -120,7 +99,6 @@ export class ModalComponent implements OnInit {
       return;
     }
 
-    console.log(this.existingForm.value);
     this.isInvalidExistingForm = false;
     this.existingForm.reset();
     this.close();
@@ -132,7 +110,7 @@ export class ModalComponent implements OnInit {
       return;
     }
 
-    const productId = this.modalService.buyInClickProductIdValue();
+    const productId = +this.modalService.buyInClickProductIdValue();
 
     const data = this.helperService.removeEmptyValuesInObject(
       this.buyInClickForm.value,

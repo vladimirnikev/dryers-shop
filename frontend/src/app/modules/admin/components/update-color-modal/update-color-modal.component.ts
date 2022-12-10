@@ -15,6 +15,11 @@ import { selectAllColors } from '../../../../store/colors/colors.selectors';
 export class UpdateColorModalComponent implements OnInit, OnDestroy {
   form = new FormGroup({
     name: new FormControl('', Validators.required),
+    nameUa: new FormControl('', Validators.required),
+    code: new FormControl('#000000', [
+      Validators.required,
+      Validators.pattern(/^#[a-zA-Z0-9]{6,6}$/),
+    ]),
   });
 
   colors: IColor[];
@@ -27,10 +32,14 @@ export class UpdateColorModalComponent implements OnInit, OnDestroy {
     private store$: Store,
     @Inject(MAT_DIALOG_DATA) public data,
     private dialogRef: MatDialogRef<UpdateColorModalComponent>,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.form.get('name').setValue(this.data.color.name);
+    this.form.setValue({
+      name: this.data.color.name,
+      nameUa: this.data.color.nameUa,
+      code: this.data.color.code,
+    });
     this.sub.add(this.store$.select(selectAllColors).subscribe((colors) => (this.colors = colors)));
     this.sub.add(
       this.form.get('name').valueChanges.subscribe((value) => {

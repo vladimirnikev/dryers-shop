@@ -45,6 +45,12 @@
   margin-top: 16px;
   border: 1px solid #BFBEBE;
   width: 256px;
+  @media(max-width: 1024px) {
+    width: 200px;
+  }
+  @media(max-width: 768px) {
+    width: auto;
+  }
 
   app-price-filter, .filter {
     padding: 10px 16px 30px 16px;

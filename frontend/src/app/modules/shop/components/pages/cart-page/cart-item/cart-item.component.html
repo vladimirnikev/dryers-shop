@@ -1,17 +1,36 @@
-<div class="card">
+<div (click)="navigateToItem($event)" class="card">
   <div class="item-img">
-    <img [src]="cartRecord.item.imageUrls[0]" />
+    <img [src]="cartRecord.item.mainImg || '/assets/images/blank-image.svg'" />
   </div>
-  <span class="name">{{ cartRecord.item.name }}</span>
+  <div class="name">
+    <span class="item-name">
+      {{ currentLanguage === 'uk_UA' ? cartRecord.item.nameUa : cartRecord.item.name }}
+    </span>
+    <div class="color">
+      <div class="example-color" [ngStyle]="{ background: cartRecord.color?.code }"></div>
+      <span>{{
+        currentLanguage === 'uk_UA' ? cartRecord.color?.nameUa : cartRecord.color?.name
+      }}</span>
+    </div>
+  </div>
   <div class="price-wrapper">
-    <span class="price">{{ cartRecord.item.price | currency: 'UAH':'грн.':'1.2-2':'ua' }}</span>
-    <span class="price-text">Цена за 1 шт.</span>
+    <span *ngIf="cartRecord.item.oldPrice" class="price prev">{{
+      cartRecord.item.oldPrice | currency: 'UAH':'грн.':'1.2-2':'ua'
+    }}</span>
+    <span [ngClass]="{ discount: cartRecord.item.oldPrice }" class="price">{{
+      cartRecord.item.price | currency: 'UAH':'грн.':'1.2-2':'ua'
+    }}</span>
+    <span class="price-text">{{ 'CART_PAGE.PRICE_SINGLE' | transloco }}</span>
   </div>
   <div class="counter">
     <div class="count">
-      <span (click)="decrement()" class="decrement"><div class="minus"></div></span>
-      <span>{{ cartRecord.count }}</span>
-      <span (click)="increment()" class="increment"
+      <span #buttonWithOwnEvent (click)="decrement()" class="decrement"
+        ><div class="minus"></div
+      ></span>
+
+      <span #buttonWithOwnEvent>{{ cartRecord.count }}</span>
+
+      <span #buttonWithOwnEvent (click)="increment()" class="increment"
         ><div class="plus">
           <div class="minus"></div>
           <div class="minus"></div></div
@@ -22,7 +41,7 @@
   <span class="sum">{{
     cartRecord.item.price * cartRecord.count | currency: 'UAH':'грн.':'1.2-2':'ua'
   }}</span>
-  <button (click)="deleteItem()" class="delete">
+  <button #buttonWithOwnEvent (click)="deleteItem()" class="delete">
     <img src="assets/images/close.svg" />
   </button>
 </div>

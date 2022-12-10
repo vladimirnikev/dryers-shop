@@ -4,16 +4,21 @@
   *ngIf="viewType === 'column'; else cardForRowContainer"
 >
   <div class="img-wrapper">
-    <img *ngIf="item?.imageUrls" [src]="item?.imageUrls[0]" alt="towel-photo" />
+    <img
+      *ngIf="item?.imageUrls"
+      [src]="item?.mainImg || '/assets/images/blank-image.svg'"
+      alt="towel-photo"
+      [ngClass]="{ empty: !item?.mainImg }"
+    />
   </div>
   <div class="card-content">
     <div class="card-text">
-      <span class="card-title">{{ item?.name }}</span>
+      <span class="card-title">{{ currentLanguage === 'uk_UA' ? item?.nameUa : item?.name }}</span>
       <span [ngClass]="{ orange: !item?.availability }" class="label">{{
-        item?.availability ? 'Есть в наличии' : 'Нет в наличии'
+        item?.availability ? ('AVAILABLE' | transloco) : ('ON_ORDER' | transloco)
       }}</span>
     </div>
-    <div class="card-price">
+    <div class="card-price" [ngClass]="{ 'already-in-cart': isExistInCart }">
       <span *ngIf="!!item?.oldPrice" [ngClass]="{ prev: item?.oldPrice }" class="price">{{
         item?.oldPrice | currency: 'UAH':'грн.':'1.2-2':'ua'
       }}</span>
@@ -32,10 +37,10 @@
         ></span>
       </div>
       <button #buttonWithOwnEvent class="btn primary" (click)="addItemToCart()">
-        Добавить в корзину
+        {{ 'ADD_TO_CART' | transloco }}
       </button>
       <button #buttonWithOwnEvent (click)="openBuyInClickModal()" class="btn outline">
-        Покупка в один клик
+        {{ 'BUY_IN_CLICK' | transloco }}
       </button>
     </div>
   </div>
@@ -44,14 +49,16 @@
 <ng-template #cardForRowContainer>
   <div (click)="navigateToItem($event)" class="card basic">
     <div class="img-wrapper">
-      <img [src]="item?.imageUrls[0]" alt="towel-photo" />
+      <img [src]="item?.mainImg || '/assets/images/blank-image.svg'" alt="towel-photo" />
     </div>
     <div class="card-content">
       <div class="card-text">
         <span [ngClass]="{ orange: !item?.availability }" class="label">{{
-          item?.availability ? 'Есть в наличии' : 'Нет в наличии'
+          item?.availability ? ('AVAILABLE' | transloco) : ('ON_ORDER' | transloco)
         }}</span>
-        <span class="card-title">{{ item?.name }}</span>
+        <span class="card-title">{{
+          currentLanguage === 'uk_UA' ? item?.nameUa : item?.name
+        }}</span>
       </div>
       <div class="card-price">
         <span *ngIf="!!item?.oldPrice" [ngClass]="{ prev: item?.oldPrice }" class="price">{{
@@ -62,14 +69,15 @@
         </span>
       </div>
 
-      <button
-        *ngIf="!isExistInCart; else existInCart"
-        #buttonWithOwnEvent
-        class="btn primary"
-        (click)="addItemToCart()"
-      >
-        Добавить в корзину
-      </button>
+      <div class="buttons-wrapper" *ngIf="!isExistInCart; else existInCart">
+        <button #buttonWithOwnEvent class="btn primary" (click)="addItemToCart()">
+          {{ 'ADD_TO_CART' | transloco }}
+        </button>
+
+        <button #buttonWithOwnEvent (click)="openBuyInClickModal()" class="btn outline">
+          {{ 'BUY_IN_CLICK' | transloco }}
+        </button>
+      </div>
     </div>
   </div>
 </ng-template>
@@ -83,7 +91,7 @@
           <span class="symbol">✓</span>
         </div>
       </button>
-      <span class="link-text">В корзине</span>
+      <span class="link-text">{{ 'IN_CART' | transloco }}</span>
     </div>
   </div>
 </ng-template>

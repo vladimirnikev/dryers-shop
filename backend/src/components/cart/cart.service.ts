@@ -22,7 +22,7 @@ export class CartService {
     @InjectRepository(DryerEntity)
     private productRepository: Repository<DryerEntity>,
     private telegramService: TelegramService,
-  ) {}
+  ) { }
 
   async createCartForUser(): Promise<CartEntity> {
     const cart = new CartEntity();
@@ -30,22 +30,19 @@ export class CartService {
   }
 
   async getCartBySessionId(sessionId: string): Promise<CartEntity> {
-    let cart = await this.cartRepository.findOne(
-      { sessionId },
-      {
-        relations: ['itemRecords', 'itemRecords.item'],
-      },
-    );
+    let cart = await this.cartRepository.findOne({
+      where: { sessionId },
+      relations: ['itemRecords', 'itemRecords.item'],
+    });
+
     if (!cart) {
       const newCart = new CartEntity();
       newCart.sessionId = sessionId;
       await this.cartRepository.save(newCart);
-      cart = await this.cartRepository.findOne(
-        { sessionId },
-        {
-          relations: ['itemRecords', 'itemRecords.item'],
-        },
-      );
+      cart = await this.cartRepository.findOne({
+        where: { sessionId },
+        relations: ['itemRecords', 'itemRecords.item'],
+      });
     }
 
     return cart;
@@ -60,26 +57,24 @@ export class CartService {
 
     if (!cart.itemRecords.length) {
       itemRecord = await this.createItemRecord(dto, cart);
-      cart.totalSum += itemRecord.item.price * itemRecord.count;
     } else {
       const idx = cart.itemRecords.findIndex((el) => el.item.id === dto.item);
       if (idx < 0) {
         itemRecord = await this.createItemRecord(dto, cart);
-        cart.totalSum += itemRecord.item.price * itemRecord.count;
       } else {
         itemRecord = cart.itemRecords[idx];
-        const itemRecordSumPriceBeforeChanged = itemRecord.item.price * itemRecord.count;
         itemRecord.count = itemRecord.count + dto.count;
-        const itemRecordSumPriceAfterChanged = itemRecord.item.price * itemRecord.count;
         await this.itemRecordRepository.save(itemRecord);
-        cart.totalSum =
-          cart.totalSum - itemRecordSumPriceBeforeChanged + itemRecordSumPriceAfterChanged;
       }
     }
 
     const changedCart = await this.cartRepository.save(cart);
+    const totalSum = changedCart.itemRecords
+      .map((item) => item.item.price * item.count)
+      .reduce((prev, curr) => prev + curr, 0);
+
     return {
-      totalSum: changedCart.totalSum,
+      totalSum,
       itemRecords: changedCart.itemRecords,
     };
   }
@@ -88,7 +83,7 @@ export class CartService {
     let itemRecord = new ItemRecordEntity();
     Object.assign(itemRecord, dto);
     itemRecord = await this.itemRecordRepository.save(itemRecord);
-    itemRecord = await this.itemRecordRepository.findOne({ id: itemRecord.id });
+    itemRecord = await this.itemRecordRepository.findOne({ where: { id: itemRecord.id } });
     cart.itemRecords.push(itemRecord);
     return itemRecord;
   }
@@ -100,12 +95,15 @@ export class CartService {
     const cart = await this.getCartBySessionId(sessionId);
     const record = cart.itemRecords.find((e) => e.id === itemRecordId);
     record.count++;
-    cart.totalSum += record.item.price;
 
     await this.itemRecordRepository.save(record);
     const changedCart = await this.cartRepository.save(cart);
+    const totalSum = changedCart.itemRecords
+      .map((item) => item.item.price * item.count)
+      .reduce((prev, curr) => prev + curr, 0);
+
     return {
-      totalSum: changedCart.totalSum,
+      totalSum,
       itemRecords: changedCart.itemRecords,
     };
   }
@@ -120,28 +118,28 @@ export class CartService {
       throw new HttpException(`Count can't be less than 1`, HttpStatus.METHOD_NOT_ALLOWED);
     }
     record.count--;
-    cart.totalSum -= record.item.price;
 
     await this.itemRecordRepository.save(record);
     const changedCart = await this.cartRepository.save(cart);
+    const totalSum = changedCart.itemRecords
+      .map((item) => item.item.price * item.count)
+      .reduce((prev, curr) => prev + curr, 0);
+
     return {
-      totalSum: changedCart.totalSum,
+      totalSum,
       itemRecords: changedCart.itemRecords,
     };
   }
 
   async deleteRecord(sessionId: string, id: number): Promise<void> {
-    const itemRecord = await this.itemRecordRepository.findOne(id);
     await this.itemRecordRepository.delete(id);
-
-    const cart = await this.getCartBySessionId(sessionId);
-    cart.totalSum -= itemRecord.count * itemRecord.item.price;
-
-    await this.cartRepository.save(cart);
   }
 
   async makeOrder(sessionId: string, dto: MakeOrderDto) {
-    const cart = await this.cartRepository.findOne({ sessionId }, { relations: ['itemRecords'] });
+    const cart = await this.cartRepository.findOne({
+      where: { sessionId },
+      relations: ['itemRecords'],
+    });
     if (!cart) {
       throw new HttpException('Cart does not exist', HttpStatus.NOT_FOUND);
     }
@@ -204,14 +202,13 @@ export class CartService {
 
   async makeOrderInClick(sessionId: string, dto: MakeOrderInClickDto): Promise<void> {
     if (dto.productId) {
-      const product = await this.productRepository.findOne(dto.productId);
+      const product = await this.productRepository.findOne({ where: { id: dto.productId } });
 
       if (!product) {
         throw new NotFoundException('Product does not exist');
       }
 
       const itemDataForMessage = {
-        code: product.code,
         color: product.color?.name,
         name: product.name,
         price: product.price,
@@ -235,13 +232,14 @@ export class CartService {
 
     const itemsDataForMessage = cart.itemRecords.map((record) => ({
       count: record.count,
-      code: record.item.code,
       color: record.item.color?.name,
       name: record.item.name,
       price: record.item.price,
     }));
 
-    const totalSum = cart.totalSum;
+    const totalSum = cart.itemRecords
+      .map((item) => item.item.price * item.count)
+      .reduce((prev, curr) => prev + curr, 0);
 
     this.telegramService.tgBot.sendMessage(
       process.env.TELEGRAM_CHAT_ID,

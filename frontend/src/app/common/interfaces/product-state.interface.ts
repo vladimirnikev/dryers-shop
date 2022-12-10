@@ -8,6 +8,7 @@ export interface IProductState {
   currentProduct: IProduct;
   viewedProducts: IProduct[];
   searchedProducts: IProduct[];
+  imagesInProductForDeleting: string[];
   isLoading: boolean;
   error: string;
 }

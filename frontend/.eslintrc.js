@@ -35,6 +35,7 @@ module.exports = {
             'ignoreStrings': true
           }
         ],
+        'no-restricted-globals': 'off'
       }
     },
     {

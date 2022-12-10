@@ -14,9 +14,9 @@ export class UserService {
   ) {}
 
   async create(dto: CreateUserDto): Promise<UserEntity> {
-    const userByEmail = await this.userRepository.findOne({ email: dto.email });
+    const userByEmail = await this.userRepository.findOne({ where: { email: dto.email } });
     const userByUsername = await this.userRepository.findOne({
-      username: dto.username,
+      where: { username: dto.username },
     });
 
     if (userByEmail || userByUsername) {
@@ -37,7 +37,7 @@ export class UserService {
   }
 
   async getById(id: number): Promise<UserEntity> {
-    return await this.userRepository.findOne({ id });
+    return await this.userRepository.findOne({ where: { id } });
   }
 
   async updateUser(dto: CreateUserDto, id: number): Promise<UserEntity> {

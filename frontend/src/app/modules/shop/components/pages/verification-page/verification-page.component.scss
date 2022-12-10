@@ -1,5 +1,8 @@
 section {
   padding: 4px 0 12px 0;
+  @media(max-width: 768px) {
+    padding: 4px 0 24px 0;
+  }
 }
 
 .page-title {
@@ -23,20 +26,45 @@ app-order-form {
 .page-content {
   margin-top: 40px;
   display: flex;
+  @media(max-width: 986px) {
+    flex-direction: column;
+  }
+  @media(max-width: 768px) {
+    margin-top: 24px;
+  }
 }
 
 .aside-cards {
   margin-left: 32px;
   display: flex;
   flex-direction: column;
+  @media(max-width: 986px) {
+    flex-direction: row;
+    margin-top: 24px;
+    margin-left: 0;
+  }
+  @media(max-width: 768px) {
+    flex-direction: column;
+  }
 }
 
 app-faq {
   display: block;
   margin-top: 40px;
+  @media(max-width: 986px) {
+    margin-top: 0;
+    margin-left: 24px;
+  }
+  @media(max-width: 768px) {
+    margin-left: 0;
+    margin-top: 24px;
+  }
 }
 
 app-order-confirm-card {
   display: block;
   max-width: 256px;
+  @media(max-width: 986px) {
+    max-width: none;
+  }
 }

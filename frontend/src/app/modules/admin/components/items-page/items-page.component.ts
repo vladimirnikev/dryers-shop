@@ -31,6 +31,7 @@ import {
   IProductQuery,
 } from '../../../../common/interfaces/product.interface';
 import { IManufacturer } from '../../../../common/interfaces/manufacturer.interface';
+import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-items-page',
@@ -169,6 +170,7 @@ export class ItemsPageComponent implements OnInit, OnDestroy, AfterViewInit {
             ...this.filters,
             ...this.sortParams,
           };
+
           params = this.helperService.clearEmptyFilters(params);
           this.store$.dispatch(getProducts({ params }));
         }),
@@ -198,9 +200,14 @@ export class ItemsPageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.store$.select(selectProductById(id)).subscribe((item) => (product = item));
     const data = { ...product };
 
-    this.dialog.open(UpdateItemModalComponent, {
+    const dialogRef = this.dialog.open(UpdateItemModalComponent, {
       data,
       width: '80%',
+      disableClose: true,
+    });
+
+    dialogRef.backdropClick().subscribe(() => {
+      this.dialog.open(ConfirmModalComponent, { width: '60%' });
     });
   }
 }

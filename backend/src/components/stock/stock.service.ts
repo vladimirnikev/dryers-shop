@@ -20,7 +20,7 @@ export class StockService {
     @InjectRepository(DryerEntity)
     private readonly dryerRepository: Repository<DryerEntity>,
     private cloudinaryService: CloudinaryService,
-  ) {}
+  ) { }
 
   async getStocks(query): Promise<StockEntity[]> {
     if (query.isActive) {
@@ -48,9 +48,12 @@ export class StockService {
     return stockWithProductsIds;
   }
 
-  async createStock({ name, isActive, products }, files: any): Promise<StockEntity> {
+  async createStock({ name, nameUa, isActive, products }, files: any): Promise<StockEntity> {
     const errors = [];
     if (!name) {
+      errors.push('The name must be specified');
+    }
+    if (!nameUa) {
       errors.push('The name must be specified');
     }
     if (!files.length) {
@@ -60,18 +63,28 @@ export class StockService {
       throw new HttpException(`${errors}`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    let imageUrl: string;
+    const imageUrls = [];
 
-    try {
-      const image = await this.cloudinaryService.uploadImage(files[0]);
-      imageUrl = image.url;
-    } catch (error) {
-      throw new BadRequestException('Invalid file type.');
-    }
+    await Promise.all(
+      files.map(async (file) => {
+        try {
+          const image = await this.cloudinaryService.uploadImage(file);
+          imageUrls.push(image.url);
+        } catch (error) {
+          throw new BadRequestException('Invalid file type.');
+        }
+      }),
+    );
 
     const isTrueSet = isActive.toLowerCase() === 'true';
     const stock = new StockEntity();
-    Object.assign(stock, { name, img: imageUrl, isActive: isTrueSet });
+    Object.assign(stock, {
+      name,
+      nameUa,
+      img: imageUrls[0],
+      imgUa: imageUrls.length > 1 ? imageUrls[1] : imageUrls[0],
+      isActive: isTrueSet,
+    });
 
     const productsIds = products.split(',');
     const productItems = await this.dryerRepository
@@ -87,8 +100,12 @@ export class StockService {
     return await this.stockRepository.save(stock);
   }
 
-  async updateStock({ name, isActive, products }, files: any, id: number): Promise<StockEntity> {
-    const stock = await this.stockRepository.findOne({ id });
+  async updateStock(
+    { name, nameUa, isActive, products },
+    files: any,
+    id: number,
+  ): Promise<StockEntity> {
+    const stock = await this.stockRepository.findOne({ where: { id } });
 
     if (!stock) {
       throw new NotFoundException('Stock with this id does not exist');
@@ -97,12 +114,25 @@ export class StockService {
     const isTrueSet = isActive.toLowerCase() === 'true';
 
     if (files.length) {
-      try {
-        const image = await this.cloudinaryService.uploadImage(files[0]);
-        const imageUrl = image.url;
-        stock.img = imageUrl;
-      } catch (error) {
-        throw new BadRequestException('Invalid file type.');
+      const imageUrls = [];
+
+      await Promise.all(
+        files.map(async (file) => {
+          try {
+            const image = await this.cloudinaryService.uploadImage(file);
+            imageUrls.push(image.url);
+          } catch (error) {
+            throw new BadRequestException('Invalid file type.');
+          }
+        }),
+      );
+      await this.deleteImagesFromStock(stock);
+      if (files.length === 1) {
+        stock.img = imageUrls[0];
+        stock.imgUa = imageUrls[0];
+      } else {
+        stock.img = imageUrls[0];
+        stock.imgUa = imageUrls[1];
       }
     }
 
@@ -117,13 +147,25 @@ export class StockService {
     }
     stock.products = productItems;
 
-    Object.assign(stock, { name, isActive: isTrueSet });
+    Object.assign(stock, { name, nameUa, isActive: isTrueSet });
     return await this.stockRepository.save(stock);
   }
 
   async deleteStock(id: number): Promise<{ id: number }> {
-    const stock = await this.stockRepository.findOne({ id });
+    const stock = await this.stockRepository.findOne({ where: { id } });
+    await this.deleteImagesFromStock(stock);
     await this.stockRepository.delete(id);
     return { id: stock.id };
+  }
+
+  async deleteImagesFromStock(stock: StockEntity) {
+    if (stock.img && stock.imgUa) {
+      if (stock.img === stock.imgUa) {
+        await this.cloudinaryService.deleteImage(stock.img);
+        return;
+      }
+      await this.cloudinaryService.deleteImage(stock.img);
+      await this.cloudinaryService.deleteImage(stock.imgUa);
+    }
   }
 }

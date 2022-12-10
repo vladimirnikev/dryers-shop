@@ -9,6 +9,10 @@ section {
   line-height: 42px;
   color: #0D0D0D;
   letter-spacing: 0.065em;
+  @media(max-width: 360px) {
+    letter-spacing: normal;
+    font-size: 28px;
+  }
 }
 
 .catalog-menu-card {
@@ -22,6 +26,7 @@ section {
   .card-img {
     width: 64px;
     height: 64px;
+    object-fit: cover;
   }
 
   .card-title {
@@ -29,12 +34,22 @@ section {
     font-size: 16px;
     line-height: 22px;
     color: #0D0D0D;
+    @media(max-width: 1100px) {
+      margin-left: 8px;
+    }
+    @media(max-width: 1024px) {
+      font-size: 15px;
+    }
   }
 }
 
 .swiper-wrapper {
   position: relative;
   margin: 16px 0 40px;
+  @media(max-width: 768px) {
+    display: none;
+  }
+
   .swiper-button {
     position: absolute;
     top: 50%;
@@ -76,10 +91,18 @@ section {
   grid-template-rows: auto 1fr 1fr;
   grid-template-columns: auto 1fr;
   column-gap: 32px;
+  @media(max-width: 768px) {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .side-layout{
   grid-area: filter;
+  @media(max-width: 1024px) {
+    width: 200px;
+  }
 
   app-instagram-feed {
     margin-top: 32px;
@@ -89,6 +112,10 @@ section {
 
 app-sorting-bar {
   grid-area: sort;
+
+  @media (max-width: 768px) {
+    margin-top: 24px;
+  }
 }
 
 .list-wrapper {
@@ -102,12 +129,16 @@ app-sorting-bar {
     margin-top: 24px;
   }
 
-  &.mt-64 {
-    margin-top: -8px;
+  &.mt-0 {
+    margin-top: 0px;
   }
 }
 .cards-list {
   display: flex;
+  @media(max-width: 768px) {
+    flex-direction: column;
+    width: 100%;
+  }
 
   app-catalog-card {
     display: block;
@@ -115,6 +146,9 @@ app-sorting-bar {
 
   app-catalog-card:not(:nth-of-type(1)) {
     margin-top: 24px;
+    @media(max-width: 768px) {
+      margin-top: 16px;
+    }
   }
 
   &.view-column {
@@ -128,6 +162,7 @@ app-sorting-bar {
     margin-top: 8px;
 
     app-catalog-card {
+      flex: 1;
       height: fit-content;
       margin-top: 0;
       margin-left: 40px;
@@ -139,4 +174,7 @@ app-sorting-bar {
 app-viewed-products-list {
   margin-top: 80px;
   display: block;
+  @media(max-width: 768px) {
+    margin-top: 40px;
+  }
 }

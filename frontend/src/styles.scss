@@ -53,6 +53,7 @@ body {
   max-width: 1120px;
   width: 100%;
   margin: auto;
+  padding: 0 16px;
 }
 
 .header {
@@ -148,6 +149,12 @@ body {
   }
 }
 
+.from-markdown {
+  p {
+    margin-top: 16px;
+  }
+}
+
 // ---- Swiper ---- //
 .swiper {
   width: 100%;
@@ -168,12 +175,18 @@ body {
   opacity: 1;
   transition: 300ms min-width;
   margin: 0 10px !important;
+  @media(max-width: 768px) {
+    min-width: 16px;
+  }
 }
 
 .swiper-pagination-bullet-active {
   transition: 300ms min-width;
   min-width: 120px;
   background: #3F75BE;
+  @media(max-width: 768px) {
+    min-width: 24px;
+  }
 }
 
 .sales-swiper {
@@ -247,6 +260,7 @@ body {
       height: 56px;
       display: block;
       margin: 4px auto;
+      object-fit: cover;
     }
 
     &:first-of-type {
@@ -265,6 +279,15 @@ body {
   }
 }
 
+.mobile-swiper {
+  .swiper-wrapper {
+    align-items: center;
+  }
+  .swiper-slide {
+    padding-bottom: 40px;
+  }
+}
+
 .btn {
   padding: 4px 16px;
   border-radius: 3px;
@@ -274,20 +297,36 @@ body {
   font-size: 14px;
   line-height: 20px;
   cursor: pointer;
+  transition: 0.1s ease-in;
 
   &.primary {
     background: #3F75BE;
     color: #ffffff;
+    &:hover {
+      background: #3463a2;
+      transition: 0.1s ease-in;
+    }
 
     &.orange {
       background: #FF6700;
+
+      &:hover {
+        background: #d55600;
+        transition: 0.1s ease-in;
+      }
     }
   }
 
   &.outline {
     color: #3F75BE;
     border: 1px solid #3F75BE;
-    background: #ffffff
+    background: #ffffff;
+    transition: 0.1s ease-in;
+
+    &:hover {
+      background: #eaeaea;
+      transition: 0.1s ease-in;
+    }
   }
 }
 
@@ -363,5 +402,16 @@ app-input {
 app-form-card:last-of-type {
   .card-body {
     padding: 0;
+  }
+}
+
+.insta-post {
+  max-width: fit-content;
+  img {
+    width: 100%;
+  }
+
+  &:not(:nth-of-type(1)) {
+    margin-top: 8px;
   }
 }

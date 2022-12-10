@@ -11,7 +11,7 @@ export class ManufacturersService {
     return this.httpService.get('manufacturers');
   }
 
-  createManufacturer(dto: { name: string }): Observable<IManufacturer> {
+  createManufacturer(dto: FormData): Observable<IManufacturer> {
     return this.httpService.post('manufacturers', dto);
   }
 

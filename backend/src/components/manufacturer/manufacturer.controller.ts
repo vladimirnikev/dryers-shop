@@ -1,7 +1,18 @@
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ManufacturerService } from './manufacturer.service';
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ManufacturerEntity } from './entities/manufacturer.entity';
-import { CreateManufacturerDto } from './dto/create-manufacturer.dto';
 import { DeleteResult } from 'typeorm';
 import { AdminGuard } from '../user/guards/admin.guard';
 import { JwtAuthGuard } from '@app/modules/auth/guards/jwt-auth.guard';
@@ -17,14 +28,16 @@ export class ManufacturerController {
 
   @Post()
   @UseGuards(JwtAuthGuard, AdminGuard)
-  create(@Body() dto: CreateManufacturerDto): Promise<ManufacturerEntity> {
-    return this.manufacturerService.create(dto);
+  @UseInterceptors(FileInterceptor('file'))
+  create(@Body() dto, @UploadedFile() file): Promise<ManufacturerEntity> {
+    return this.manufacturerService.create(dto, file);
   }
 
   @Put(':id')
   @UseGuards(JwtAuthGuard, AdminGuard)
-  update(@Body() dto: CreateManufacturerDto, @Param() id): Promise<ManufacturerEntity> {
-    return this.manufacturerService.update(dto, id);
+  @UseInterceptors(FileInterceptor('file'))
+  update(@Body() dto, @Param() id, @UploadedFile() file): Promise<ManufacturerEntity> {
+    return this.manufacturerService.update(dto, id, file);
   }
 
   @Delete(':id')

@@ -1,21 +1,36 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { IProductFilteringParams } from 'src/app/common/interfaces/product-filtering-params.interface';
 
 @Injectable()
 export class PaginationService {
-  private productFilteringParams: BehaviorSubject<IProductFilteringParams>;
+  private productFilteringParams: BehaviorSubject<IProductFilteringParams> = new BehaviorSubject({
+    offset: 0,
+    limit: 9,
+  });
 
-  constructor(private router: Router) {
-    const urlArr = this.router.url.split('/');
-    if (urlArr[2] === 'search') {
-      const searchText = urlArr[urlArr.length - 1];
-      this.productFilteringParams = new BehaviorSubject({ offset: 0, limit: 9, name: searchText });
-    } else {
-      const type = urlArr[urlArr.length - 1];
-      this.productFilteringParams = new BehaviorSubject({ offset: 0, limit: 9, type });
-    }
+  constructor(private router: Router, private route: ActivatedRoute) {
+    this.router.events
+      .pipe(
+        // Filter the NavigationEnd events as the breadcrumb is updated only when the route reaches its end
+        filter((event) => event instanceof NavigationEnd),
+      )
+      .subscribe((event) => {
+        const urlArr = (event as NavigationEnd).url.split('/');
+        if (urlArr[2] === 'search') {
+          const searchText = urlArr[urlArr.length - 1];
+          this.productFilteringParams = new BehaviorSubject({
+            offset: 0,
+            limit: 9,
+            name: decodeURIComponent(searchText),
+          });
+        } else {
+          const type = urlArr[urlArr.length - 1];
+          this.productFilteringParams = new BehaviorSubject({ offset: 0, limit: 9, type });
+        }
+      });
   }
 
   changeProductFilteringParams(params): void {
@@ -59,7 +74,7 @@ export class PaginationService {
         this.productFilteringParams.next({
           offset: this.productFilteringParamsValue().offset,
           limit: this.productFilteringParamsValue().limit,
-          name: type,
+          name: decodeURIComponent(type),
         });
         return;
       }

@@ -5,4 +5,6 @@ export class AddItemToCartDto {
   readonly item: number;
   @IsNumber()
   readonly count: number;
+  @IsNumber()
+  readonly color: number;
 }

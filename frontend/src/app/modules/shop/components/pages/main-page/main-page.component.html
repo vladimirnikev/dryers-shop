@@ -13,21 +13,13 @@
 <section class="about-section">
   <div class="container">
     <div class="content">
-      <div class="section-title">О нас</div>
+      <div class="section-title">{{ 'MAIN_PAGE.ABOUT_US.TITLE' | transloco }}</div>
       <p class="content-text">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo eos error, enim laudantium
-        iste, animi commodi laboriosam adipisci saepe quibusdam dolor obcaecati, quam magnam
-        voluptates repudiandae tenetur itaque maxime incidunt.
+        {{ 'MAIN_PAGE.ABOUT_US.TEXT' | transloco }}
       </p>
-      <p class="content-text">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque pariatur et vitae iste in
-        illo quidem excepturi suscipit consequuntur sed. Odit voluptate ipsa, nesciunt explicabo
-        voluptatum modi saepe a dolorem ipsum dignissimos pariatur quam debitis tenetur alias. Enim
-        voluptatum dignissimos dolore molestias rerum ratione omnis laboriosam ex ipsum vel sunt,
-        commodi labore accusamus. Quae inventore, repellendus esse repudiandae natus minus quidem,
-        ipsam omnis itaque totam mollitia deleniti doloribus corporis aspernatur?
-      </p>
-      <button [routerLink]="['contacts']" class="btn primary orange">Контакты</button>
+      <button [routerLink]="['contacts']" class="btn primary orange">
+        {{ 'CONTACTS' | transloco }}
+      </button>
     </div>
     <img class="content-img" src="assets/images/dryers-on-chair.jpg" alt="towels" />
 
@@ -35,34 +27,26 @@
       <a [routerLink]="['catalog', 'discounts']" class="link">
         <svg-icon src="assets/images/present.svg"></svg-icon>
         <div class="text">
-          <span>Акции</span>
-          <span>Посмотреть товары</span>
+          <span>{{ 'DISCOUNTS' | transloco }}</span>
+          <span>{{ 'VIEW_PRODUCTS' | transloco }}</span>
         </div>
       </a>
       <a [routerLink]="['catalog', 'new']" class="link">
         <svg-icon src="assets/images/box.svg"></svg-icon>
         <div class="text">
-          <span>Новинки</span>
-          <span>Посмотреть товары</span>
+          <span>{{ 'NEW_ITEMS' | transloco }}</span>
+          <span>{{ 'VIEW_PRODUCTS' | transloco }}</span>
         </div>
       </a>
-      <!-- <a class="link">
-        <svg-icon src="assets/images/label.svg"></svg-icon>
-        <div class="text">
-          <span>Популярные</span>
-          <span>Посмотреть товары</span>
-        </div>
-      </a> -->
     </div>
   </div>
 </section>
 <section class="brands-section">
   <div class="container">
     <div class="content">
-      <h3 class="section-title">Мы сотрудничаем с лучшими брендами</h3>
+      <h3 class="section-title">{{ 'MAIN_PAGE.BRANDS.TITLE' | transloco }}</h3>
       <p class="content-text">
-        Мы работаем только с проверенными поставщиками. И лично проверяем комплектацию каждого
-        товара при получении, чтоб гарантировать вам качественное обслуживание!
+        {{ 'MAIN_PAGE.BRANDS.TEXT' | transloco }}
       </p>
     </div>
   </div>
@@ -83,23 +67,23 @@
   <div class="container">
     <img class="section-img" src="assets/images/get-section.jpg" alt="towel" />
     <div class="content">
-      <h3 class="section-title">C нами вы получите</h3>
+      <h3 class="section-title">{{ 'MAIN_PAGE.ADVANTAGE.TITLE' | transloco }}</h3>
       <div class="cards-wrapper">
         <div class="card">
           <svg-icon src="assets/images/list-icon.svg"></svg-icon>
-          <span>Проверка качества изделия</span>
+          <span>{{ 'MAIN_PAGE.ADVANTAGE.QUALITY_CHECKING' | transloco }}</span>
         </div>
         <div class="card">
           <svg-icon src="assets/images/cup-icon.svg"></svg-icon>
-          <span>Оригинальный продукт</span>
+          <span>{{ 'MAIN_PAGE.ADVANTAGE.ORIGINAL_PRODUCT' | transloco }}</span>
         </div>
         <div class="card">
           <svg-icon src="assets/images/transfer-icon.svg"></svg-icon>
-          <span>Гарантию возврата и обмена</span>
+          <span>{{ 'MAIN_PAGE.ADVANTAGE.RETURN_AND_EXCHANGE_GUARANTEE' | transloco }}</span>
         </div>
         <div class="card">
           <svg-icon src="assets/images/message-icon.svg"></svg-icon>
-          <span>Быструю обратную связь</span>
+          <span>{{ 'MAIN_PAGE.ADVANTAGE.FAST_FEEDBACK' | transloco }}</span>
         </div>
       </div>
     </div>
@@ -108,33 +92,25 @@
 
 <section class="easy-section">
   <div class="container">
-    <h3 class="section-title">Это просто</h3>
+    <h3 class="section-title">{{ 'MAIN_PAGE.SIMPLICITY.TITLE' | transloco }}</h3>
     <div class="cards-list">
       <div class="card">
         <img src="assets/images/basket-big-icon.svg" />
         <p class="card-text">
-          Вы выбираете понравившиеся товары при помощи продуманных критериев поиска и фильтрации на
-          сайте.
+          {{ 'MAIN_PAGE.SIMPLICITY.FIRST_STEP' | transloco }}
         </p>
         <span class="order-number">1</span>
       </div>
-      <!-- <div class="card">
-        <img src="assets/images/scales-big-icon.svg" />
-        <p class="card-text">
-          Вы можете воспользоваться сравнением товаров, когда вы определитесь - просто оформите
-          заказ нужного товара.
-        </p>
-        <span class="order-number">2</span>
-      </div> -->
       <div class="card">
         <img src="assets/images/operator-icon.svg" />
         <p class="card-text">
-          После наш менеджер свяжется с вами для уточнения деталей. Если вы затрудняетесь с выбором-
-          вы так же можете обратиться к нам по номеру сверху.
+          {{ 'MAIN_PAGE.SIMPLICITY.SECOND_STEP' | transloco }}
         </p>
         <span class="order-number">2</span>
       </div>
     </div>
-    <div [routerLink]="['catalog', 'water']" class="btn primary orange">В каталог</div>
+    <div [routerLink]="['catalog', 'water']" class="btn primary orange">
+      {{ 'MAIN_PAGE.SIMPLICITY.TO_CATALOG' | transloco }}
+    </div>
   </div>
 </section>

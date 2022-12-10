@@ -17,10 +17,23 @@ export class SaleListComponent implements OnInit {
   products$: Observable<IProduct[]>;
 
   swiperConfig = {
-    slidesPerView: 4,
+    slidesPerView: 1,
     spaceBetween: 32,
     slidesPerGroup: 4,
-    navigation: true,
+    navigation: false,
+    pagination: {
+      clickable: true,
+    },
+    breakpoints: {
+      1025: {
+        slidesPerView: 4,
+      },
+      769: {
+        slidesPerView: 3,
+        navigation: true,
+        pagination: false,
+      },
+    },
   };
 
   constructor(private store: Store) {

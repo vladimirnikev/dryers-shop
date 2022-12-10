@@ -7,13 +7,18 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { UserModule } from '@app/components/user/user.module';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
     PassportModule,
-    JwtModule.register({
-      secret: process.env.JWT_SECTRET,
-      signOptions: { expiresIn: '3d' },
+    JwtModule.registerAsync({
+      imports: [],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECTRET'),
+        signOptions: { expiresIn: '3d' },
+      }),
+      inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([UserEntity]),
     forwardRef(() => UserModule),

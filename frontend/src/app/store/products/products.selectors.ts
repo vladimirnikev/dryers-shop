@@ -9,10 +9,18 @@ export const selectProducts = createSelector(
   (state: IProductState) => state.products,
 );
 
-export const selectCurrentProduct = createSelector(
-  selectFeature,
-  (state: IProductState) => state.currentProduct,
-);
+export const selectCurrentProduct = createSelector(selectFeature, (state: IProductState) => {
+  if (state.currentProduct) {
+    return {
+      ...state.currentProduct,
+      imageUrls: [
+        state.currentProduct?.mainImg,
+        ...state.currentProduct?.imageUrls?.filter((url) => url !== state.currentProduct?.mainImg),
+      ],
+    };
+  }
+  return null;
+});
 
 export const selectProductById = (id: number) =>
   createSelector(selectFeature, (state: IProductState) =>
@@ -47,4 +55,14 @@ export const selectSearchedProducts = createSelector(
 export const selectIsLoading = createSelector(
   selectFeature,
   (state: IProductState) => state.isLoading,
+);
+
+export const selectImagesInProductForDeleting = createSelector(
+  selectFeature,
+  (state: IProductState) => state.imagesInProductForDeleting,
+);
+
+export const selectFirstColorInProduct = createSelector(
+  selectFeature,
+  (state: IProductState) => state.currentProduct?.colors[0],
 );

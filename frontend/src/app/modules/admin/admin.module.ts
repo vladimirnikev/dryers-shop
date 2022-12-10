@@ -19,6 +19,7 @@ import { StockListModalComponent } from './components/stock-list-modal/stock-lis
 import { AddingProductsToStockModalComponent } from './components/adding-products-to-stock-modal/adding-products-to-stock-modal.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { UpdateStockPageComponent } from './components/update-stock-page/update-stock-page.component';
+import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { UpdateStockPageComponent } from './components/update-stock-page/update-
     AddingProductsToStockModalComponent,
     LoaderComponent,
     UpdateStockPageComponent,
+    ConfirmModalComponent,
   ],
   imports: [CommonModule, MaterialModule, FormsModule, ReactiveFormsModule, AdminRoutingModule],
 })

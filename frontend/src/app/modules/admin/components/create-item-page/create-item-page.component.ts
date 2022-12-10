@@ -47,16 +47,19 @@ export class CreateItemPageComponent implements OnInit, OnDestroy {
         this.colors = colors;
         this.form = new FormGroup({
           name: new FormControl('', Validators.required),
+          nameUa: new FormControl('', Validators.required),
           price: new FormControl('', Validators.required),
           priceWithDiscount: new FormControl(''),
           power: new FormControl('', Validators.required),
           availability: new FormControl(true, Validators.required),
           description: new FormControl('', Validators.required),
+          descriptionUa: new FormControl('', Validators.required),
           file: new FormControl(this.formData),
           colors: new FormGroup({
             ...(<any>Object).fromEntries(colors.map((c) => [c.name, new FormControl(false)])),
           }),
           manufacturer: new FormControl('', Validators.required),
+          mainImg: new FormControl(0, Validators.required),
         });
       }),
     );
@@ -80,6 +83,12 @@ export class CreateItemPageComponent implements OnInit, OnDestroy {
     this.form.patchValue({
       images: this.imagesArr,
     });
+
+    if (this.form.value.mainImg === idx) {
+      if (this.imagesArr.length) {
+        this.form.patchValue({ mainImg: 0 });
+      }
+    }
   }
 
   createItem() {

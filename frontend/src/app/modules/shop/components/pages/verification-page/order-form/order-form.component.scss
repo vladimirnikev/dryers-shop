@@ -14,6 +14,10 @@ form {
   grid-template-areas: "user payment"
   "delivery delivery"
   "products products";
+  @media(max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 app-form-card {

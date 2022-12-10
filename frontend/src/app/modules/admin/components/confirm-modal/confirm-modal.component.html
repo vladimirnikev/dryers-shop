@@ -1,0 +1,9 @@
+<h2 mat-dialog-title class="title">Измените продукт:</h2>
+<div mat-dialog-content>
+  <p>Вы уверены, что хотите закрыть окно? Данные могут не сохраниться.</p>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-dialog-close mat-button>Отмена</button>
+
+  <button (click)="closeAllModals()" mat-button mat-raised-button color="primary">Да</button>
+</div>

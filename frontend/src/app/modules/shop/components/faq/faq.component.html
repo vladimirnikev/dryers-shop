@@ -1,6 +1,6 @@
 <div class="wrapper">
   <img src="assets/images/faq.svg" alt="faq" />
-  <span class="card-title">Нужна консультация?</span>
-  <p class="card-text">Наши специалисты ответят на любой интересующий вопрос</p>
-  <button (click)="openModal()" class="btn primary">Задать вопрос</button>
+  <span class="card-title">{{ 'FAQ_TITLE' | transloco }}</span>
+  <p class="card-text">{{ 'FAQ_TEXT' | transloco }}</p>
+  <button (click)="openModal()" class="btn primary">{{ 'ASK_QUESTION' | transloco }}</button>
 </div>

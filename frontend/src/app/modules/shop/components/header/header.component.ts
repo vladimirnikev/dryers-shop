@@ -1,12 +1,13 @@
 import { NavigationEnd, Router } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { filter } from 'rxjs/operators';
 import * as cartSelectors from 'src/app/store/cart/cart.selectors';
 import * as cartActions from 'src/app/store/cart/cart.actions';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { ModalService } from '../../services/modal.service';
+import { MobileService } from '../../services/mobile.service';
 
 @Component({
   selector: 'app-header',
@@ -17,7 +18,7 @@ import { ModalService } from '../../services/modal.service';
       state(
         'false',
         style({
-          maxHeight: '200px',
+          maxHeight: window.innerWidth <= 768 ? '1000px' : '200px',
         }),
       ),
       state(
@@ -47,10 +48,12 @@ import { ModalService } from '../../services/modal.service';
     ]),
   ],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('burgerButton') burgerButton: ElementRef;
 
   @ViewChild('nav') nav: ElementRef;
+
+  sub = new Subscription();
 
   isCollapsed = true;
 
@@ -60,16 +63,30 @@ export class HeaderComponent implements OnInit {
 
   cartProductsCount$: Observable<number>;
 
-  constructor(private modalService: ModalService, private route: Router, private store: Store) {
+  isMobile$: Observable<boolean>;
+
+  constructor(
+    private modalService: ModalService,
+    private route: Router,
+    private store: Store,
+    private mobileService: MobileService,
+  ) {
     this.cartProductsCount$ = this.store.select(cartSelectors.selectCartProductsCount);
+    this.isMobile$ = mobileService.isMobile$;
   }
 
   ngOnInit(): void {
-    this.route.events
-      .pipe(filter((e) => e instanceof NavigationEnd))
-      .subscribe(() => this.closeSubMenu());
+    this.sub.add(
+      this.route.events
+        .pipe(filter((e) => e instanceof NavigationEnd))
+        .subscribe(() => this.closeSubMenu()),
+    );
 
     this.store.dispatch(cartActions.getCart());
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
   toggleCollapse() {

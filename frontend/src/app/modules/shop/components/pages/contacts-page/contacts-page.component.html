@@ -1,6 +1,6 @@
 <section>
   <div class="container">
-    <h3 class="page-title">Контакты</h3>
+    <h3 class="page-title">{{ 'CONTACTS_PAGE.CONTACTS' | transloco }}</h3>
     <app-breadcrumbs></app-breadcrumbs>
 
     <div class="page-content">
@@ -8,15 +8,15 @@
         <img class="shop-photo" src="assets/images/shop-photo.JPG" alt="shop" />
         <div class="cards-list">
           <div class="contacts-card">
-            <span class="card-title">Адрес</span>
-            <span class="card-text">Одесса, ул. Косвенная, ХХ павильон ХХХХХХХХХХ, ряд ХХ</span>
+            <span class="card-title">{{ 'CONTACTS_PAGE.ADRESS.TITLE' | transloco }}</span>
+            <span class="card-text">{{ 'CONTACTS_PAGE.ADRESS.TEXT' | transloco }}</span>
           </div>
           <div class="contacts-card">
-            <span class="card-title">Режим работы</span>
-            <span class="card-text">Пн. – ВС.: с 8:30 до 15:00 </span>
+            <span class="card-title">{{ 'CONTACTS_PAGE.WORK_HOURS.TITLE' | transloco }}</span>
+            <span class="card-text">{{ 'CONTACTS_PAGE.WORK_HOURS.TEXT' | transloco }}</span>
           </div>
           <div class="contacts-card">
-            <span class="card-title">Телефон</span>
+            <span class="card-title">{{ 'CONTACTS_PAGE.PHONE' | transloco }}</span>
             <span class="card-text">+38 (055) 555 55 55</span>
           </div>
           <div class="contacts-card">
@@ -32,14 +32,27 @@
       </div>
       <div class="right-side">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d686.8754609745007!2d30.711580453593875!3d46.47837450000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40c631f34063aecd%3A0xd18809c1f4818808!2z0JrQvtGB0LLQtdC90L3QsNGPINGD0LsuLCAxOSwg0J7QtNC10YHRgdCwLCDQntC00LXRgdGB0LrQsNGPINC-0LHQu9Cw0YHRgtGMLCA2NTAwMA!5e0!3m2!1sru!2sua!4v1657733630410!5m2!1sru!2sua"
-          width="650"
-          height="650"
+          *ngIf="currentLanguage === 'uk_UA'; else ruMap"
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d686.875409840436!2d30.71243492401199!3d46.47837855072923!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40c631f34063ffff%3A0xef1a6fd87422975a!2z0KDQtdC80L7QvdGCINGN0LvQtdC60YLRgNC-0L7QsdC-0YDRg9C00L7QstCw0L3QuNGPINCyINCe0LTQtdGB0YHQtQ!5e0!3m2!1suk!2sua!4v1666989638071!5m2!1suk!2sua"
+          width="600"
+          height="600"
           style="border: 0"
           allowfullscreen=""
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
         ></iframe>
+
+        <ng-template #ruMap>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d686.8754609745007!2d30.711580453593875!3d46.47837450000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40c631f34063aecd%3A0xd18809c1f4818808!2z0JrQvtGB0LLQtdC90L3QsNGPINGD0LsuLCAxOSwg0J7QtNC10YHRgdCwLCDQntC00LXRgdGB0LrQsNGPINC-0LHQu9Cw0YHRgtGMLCA2NTAwMA!5e0!3m2!1sru!2sua!4v1657733630410!5m2!1sru!2sua"
+            width="600"
+            height="600"
+            style="border: 0"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </ng-template>
       </div>
     </div>
   </div>

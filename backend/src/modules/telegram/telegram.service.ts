@@ -19,7 +19,6 @@ export class TelegramService {
         (item, index) =>
           `${index + 1}-й товар:
   Название: ${item.item?.name || item.name}
-  Код товара: ${item.item?.code || item.code}
   Цвет: ${item.item?.color?.name || item.color?.name}
   Цена: ${item.item?.price || item.price} UAH
   Кол-во: ${item.count}`,
@@ -48,46 +47,46 @@ export class TelegramService {
       }
     };
 
+    const totalSum = order.itemRecords
+      .map((item) => item.item.price * item.count)
+      .reduce((prev, curr) => prev + curr, 0);
+
     return `Поступил новый заказ.
 - ФИО: ${order.fullName}
 - Номер телефона: ${order.phone}
 - Способ доставки: ${generateDeliveryMethod(order.deliveryType)}
-${
-  order.deliveryType === 'POST'
-    ? `- Город: ${order.city}
-- Тип доставки: ${
-        order.postType === 'OFFICE'
+${order.deliveryType === 'POST'
+        ? `- Город: ${order.city}
+- Тип доставки: ${order.postType === 'OFFICE'
           ? `В отделение ${order.office}`
           : `Курьер
 - Улица: ${order.street}
 - Номер дома: ${order.houseNumber}
 ${!!order.entrance ? `- Подъезд: ${order.entrance}` : `- Подъезд не указан`}
 ${!!order.floor ? `- Этаж": ${order.floor}` : '- Этаж не указан'}
-${
-  !!order.apartmentNumber
-    ? `- Номер квартиры: ${order.apartmentNumber}`
-    : '- Номер квартиры не указан'
-}`
-      }`
-    : ''
-}
+${!!order.apartmentNumber
+            ? `- Номер квартиры: ${order.apartmentNumber}`
+            : '- Номер квартиры не указан'
+          }`
+        }`
+        : ''
+      }
 - Метод оплаты: ${generatePaymentMethod(order.paymentType)}
 
 Список товаров: 
 ${this.generateProductList(order.itemRecords)}.
-Cумма к оплате: ${order.totalSum} UAH`;
+Cумма к оплате: ${totalSum} UAH`;
   }
 
   checkCurrentTimeForMessage(phone: string, name: string, message: string): string {
     return `Поступила новая просьба перезвонить.
 ${name ? 'Имя: ' + name + '.' : ''} 
 Номер телефона: ${phone}.
-${
-  message
-    ? `Сообщение:
+${message
+        ? `Сообщение:
 ${message}`
-    : ''
-}`;
+        : ''
+      }`;
   }
 
   makeMessageAboutOrderInClick(
@@ -103,8 +102,6 @@ ${dto.message ? `- Комментарий: ${dto.message}` : ''}`;
     if (!totalSum) {
       const secondPartOfMessage = `Товар: 
 - Название: ${(data as IProductDataForMessage).name}
-- Код товара: ${(data as IProductDataForMessage).code}
-- Цвет: ${(data as IProductDataForMessage).color}
 - Цена: ${(data as IProductDataForMessage).price} UAH`;
 
       return firstPartOfMessage + '\n' + secondPartOfMessage;

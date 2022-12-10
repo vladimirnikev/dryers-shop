@@ -29,6 +29,9 @@
     border-radius: 16px;
     border: 1px solid #BFBEBE;
     box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.1);
+    @media(max-width: 768px) {
+      width: 280px;
+    }
   }
 
   button.close {
@@ -116,6 +119,9 @@ form {
       width: 360px;
       height: 54px;
       resize: none;
+      @media(max-width: 768px) {
+        width: auto;
+      }
     }
   }
 

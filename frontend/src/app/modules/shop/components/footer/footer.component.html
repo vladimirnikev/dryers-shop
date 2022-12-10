@@ -3,24 +3,26 @@
     <div class="container">
       <ul>
         <li>
-          <a [routerLink]="['/', 'additional-information', 'payment']" class="footer-link"
-            >Условия оплаты</a
-          >
+          <a [routerLink]="['/', 'additional-information', 'payment']" class="footer-link">{{
+            'NAVIGATION.TERMS_OF_PAYMENT' | transloco
+          }}</a>
         </li>
         <li>
-          <a [routerLink]="['/', 'additional-information', 'delivery']" class="footer-link"
-            >Доставка</a
-          >
+          <a [routerLink]="['/', 'additional-information', 'delivery']" class="footer-link">{{
+            'NAVIGATION.DELIVERY' | transloco
+          }}</a>
         </li>
         <li>
           <a
             [routerLink]="['/', 'additional-information', 'return-and-exchange']"
             class="footer-link"
-            >Возврат и обмен</a
+            >{{ 'NAVIGATION.PURCHASE_RETURNS' | transloco }}</a
           >
         </li>
         <li>
-          <a [routerLink]="['/', 'contacts']" class="footer-link">Контакты</a>
+          <a [routerLink]="['/', 'contacts']" class="footer-link">{{
+            'NAVIGATION.CONTACTS' | transloco
+          }}</a>
         </li>
         <!-- <li><a [routerLink]="['']" class="footer-link">Договор-Офферта</a></li> -->
       </ul>
@@ -32,8 +34,8 @@
   </div>
   <div class="bottom">
     <div class="container">
-      <span>2009-2022 © Предприятие «Warm»</span>
-      <span>Украина, г. Одесса</span>
+      <span>2009-2022 © {{ 'COMPANY' | transloco }} «Warm»</span>
+      <span>{{ 'COUNTRY_CITY' | transloco }}</span>
     </div>
   </div>
 </div>

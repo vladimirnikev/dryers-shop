@@ -1,15 +1,20 @@
-<table>
+<!-- eslint-disable-next-line @angular-eslint/template/no-negated-async -->
+<table *ngIf="!(isMobile$ | async); else mobileList">
   <tr class="table-header">
-    <th>Наименование</th>
-    <th>Производитель</th>
-    <th *ngIf="itemsInCart$ | async | isExistNotEmptyValue: 'item':'oldPrice'">Скидка</th>
-    <th>Количество</th>
-    <th>Сумма</th>
+    <th>{{ 'VERIFICATION_PAGE.ITEM_NAME' | transloco }}</th>
+    <th>{{ 'VERIFICATION_PAGE.ITEM_MANUFACTURER' | transloco }}</th>
+    <th *ngIf="itemsInCart$ | async | isExistNotEmptyValue: 'item':'oldPrice'">
+      {{ 'VERIFICATION_PAGE.ITEM_DISCOUNT' | transloco }}
+    </th>
+    <th>{{ 'VERIFICATION_PAGE.ITEM_COUNT' | transloco }}</th>
+    <th>{{ 'VERIFICATION_PAGE.ITEM_SUM' | transloco }}</th>
   </tr>
   <tr *ngFor="let itemRecord of itemsInCart$ | async">
     <td>
-      <img [src]="itemRecord.item.imageUrls[0]" />
-      <span class="name">{{ itemRecord.item.name }}</span>
+      <img [src]="itemRecord.item.mainImg || '/assets/images/blank-image.svg'" />
+      <span class="name">{{
+        currentLanguage === 'uk_UA' ? itemRecord.item.nameUa : itemRecord.item.name
+      }}</span>
     </td>
     <td>
       <span>{{ itemRecord.item.manufacturer?.name }}</span>
@@ -31,3 +36,21 @@
     </td>
   </tr>
 </table>
+
+<ng-template #mobileList>
+  <div class="cards-list">
+    <div *ngFor="let itemRecord of itemsInCart$ | async" class="card">
+      <img class="card-img" [src]="itemRecord.item.mainImg" />
+      <div class="card-name">
+        {{ currentLanguage === 'uk_UA' ? itemRecord.item.nameUa : itemRecord.item.name }}
+      </div>
+      <div class="card-count">
+        <span>{{ 'VERIFICATION_PAGE.ITEM_COUNT' | transloco }}:</span> {{ itemRecord.count }} шт.
+      </div>
+      <div class="card-sum">
+        <span>{{ 'VERIFICATION_PAGE.ITEM_SUM' | transloco }}:</span>
+        {{ itemRecord.count * itemRecord.item.price | currency: 'UAH':'грн.':'1.2-2':'ua' }}
+      </div>
+    </div>
+  </div>
+</ng-template>

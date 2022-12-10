@@ -13,8 +13,8 @@ export class CartService {
     return this.httpService.get('cart');
   }
 
-  addItemToCart(item: number, count: number): Observable<ICart> {
-    return this.httpService.put('cart', { item, count });
+  addItemToCart(item: number, count: number, color: number): Observable<ICart> {
+    return this.httpService.put('cart', { item, count, color });
   }
 
   incrementProductCountInCart(itemRecordId: number): Observable<ICart> {

@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import localeUa from '@angular/common/locales/ru-UA';
 import { CookieService } from 'ngx-cookie-service';
+import { TranslocoModule } from '@ngneat/transloco';
 import { ShopLayoutComponent } from './components/shop-layout/shop-layout.component';
 import { ShopRoutingModule } from './shop-routing.module';
 import { HeaderComponent } from './components/header/header.component';
@@ -55,6 +56,10 @@ import { AdditionalInformationPageComponent } from './components/pages/additiona
 import { PaginationService } from './services/pagination.service';
 import { MaterialModule } from '../material/material.module';
 import { LoaderComponent } from './components/loader/loader.component';
+import { MainResolverService } from './services/main-resolver.service';
+import { MobileService } from './services/mobile.service';
+import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
+import { StockNameResolverService } from './services/stock-name-resolver.service';
 
 registerLocaleData(localeUa, 'ua');
 
@@ -101,6 +106,7 @@ registerLocaleData(localeUa, 'ua');
     ContactsPageComponent,
     AdditionalInformationPageComponent,
     LoaderComponent,
+    LanguageSwitcherComponent,
   ],
   imports: [
     CommonModule,
@@ -112,14 +118,18 @@ registerLocaleData(localeUa, 'ua');
     AngularSvgIconModule.forRoot(),
     SharedModule,
     MaterialModule,
+    TranslocoModule,
   ],
   providers: [
     BreadcrumbsService,
     ProductGroupResolverService,
     ProductResolverService,
+    StockNameResolverService,
     ModalService,
     PaginationService,
     CookieService,
+    MainResolverService,
+    MobileService,
   ],
 })
-export class ShopModule {}
+export class ShopModule { }

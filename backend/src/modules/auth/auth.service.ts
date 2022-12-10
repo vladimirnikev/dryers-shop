@@ -13,12 +13,12 @@ export class AuthService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     private readonly jwtService: JwtService,
-  ) {}
+  ) { }
 
   async validateUser(dto: AuthUserDto): Promise<UserEntity> {
     const user = await this.userRepository.findOne(
-      { email: dto.email },
       {
+        where: { email: dto.email },
         select: ['id', 'email', 'name', 'password', 'phone', 'surname', 'username', 'city'],
       },
     );
@@ -36,7 +36,6 @@ export class AuthService {
 
   async login(user: UserEntity): Promise<UserResponceInterface> {
     const payload = { email: user.email, username: user.email, id: user.id };
-
     return {
       user: {
         ...user,

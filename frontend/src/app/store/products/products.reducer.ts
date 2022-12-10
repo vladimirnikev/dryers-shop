@@ -31,6 +31,8 @@ import {
   getSimilarProductsByName,
   getSimilarProductsByNameSuccess,
   getSimilarProductsByNameFailed,
+  addImageToDeletingList,
+  cleanImagesOnDeleting,
 } from './products.actions';
 
 export const productsInitialState: IProductState = {
@@ -40,6 +42,7 @@ export const productsInitialState: IProductState = {
   currentProduct: null,
   viewedProducts: [],
   searchedProducts: [],
+  imagesInProductForDeleting: [],
   isLoading: false,
   error: '',
 };
@@ -120,7 +123,7 @@ const reducer = createReducer(
     ...state,
     products: [
       ...state.products.map((product) =>
-        product.id === productId
+        +product.id === +productId
           ? { ...product, imageUrls: product.imageUrls.filter((url) => url !== imageUrl) }
           : product,
       ),
@@ -200,6 +203,16 @@ const reducer = createReducer(
     ...state,
     error: error.message,
     isLoading: false,
+  })),
+
+  on(addImageToDeletingList, (state: IProductState, { url }) => ({
+    ...state,
+    imagesInProductForDeleting: [...state.imagesInProductForDeleting, url],
+  })),
+
+  on(cleanImagesOnDeleting, (state: IProductState) => ({
+    ...state,
+    imagesInProductForDeleting: [],
   })),
 );
 

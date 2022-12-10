@@ -31,7 +31,11 @@ export class CartController {
     @SessionId() sessionId: string,
   ): Promise<{ totalSum: number; itemRecords: ItemRecordEntity[] }> {
     const cart = await this.cartService.getCartBySessionId(sessionId);
-    return { totalSum: cart.totalSum, itemRecords: cart.itemRecords };
+    const totalSum = cart.itemRecords
+      .map((item) => item.item.price * item.count)
+      .reduce((prev, curr) => prev + curr, 0);
+
+    return { totalSum, itemRecords: cart.itemRecords };
   }
 
   @Put()

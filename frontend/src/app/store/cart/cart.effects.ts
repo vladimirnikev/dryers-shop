@@ -22,8 +22,8 @@ export class CartEffects {
   addProductToCart$ = createEffect(() =>
     this.actions$.pipe(
       ofType(cartActions.addProductToCart),
-      switchMap(({ item, count }) =>
-        this.cartService.addItemToCart(item, count).pipe(
+      switchMap(({ item, count, color }) =>
+        this.cartService.addItemToCart(item, count, color).pipe(
           map((cart) => cartActions.addProductToCartSuccess({ cart })),
           catchError((error) => of(cartActions.addProductToCartFailed(error))),
         ),

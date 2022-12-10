@@ -13,10 +13,18 @@ section {
 .page-content {
   margin-top: 40px;
   display: flex;
+  @media(max-width: 768px) {
+    flex-direction: column;
+    margin-top: 16px;
+  }
 }
 
 .right-side {
   margin-left: 32px;
+  @media(max-width: 768px) {
+    margin-top: 16px;
+    margin-left: 0;
+  }
 }
 
 .tabs {
@@ -34,7 +42,7 @@ section {
     white-space: nowrap;
     color: #000000;
 
-    &:nth-of-type(2), &:nth-of-type(3) {
+    &:nth-of-type(2), &:nth-of-type(3), &:nth-of-type(4) {
       border-top: none;
     }
 

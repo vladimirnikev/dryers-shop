@@ -7,6 +7,7 @@ import * as cartActions from 'src/app/store/cart/cart.actions';
 import * as cartSelectors from 'src/app/store/cart/cart.selectors';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'app-catalog-card',
@@ -15,6 +16,8 @@ import { Subscription } from 'rxjs';
 })
 export class CatalogCardComponent implements OnInit, OnDestroy {
   sub = new Subscription();
+
+  currentLanguage: 'uk_UA' | 'ru';
 
   count = 1;
 
@@ -26,13 +29,24 @@ export class CatalogCardComponent implements OnInit, OnDestroy {
 
   isExistInCart: boolean;
 
-  constructor(private modalService: ModalService, private router: Router, private store: Store) {}
+  constructor(
+    private modalService: ModalService,
+    private router: Router,
+    private store: Store,
+    private translocoService: TranslocoService,
+  ) {}
 
   ngOnInit(): void {
     this.sub.add(
       this.store.select(cartSelectors.selectProductsInCardIds).subscribe((ids) => {
         this.isExistInCart = ids?.some((id) => +id === +this.item.id);
       }),
+    );
+
+    this.sub.add(
+      this.translocoService.langChanges$.subscribe(
+        (language: 'uk_UA' | 'ru') => (this.currentLanguage = language),
+      ),
     );
   }
 
@@ -73,6 +87,12 @@ export class CatalogCardComponent implements OnInit, OnDestroy {
   }
 
   addItemToCart() {
-    this.store.dispatch(cartActions.addProductToCart({ item: this.item.id, count: this.count }));
+    this.store.dispatch(
+      cartActions.addProductToCart({
+        item: this.item.id,
+        count: this.count,
+        color: this.item.colors[0]?.id,
+      }),
+    );
   }
 }

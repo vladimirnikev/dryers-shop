@@ -1,13 +1,13 @@
 <form [formGroup]="orderForm" class="form-wrapper">
   <app-form-card
     [icon]="'assets/images/user-form.svg'"
-    [title]="'Данные получателя'"
+    [title]="'VERIFICATION_PAGE.RECIPIENT_DATA' | transloco"
   >
     <div class="form-card-content">
       <div class="form-control">
         <app-input
-          label="Имя и фамилия"
-          placeholder="Ваше имя"
+          [label]="'VERIFICATION_PAGE.FULLNAME' | transloco"
+          [placeholder]="'VERIFICATION_PAGE.FULLNAME_PLACEHOLDER' | transloco"
           inputType="text"
           inputName="name"
           id="order-name"
@@ -17,18 +17,16 @@
         ></app-input>
         <app-input-error
           *ngIf="
-            (orderFormFullName.dirty ||
-              orderFormFullName?.touched ||
-              isTriedSubmit) &&
+            (orderFormFullName.dirty || orderFormFullName?.touched || isTriedSubmit) &&
             orderFormFullName?.errors?.required
           "
-          >Введите ваше имя</app-input-error
+          >{{ 'VERIFICATION_PAGE.FULLNAME_EXIST_ERROR' | transloco }}</app-input-error
         >
       </div>
 
       <div class="form-control">
         <app-input
-          label="Телефон"
+          [label]="'VERIFICATION_PAGE.MOBILE_PHONE' | transloco"
           placeholder="+380(00)000 00 00"
           inputType="text"
           inputName="phone"
@@ -39,19 +37,16 @@
         ></app-input>
         <app-input-error
           *ngIf="
-            (orderFormPhone.dirty ||
-              orderFormPhone?.touched ||
-              isTriedSubmit) &&
+            (orderFormPhone.dirty || orderFormPhone?.touched || isTriedSubmit) &&
             orderFormPhone?.errors?.required
           "
-          >Введите ваш номер телефона</app-input-error
+          >{{ 'VERIFICATION_PAGE.MOBILE_PHONE_EXIST_ERROR' | transloco }}</app-input-error
         >
         <app-input-error
           *ngIf="
-            (orderFormPhone.dirty || orderFormPhone?.touched) &&
-            orderFormPhone?.errors?.pattern
+            (orderFormPhone.dirty || orderFormPhone?.touched) && orderFormPhone?.errors?.pattern
           "
-          >Введите корректный номер телефона</app-input-error
+          >{{ 'VERIFICATION_PAGE.MOBILE_PHONE_PATTERN_ERROR' | transloco }}</app-input-error
         >
       </div>
 
@@ -69,13 +64,13 @@
   </app-form-card>
   <app-form-card
     [icon]="'assets/images/wallet-form.svg'"
-    [title]="'Способ оплаты'"
+    [title]="'VERIFICATION_PAGE.PAYMENT_METHOD' | transloco"
   >
     <app-payment-selector formControlName="paymentType"></app-payment-selector>
   </app-form-card>
   <app-form-card
     [icon]="'assets/images/bus-form.svg'"
-    [title]="'Способ доставки'"
+    [title]="'VERIFICATION_PAGE.DELIVERY_METHOD' | transloco"
   >
     <app-delivery-selector
       [isTriedSubmit]="isTriedSubmit"
@@ -84,7 +79,7 @@
   </app-form-card>
   <app-form-card
     [icon]="'assets/images/cart-form.svg'"
-    [title]="'Товары в заказе'"
+    [title]="'VERIFICATION_PAGE.ITEMS_IN_CART' | transloco"
   >
     <app-order-items-list></app-order-items-list>
   </app-form-card>

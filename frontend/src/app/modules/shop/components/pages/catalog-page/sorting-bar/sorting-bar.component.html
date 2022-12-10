@@ -1,26 +1,26 @@
 <div class="wrapper">
-  <span class="wrapper-title">Сортировка:</span>
+  <span class="wrapper-title">{{ 'CATALOG_PAGE.SORT' | transloco }}:</span>
   <div class="sort-bar">
     <button
       [ngClass]="{ active: currentSortType === 'PRICE_DESC' }"
       (click)="sortItems('price', 'DESC')"
       class="tab"
     >
-      От дорогих
+      {{ 'CATALOG_PAGE.FROM_EXPENSIVE' | transloco }}
     </button>
     <button
       [ngClass]="{ active: currentSortType === 'PRICE_ASC' }"
       (click)="sortItems('price', 'ASC')"
       class="tab"
     >
-      От дешёвых
+      {{ 'CATALOG_PAGE.FROM_CHEAP' | transloco }}
     </button>
     <button
       [ngClass]="{ active: currentSortType === 'CREATEDAT_DESC' }"
       (click)="sortItems('createdAt', 'DESC')"
       class="tab"
     >
-      Новинки
+      {{ 'CATALOG_PAGE.NEW_ITEMS' | transloco }}
     </button>
   </div>
 

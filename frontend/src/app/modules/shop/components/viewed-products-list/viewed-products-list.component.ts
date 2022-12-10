@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Actions } from '@ngrx/effects';
+import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { IProduct } from 'src/app/common/interfaces/product.interface';
@@ -17,14 +17,27 @@ import { SwiperComponent } from 'swiper/angular';
 export class ViewedProductsListComponent implements OnInit, OnDestroy {
   @ViewChild('swiper') swiper: SwiperComponent;
 
+  currentLanguage: 'uk_UA' | 'ru';
+
   sub = new Subscription();
 
   swiperConfig: SwiperOptions = {
-    slidesPerView: 4,
+    slidesPerView: 1,
     spaceBetween: 8,
     navigation: {
       nextEl: '.swiper-button-next-unique',
       prevEl: '.swiper-button-prev-unique',
+    },
+    breakpoints: {
+      1025: {
+        slidesPerView: 4,
+      },
+      769: {
+        slidesPerView: 3,
+      },
+      450: {
+        slidesPerView: 2,
+      },
     },
   };
 
@@ -32,7 +45,11 @@ export class ViewedProductsListComponent implements OnInit, OnDestroy {
 
   viewedProducts$: Observable<IProduct[]>;
 
-  constructor(private store: Store, private route: ActivatedRoute, private actions$: Actions) {
+  constructor(
+    private store: Store,
+    private route: ActivatedRoute,
+    private translocoService: TranslocoService,
+  ) {
     this.viewedProducts$ = this.store.select(productSelectors.selectViewedProducts);
   }
 
@@ -52,6 +69,12 @@ export class ViewedProductsListComponent implements OnInit, OnDestroy {
         }
         this.store.dispatch(productActions.getViewedProducts({}));
       }),
+    );
+
+    this.sub.add(
+      this.translocoService.langChanges$.subscribe(
+        (language: 'uk_UA' | 'ru') => (this.currentLanguage = language),
+      ),
     );
   }
 

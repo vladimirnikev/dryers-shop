@@ -2,9 +2,12 @@
   <div class="container">
     <h3 class="page-title">
       {{
-        (lastPartOfPath === 'payment' && 'Оплата') ||
-          (lastPartOfPath === 'delivery' && 'Доставка') ||
-          (lastPartOfPath === 'return-and-exchange' && 'Возврат и обмен')
+        (lastPartOfPath === 'payment' && 'ADDITIONAL_INFORMATION_PAGE.PAYMENT' | transloco) ||
+          (lastPartOfPath === 'delivery' && 'ADDITIONAL_INFORMATION_PAGE.DELIVERY' | transloco) ||
+          (lastPartOfPath === 'return-and-exchange' &&
+            'ADDITIONAL_INFORMATION_PAGE.RETURN_AND_EXCHANGE' | transloco) ||
+          (lastPartOfPath === 'public-offer-contract' && 'ADDITIONAL_INFORMATION_PAGE.PUBLIC_OFFER'
+            | transloco)
       }}
     </h3>
     <app-breadcrumbs></app-breadcrumbs>
@@ -16,19 +19,25 @@
             [routerLink]="['/', 'additional-information', 'payment']"
             routerLinkActive="active-link"
             class="tab"
-            >Оплата</a
+            >{{ 'ADDITIONAL_INFORMATION_PAGE.PAYMENT' | transloco }}</a
           >
           <a
             [routerLink]="['/', 'additional-information', 'delivery']"
             routerLinkActive="active-link"
             class="tab"
-            >Доставка</a
+            >{{ 'ADDITIONAL_INFORMATION_PAGE.DELIVERY' | transloco }}</a
           >
           <a
             [routerLink]="['/', 'additional-information', 'return-and-exchange']"
             routerLinkActive="active-link"
             class="tab"
-            >Возврат и обмен</a
+            >{{ 'ADDITIONAL_INFORMATION_PAGE.RETURN_AND_EXCHANGE' | transloco }}</a
+          >
+          <a
+            [routerLink]="['/', 'additional-information', 'public-offer-contract']"
+            routerLinkActive="active-link"
+            class="tab"
+            >{{ 'ADDITIONAL_INFORMATION_PAGE.PUBLIC_OFFER' | transloco }}</a
           >
         </div>
       </div>
@@ -37,7 +46,8 @@
           [ngTemplateOutlet]="
             (lastPartOfPath === 'payment' && payment) ||
             (lastPartOfPath === 'delivery' && delivery) ||
-            (lastPartOfPath === 'return-and-exchange' && returnAndExchange)
+            (lastPartOfPath === 'return-and-exchange' && returnAndExchange) ||
+            (lastPartOfPath === 'public-offer-contract' && publicOfferContract)
           "
         ></ng-component>
       </div>
@@ -46,37 +56,29 @@
 </section>
 
 <ng-template #payment>
-  <div class="side-content">
-    <span class="side-title">Оплата отопительного оборудования и кондиционеров </span>
-    <div class="side-text">
-      <p>
-        Вы можете купить отопительное оборудование и кондиционеры, оплатив его любым удобным
-        способом:
-      </p>
-
-      <p>
-        1. Предоплата по счету-фактуре или платежным переводом - данный вид оплаты максимально
-        ускорит выполнение заказа и не требует дополнительных комиссионных платежей (оплата без НДС,
-        единый налог).
-      </p>
-      <p>
-        2. Оплата наложенным платежом при получении заказа на отделении Новой Почты. Стоимость
-        услуги "Наложенный платеж" оплачивает покупатель, то есть к цене оборудования добавится
-        стоимость услуги Новой почты за оформление платежа + 2% от стоимости заказа.
-      </p>
-      <p>
-        3. Предоплата по счету-фактуре с НДС - в этом случае возможно изменение цены, поэтому,
-        пожалуйста, предварительно уточняйте стоимость заказа.
-      </p>
-
-      <p>
-        Если у Вас возникли вопросы или требуются уточнения, пожалуйста, звоните +38 (055) 555 55 55
-      </p>
-      <p>Владелец сайта warm.com.ua – ФЛП Заика С.А. (ИНН XXXXXXXXXX)</p>
-    </div>
-  </div>
+  <div
+    class="side-content from-markdown"
+    [innerHTML]="'ADDITIONAL_INFORMATION_PAGE.PAYMENT_TEXT' | transloco"
+  ></div>
 </ng-template>
 
-<ng-template #delivery> delivery </ng-template>
+<ng-template #delivery>
+  <div
+    [innerHTML]="'ADDITIONAL_INFORMATION_PAGE.DELIVERY_TEXT' | transloco"
+    class="side-content from-markdown"
+  ></div>
+</ng-template>
 
-<ng-template #returnAndExchange> returnAndExchange </ng-template>
+<ng-template #returnAndExchange>
+  <div
+    [innerHTML]="'ADDITIONAL_INFORMATION_PAGE.RETURN_AND_EXCHANGE_TEXT' | transloco"
+    class="side-content from-markdown"
+  ></div>
+</ng-template>
+
+<ng-template #publicOfferContract>
+  <div
+    [innerHTML]="'ADDITIONAL_INFORMATION_PAGE.PUBLIC_OFFER_TEXT' | transloco"
+    class="side-content from-markdown"
+  ></div>
+</ng-template>

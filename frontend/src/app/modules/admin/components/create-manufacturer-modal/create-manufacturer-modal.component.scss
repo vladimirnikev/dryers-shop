@@ -1,4 +1,54 @@
 form {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  position: relative;
+}
+
+.upload-button {
+  max-width: 200px;
+  margin: 8px auto;
+
+  cursor: pointer;
+  input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    cursor: pointer;
+    display: none;
+  }
+}
+
+.btn-delete {
+  display: block;
+  margin: 0 auto !important;
+  max-width: 200px;
+  width: 100%;
+}
+
+.image-card {
+  width: fit-content;
+  margin: 0 auto;
+
+  img {
+    max-width: 256px;
+    width: 100%;
+  }
+}
+
+
+.image-list {
+  mat-error {
+    text-align: center;
+    margin-top: 8px;
+  }
+}
+
+.custom-error {
+  position: absolute;
+  font-size: 75%;
+  bottom: 0;
 }

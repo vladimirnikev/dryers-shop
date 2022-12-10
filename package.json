@@ -6,7 +6,7 @@
     "shell:win": "set COMPOSE_PROJECT_NAME=warm-shop-image && npm run shell:compose",
     "shell:compose": "docker-compose -f docker-compose.shell.yml build && docker-compose -f docker-compose.shell.yml run --rm -u 1000 --name warm-shop-image --service-ports app bash || true && echo Stopping environment... && docker-compose -f docker-compose.shell.yml -p warm-shop-image down",
     "shell:build": "docker-compose -f docker-compose.shell.yml -p warm-shop-image build --no-cache",
-    "shell:join": "docker exec -it warm-shop-image bash",
+    "shell:join": "docker exec -it COMPOSE_PROJECT_NAME bash",
     "shell:stop": "docker-compose -f docker-compose.shell.yml -p warm-shop-image down --volumes",
     "dev": "concurrently -n frontend,backend -c blue,yellow  \"npm run dev:frontend\" \"npm run dev:backend\"",
     "dev:frontend": "cd frontend && npm run start",

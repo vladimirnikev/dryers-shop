@@ -79,6 +79,9 @@ button {
     line-height: 20px;
     color: #0D0D0D;
     width: fit-content;
+    @media(max-width: 768px) {
+      text-align: left;
+    }
   }
 }
 

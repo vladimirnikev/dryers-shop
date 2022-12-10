@@ -6,8 +6,11 @@ export class ManufacturerEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ default: '' })
   name: string;
+
+  @Column({ default: '' })
+  img: string;
 
   @OneToMany(() => DryerEntity, (product) => product.manufacturer, {
     nullable: true,

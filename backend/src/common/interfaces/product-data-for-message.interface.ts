@@ -1,5 +1,4 @@
 export interface IProductDataForMessage {
-  code: string;
   name: string;
   price: number;
   color: string;

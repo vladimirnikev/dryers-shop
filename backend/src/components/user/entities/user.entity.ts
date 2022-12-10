@@ -7,13 +7,13 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ default: '' })
   email: string;
 
   @Column({ select: false })
   password: string;
 
-  @Column()
+  @Column({ default: '' })
   username: string;
 
   @Column({ default: '' })
@@ -35,12 +35,6 @@ export class UserEntity {
   async hashPassword() {
     this.password = await hash(this.password, 10);
   }
-
-  // @OneToOne(() => CartEntity, (cart) => cart.user, {
-  //   onDelete: 'CASCADE',
-  // })
-  // @JoinColumn()
-  // cart: CartEntity;
 
   @OneToMany(() => ReviewEntity, (review) => review.user)
   reviews: ReviewEntity[];

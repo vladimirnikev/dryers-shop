@@ -1,7 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
-import { CookieService } from 'ngx-cookie-service';
+import { Component } from '@angular/core';
 import { ModalService } from '../../services/modal.service';
 
 @Component({
@@ -9,18 +6,8 @@ import { ModalService } from '../../services/modal.service';
   templateUrl: './shop-layout.component.html',
   styleUrls: ['./shop-layout.component.scss'],
 })
-export class ShopLayoutComponent implements OnDestroy {
-  sub = new Subscription();
-
-  constructor(
-    private modalService: ModalService,
-    private store: Store,
-    private cookieService: CookieService,
-  ) {}
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
+export class ShopLayoutComponent {
+  constructor(private modalService: ModalService) {}
 
   openRecallModal() {
     this.modalService.openRecallModal();

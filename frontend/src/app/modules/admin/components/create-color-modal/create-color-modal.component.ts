@@ -15,6 +15,11 @@ import { selectAllColors } from '../../../../store/colors/colors.selectors';
 export class CreateColorModalComponent implements OnInit, OnDestroy {
   form = new FormGroup({
     name: new FormControl('', Validators.required),
+    nameUa: new FormControl('', Validators.required),
+    code: new FormControl('#000000', [
+      Validators.required,
+      Validators.pattern(/^#[a-zA-Z0-9]{6,6}$/),
+    ]),
   });
 
   colors: IColor[];

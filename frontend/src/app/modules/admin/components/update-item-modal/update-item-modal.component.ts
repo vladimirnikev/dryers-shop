@@ -40,17 +40,18 @@ export class UpdateItemModalComponent implements OnInit, OnDestroy {
 
   manufacturers$ = this.store$.select(selectAllManufacturers);
 
-  isDisable = false;
-
   form = new FormGroup({
     name: new FormControl(null, Validators.required),
+    nameUa: new FormControl(null, Validators.required),
     price: new FormControl(null, Validators.required),
     priceWithDiscount: new FormControl(null),
     power: new FormControl(null, Validators.required),
     availability: new FormControl(null, Validators.required),
     description: new FormControl(null, Validators.required),
+    descriptionUa: new FormControl(null, Validators.required),
     colors: new FormGroup({}),
     manufacturer: new FormControl(null, Validators.required),
+    mainImg: new FormControl(null, Validators.required),
   });
 
   constructor(
@@ -80,12 +81,15 @@ export class UpdateItemModalComponent implements OnInit, OnDestroy {
         );
         this.form.patchValue({
           name: product.name,
+          nameUa: product.nameUa,
           price: product.oldPrice ? product.oldPrice : product.price,
           priceWithDiscount: product.oldPrice ? product.price : null,
           power: product.power,
           availability: product.availability,
           description: product.description,
+          descriptionUa: product.descriptionUa,
           manufacturer: product.manufacturer?.id,
+          mainImg: product.mainImg,
         });
         this.imagesArr = product.imageUrls;
         this.isNotValidColors = Object.values(this.form.get('colors').value).every(
@@ -133,6 +137,10 @@ export class UpdateItemModalComponent implements OnInit, OnDestroy {
         dto: { imageUrl },
       }),
     );
+
+    this.imagesArr = this.imagesArr.filter((img) => img !== imageUrl);
+
+    this.form.patchValue({ mainImg: null });
   }
 
   deleteImageForUpload(idx) {
@@ -147,6 +155,10 @@ export class UpdateItemModalComponent implements OnInit, OnDestroy {
     this.form.patchValue({
       images: this.newImages,
     });
+
+    if (+this.form.value.mainImg === +idx) {
+      this.form.patchValue({ mainImg: null });
+    }
   }
 
   preview(files) {

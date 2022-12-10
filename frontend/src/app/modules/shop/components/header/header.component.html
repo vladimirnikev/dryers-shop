@@ -1,26 +1,28 @@
-<div class="top-header">
+<!-- eslint-disable-next-line @angular-eslint/template/no-negated-async -->
+<div *ngIf="!(isMobile$ | async)" class="top-header">
   <ul>
     <li>
-      <a [routerLink]="['/', 'additional-information', 'payment']" class="top-header-link"
-        >Условия оплаты</a
-      >
+      <a [routerLink]="['/', 'additional-information', 'payment']" class="top-header-link">{{
+        'NAVIGATION.TERMS_OF_PAYMENT' | transloco
+      }}</a>
     </li>
     <li>
-      <a [routerLink]="['/', 'additional-information', 'delivery']" class="top-header-link"
-        >Доставка</a
-      >
+      <a [routerLink]="['/', 'additional-information', 'delivery']" class="top-header-link">{{
+        'NAVIGATION.DELIVERY' | transloco
+      }}</a>
     </li>
     <li>
       <a
         [routerLink]="['/', 'additional-information', 'return-and-exchange']"
         class="top-header-link"
-        >Возврат и обмен</a
+        >{{ 'NAVIGATION.PURCHASE_RETURNS' | transloco }}</a
       >
     </li>
     <li>
-      <a [routerLink]="['/', 'contacts']" class="top-header-link">Контакты</a>
+      <a [routerLink]="['/', 'contacts']" class="top-header-link">{{
+        'NAVIGATION.CONTACTS' | transloco
+      }}</a>
     </li>
-    <!-- <li><a [routerLink]="['']" class="top-header-link">Договор-Офферта</a></li> -->
   </ul>
 </div>
 
@@ -39,36 +41,31 @@
       </span>
     </button>
 
-    <div class="phone-wrapper">
+    <!-- eslint-disable-next-line @angular-eslint/template/no-negated-async -->
+    <div *ngIf="!(isMobile$ | async)" class="phone-wrapper">
       <span>+38 (055) 555 55 55</span>
-      <button (click)="openRecallForm()">Обратный звонок</button>
+      <button (click)="openRecallForm()">{{ 'NAVIGATION.RECALL' | transloco }}</button>
     </div>
 
-    <div class="nav-bar">
-      <div class="bar-item language-switcher">
-        <button>UA</button>
-        <span>/</span>
-        <button class="active">RU</button>
+    <!-- eslint-disable-next-line @angular-eslint/template/no-negated-async -->
+    <ng-container *ngIf="!(isMobile$ | async)">
+      <div class="nav-bar">
+        <app-language-switcher></app-language-switcher>
+        <button
+          [ngClass]="{ active: !isCollapsedSearchBar }"
+          class="nav-btn bar-btn bar-item"
+          (click)="toggleCollapseSearchBar()"
+        >
+          <svg-icon src="/assets/images/search-icon.svg"></svg-icon>
+        </button>
+        <button class="nav-btn bar-btn bar-item" [routerLink]="['cart']">
+          <svg-icon src="/assets/images/shop-icon.svg"></svg-icon>
+          <div *ngIf="!!(cartProductsCount$ | async)" class="circle">
+            <span class="count">{{ cartProductsCount$ | async }}</span>
+          </div>
+        </button>
       </div>
-      <button
-        [ngClass]="{ active: !isCollapsedSearchBar }"
-        class="nav-btn bar-btn bar-item"
-        (click)="toggleCollapseSearchBar()"
-      >
-        <svg-icon src="/assets/images/search-icon.svg"></svg-icon>
-      </button>
-      <!-- <button
-        [ngClass]="{ active: !isCollapsedBasketCard }"
-        class="nav-btn bar-btn bar-item"
-        (click)="toggleCollapseBasketCard()"
-      > -->
-      <button class="nav-btn bar-btn bar-item" [routerLink]="['cart']">
-        <svg-icon src="/assets/images/shop-icon.svg"></svg-icon>
-        <div *ngIf="!!(cartProductsCount$ | async)" class="circle">
-          <span class="count">{{ cartProductsCount$ | async }}</span>
-        </div>
-      </button>
-    </div>
+    </ng-container>
   </div>
 
   <div [@collapse]="isCollapsed" class="sub-nav">
@@ -76,9 +73,9 @@
   </div>
 
   <div [@collapse]="isCollapsedSearchBar" class="sub-nav">
-    <app-sub-navigation [isOpened]="!isCollapsedSearchBar"></app-sub-navigation>
+    <app-sub-navigation
+      (closeSearchBarEvent)="toggleCollapseSearchBar()"
+      [isOpened]="!isCollapsedSearchBar"
+    ></app-sub-navigation>
   </div>
-  <!-- <div [@collapseBasketCard]="isCollapsedBasketCard" class="sub-nav-basket">
-    <app-basket-bar-card></app-basket-bar-card>
-  </div> -->
 </div>

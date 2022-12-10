@@ -4,20 +4,39 @@
   height: 100%;
   margin-top: 24px;
   position: relative;
+  @media(max-width: 768px) {
+    max-height: none;
+  }
+  .container {
+    @media(max-width: 768px) {
+      padding-top: 20px;
+    }
+  }
 }
 
 app-sale-list {
   position: relative;
   top: 20px;
+  @media(max-width: 768px) {
+    position: initial;
+    top: 0;
+  }
 }
 
 .about-section {
   position: relative;
   padding-top: 80px;
   margin-bottom: 80px;
+  @media(max-width: 768px) {
+    padding-top: 0;
+    margin-bottom: 40px;
+  }
   .container {
     display: flex;
     justify-content: space-between;
+    @media(max-width: 768px) {
+      flex-direction: column;
+    }
   }
 
   .content {
@@ -25,11 +44,19 @@ app-sale-list {
     max-width: 400px;
     display: flex;
     flex-direction: column;
+    @media (max-width: 1024px) {
+      max-width: 450px;
+    }
+    @media(max-width: 768px) {
+      max-width: none;
+      margin-top: 40px;
+    }
 
     .content-text {
       margin-top: 8px;
       font-size: 14px;
       line-height: 20px;
+      white-space: pre-line;
     }
 
     .btn {
@@ -37,11 +64,25 @@ app-sale-list {
       align-self: flex-start;
       width: auto;
       padding: 4px 60px;
+      @media(max-width: 768px) {
+        width: 100%;
+      }
     }
   }
   .content-img {
     width: 600px;
     height: 670px;
+    @media(max-width: 1038px) {
+      width: 550px;
+    }
+    @media(max-width: 1024px) {
+      width: 400px;
+      height: auto;
+      margin-left: 24px;
+    }
+    @media(max-width: 768px) {
+      display: none;
+    }
   }
 
   .actions-wrapper {
@@ -50,6 +91,18 @@ app-sale-list {
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 50%);
+    @media(max-width: 768px) {
+      position: initial;
+      transform: none;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-top: 16px;
+      margin-bottom: -8px;
+    }
+    @media(max-width: 540px) {
+      flex-direction: column;
+    }
+
     .link {
       cursor: pointer;
       background: #EFF3FC;
@@ -60,6 +113,13 @@ app-sale-list {
       align-items: center;
       transition: 200ms;
       text-decoration: none;
+      @media(max-width: 768px) {
+        width: fit-content;
+        margin-bottom: 8px;
+      }
+      @media(max-width: 540px) {
+        width: 100%;
+      }
 
       &:hover {
         background: #cad4ed;
@@ -85,9 +145,11 @@ app-sale-list {
           white-space: nowrap;
         }
       }
-
       &:not(:nth-of-type(1)) {
         margin-left: 24px;
+        @media(max-width: 768px) {
+          margin-left: 0;
+        }
       }
     }
   }
@@ -95,7 +157,7 @@ app-sale-list {
 
 .brands-section {
   background: #EFF3FC;
-  padding: 80px 0 24px 0;
+  padding: 40px 0 24px 0;
   overflow: hidden;
 
   .container {
@@ -124,6 +186,10 @@ app-sale-list {
       &:not(:nth-of-type(1)) {
         margin-left: 24px;
       }
+      @media(max-width: 768px) {
+        height: 40px;
+        width: 85px;
+      }
     }
 
   }
@@ -135,11 +201,24 @@ app-sale-list {
   .container {
     display: flex;
     align-items: center;
+
+    @media (max-width: 1024px) {
+      flex-direction: column;
+    }
   }
 
   .section-img {
     width: 540px;
     height: 400px;
+    @media (max-width: 1024px) {
+      order: 2;
+      margin-top: 24px;
+      width: 600px;
+      height: auto;
+    }
+    @media(max-width: 768px) {
+      display: none;
+    }
   }
 
   .section-title {
@@ -148,6 +227,12 @@ app-sale-list {
 
   .content {
     margin-left: 24px;
+    @media (max-width: 1024px) {
+      order: 1;
+    }
+    @media(max-width: 768px) {
+      margin-left: 0;
+    }
 
     .cards-wrapper {
       margin-top: 32px;
@@ -159,7 +244,7 @@ app-sale-list {
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 260px;
+        flex: 1 1 50%;
         &:nth-of-type(3), &:nth-of-type(4) {
           margin-top: 40px;
         }
@@ -168,6 +253,7 @@ app-sale-list {
           font-size: 18px;
           line-height: 27px;
           margin-top: 8px;
+          text-align: center;
         }
       }
     }
@@ -185,6 +271,10 @@ app-sale-list {
     display: flex;
     justify-content: space-evenly;
     margin-top: 24px;
+    @media(max-width: 768px) {
+      flex-direction: column;
+      align-items: center;
+    }
 
     .card {
       display: flex;
@@ -192,6 +282,15 @@ app-sale-list {
       align-items: center;
       width: 360px;
       position: relative;
+      @media(max-width: 768px) {
+        width: auto;
+      }
+
+      &:nth-of-type(2) {
+        @media(max-width: 768px) {
+          margin-top: 40px;
+        }
+      }
 
       .card-text {
         position: relative;

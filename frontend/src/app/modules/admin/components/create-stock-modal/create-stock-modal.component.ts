@@ -19,6 +19,7 @@ import {
   IProductQuery,
   IProductQueryFilters,
 } from 'src/app/common/interfaces/product.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-stock-modal',
@@ -30,7 +31,7 @@ export class CreateStockModalComponent implements OnInit, OnDestroy, AfterViewIn
 
   filterForm: FormGroup;
 
-  displayedColumns: string[] = ['name', 'code', 'add'];
+  displayedColumns: string[] = ['name', 'add'];
 
   sub = new Subscription();
 
@@ -52,6 +53,8 @@ export class CreateStockModalComponent implements OnInit, OnDestroy, AfterViewIn
 
   stockIsActive: boolean;
 
+  imagesArr = [];
+
   @ViewChild('file') fileInput: ElementRef<HTMLElement>;
 
   @ViewChild('imgCard') imgCard: ElementRef<HTMLElement>;
@@ -64,19 +67,20 @@ export class CreateStockModalComponent implements OnInit, OnDestroy, AfterViewIn
     private snackBar: MatSnackBar,
     private helperService: HelperService,
     private actions: Actions,
+    private router: Router,
   ) {
     this.stocks$ = this.store$.select(stockSelectors.selectStocks);
 
     this.form = this.fb.group({
       name: ['', [Validators.required], [ValidatorService.isExistName(this.stocks$)]],
+      nameUa: ['', Validators.required],
       file: [this.formData],
-      products: [[], Validators.required],
+      products: [[], [Validators.required, Validators.minLength(1)]],
       isActive: false,
     });
 
     this.filterForm = this.fb.group({
       name: '',
-      code: '',
     });
 
     this.isLoading$ = this.store$.select(stockSelectors.selectLoadingStatus);
@@ -99,11 +103,17 @@ export class CreateStockModalComponent implements OnInit, OnDestroy, AfterViewIn
     );
 
     this.sub.add(
-      this.actions.pipe(ofType(stockActions.createStockSuccess)).subscribe(() => this.cleanForm()),
+      this.actions.pipe(ofType(stockActions.createStockSuccess)).subscribe(() => {
+        this.cleanForm();
+        this.router.navigate(['items']);
+      }),
     );
 
     this.sub.add(
-      this.actions.pipe(ofType(stockActions.createStockFailed)).subscribe(() => this.cleanForm()),
+      this.actions.pipe(ofType(stockActions.createStockFailed)).subscribe(() => {
+        this.cleanForm();
+        this.router.navigate(['items']);
+      }),
     );
   }
 
@@ -145,7 +155,7 @@ export class CreateStockModalComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   cleanForm() {
-    this.deleteImage();
+    this.imagesArr = [];
     this.form.reset();
     this.form.get('products').setValue([]);
     this.stockIsActive = false;
@@ -153,37 +163,20 @@ export class CreateStockModalComponent implements OnInit, OnDestroy, AfterViewIn
     this.formData = new FormData();
   }
 
-  deleteImage() {
-    this.image = null;
-    this.imgCard.nativeElement.innerHTML = '';
-    this.form.patchValue({
-      image: null,
-    });
-  }
-
   preview(files) {
-    if (!files.length) {
-      return;
-    }
-
-    this.formData = new FormData();
-
-    if (this.image?.toString().includes('svg')) {
-      this.imgCard.nativeElement.innerHTML = '';
-    }
-
     files = Array(files)[0];
     const formData = new FormData();
-    this.formData.append('files', files[0], files[0].name);
+    for (let i = 0; i < files.length; i++) {
+      this.formData.append('files', files[i], files[i].name);
+    }
 
     if (files.length === 0) {
       return;
     }
-
     const isNotValidFiles = Object.keys(files).some((key) => {
+      const extension = files[0].name.split('.').pop().toLowerCase();
       const mimeType = files[key].type;
-
-      if (mimeType.match(/image\/*/) == null) {
+      if (mimeType.match(/image\/*/) == null || extension === 'svg') {
         this.snackBar.open(`Данный формат не поддерживается`, 'Error', {
           duration: 5000,
           panelClass: 'red-snackbar',
@@ -197,30 +190,24 @@ export class CreateStockModalComponent implements OnInit, OnDestroy, AfterViewIn
       return;
     }
 
-    const extension = files[0].name.split('.').pop().toLowerCase();
-    const fileKey = files[Object.keys(files)[0]];
-    const reader = new FileReader();
-
-    if (extension === 'svg') {
-      reader.readAsText(fileKey);
+    Object.keys(files).forEach((key) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(files[key]);
       reader.onload = () => {
-        this.image = reader.result;
-        this.imgCard.nativeElement.innerHTML = this.image.toString();
+        this.imagesArr.push(reader.result);
       };
+    });
 
-      this.form.patchValue({
-        file: formData,
-      });
-    } else {
-      reader.readAsDataURL(fileKey);
-      reader.onload = () => {
-        this.image = reader.result;
-      };
+    this.form.patchValue({
+      file: formData,
+    });
+  }
 
-      this.form.patchValue({
-        file: formData,
-      });
-    }
+  deleteImage(idx) {
+    this.imagesArr = this.imagesArr.filter((img, index) => index !== idx);
+    this.form.patchValue({
+      images: this.imagesArr,
+    });
   }
 
   triggerClickInput() {
@@ -249,7 +236,6 @@ export class CreateStockModalComponent implements OnInit, OnDestroy, AfterViewIn
 
   toggleStockStatus() {
     this.form.get('isActive').setValue(!this.formIsActive);
-    console.log(this.formIsActive);
   }
 
   get formProducts() {

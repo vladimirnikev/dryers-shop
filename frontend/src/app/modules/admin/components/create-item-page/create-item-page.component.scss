@@ -63,3 +63,13 @@ mat-error {
   margin: auto;
   text-align: center;
 }
+
+.image-selector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  mat-radio-button {
+    margin-top: 8px;
+  }
+}

@@ -5,33 +5,37 @@ import { IManufacturer } from './manufacturer.interface';
 export interface IProduct {
   id: number;
   name: string;
+  nameUa: string;
   availability: boolean;
   manufacturer: IManufacturer;
   colors: IColor[];
   description: string;
+  descriptionUa: string;
   category: string;
   code: string;
   power: number;
   price: number;
   oldPrice: number;
   imageUrls: string[];
+  mainImg: string;
 }
 
 export interface IUpdateProduct {
   name?: string;
+  nameUa?: string;
   availability?: boolean;
-  batch?: string;
   color?: string[];
   description?: string;
+  descriptionUa?: string;
   images?: string[];
   power?: number;
   price?: number;
+  mainImg: string;
 }
 
 export interface IProductQueryFilters {
   name?: string;
   availability?: string;
-  batch?: string;
   price?: string;
   colors?: string;
 }

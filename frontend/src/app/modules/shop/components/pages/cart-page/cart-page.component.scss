@@ -34,6 +34,33 @@ app-breadcrumbs {
 
 .cards-list {
   margin-top: 40px;
+  @media(max-width: 886px) {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 0;
+    margin-left: -16px;
+  }
+  @media(max-width: 712px) {
+    flex-direction: column;
+    align-items: center;
+    margin-left: 0;
+  }
+}
+
+app-cart-item {
+  @media(max-width: 886px) {
+    margin-top: 16px;
+    margin-left: 16px;
+    flex: 1;
+    min-width: 220px;
+    max-width: 332px;
+  }
+  @media(max-width: 712px) {
+    min-width: none;
+    max-width: none;
+    width: 100%;
+    margin-left: 0;
+  }
 }
 
 .cart-actions {
@@ -43,6 +70,11 @@ app-breadcrumbs {
   align-items: center;
   margin-top: 8px;
   margin-bottom: 40px;
+  @media(max-width: 886px) {
+    margin-top: 16px;
+    flex-direction: column;
+    align-items: center;
+  }
 
   .cart-sum {
     display: flex;
@@ -61,12 +93,19 @@ app-breadcrumbs {
       line-height: 42px;
       font-weight: 700;
       letter-spacing: 0.065em;
+      @media(max-width: 886px) {
+        font-size: 26px;
+      }
     }
   }
 
   .actions {
     max-width: 184px;
     margin-left: 24px;
+    @media(max-width: 886px) {
+      margin-left: 0;
+      max-width: none;
+    }
     .btn:nth-of-type(2) {
       margin-top: 8px;
     }

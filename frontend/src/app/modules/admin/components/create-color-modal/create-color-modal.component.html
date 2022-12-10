@@ -4,12 +4,29 @@
     <mat-form-field appearance="outline">
       <mat-label>Введите название цвета</mat-label>
       <input matInput formControlName="name" />
-      <mat-error *ngIf="form.get('name').errors?.required"
-        >Это обязательное поле</mat-error
-      >
+      <mat-error *ngIf="form.get('name').errors?.required">Это обязательное поле</mat-error>
     </mat-form-field>
-    <mat-error *ngIf="isSimilarName"
-      >Такой цвет уже существует в базе</mat-error
+
+    <mat-form-field appearance="outline">
+      <mat-label>Введите название цвета на украинском</mat-label>
+      <input matInput formControlName="nameUa" />
+      <mat-error *ngIf="form.get('nameUa').errors?.required">Это обязательное поле</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Введите код цвета формата #000000</mat-label>
+      <input matInput formControlName="code" />
+      <mat-error *ngIf="form.get('code').errors?.required">Это обязательное поле</mat-error>
+      <mat-error *ngIf="form.get('code').errors?.pattern">Неверный формат кода</mat-error>
+    </mat-form-field>
+    <div class="color-example" [ngStyle]="{ background: form.get('code').value }"></div>
+    <div>
+      Посмотреть цвет можно тут:
+      <a target="_blank" href="https://redketchup.io/color-picker">ссылка</a>
+    </div>
+
+    <mat-error *ngIf="isSimilarName" class="custom-error"
+      >Такое название цвета уже существует в базе</mat-error
     >
   </form>
 </div>

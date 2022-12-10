@@ -1,4 +1,20 @@
 form {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+}
+
+.custom-error {
+  margin-top: 16px;
+    font-size: 75%;
+  }
+
+.color-example {
+  width: 100%;
+  height: 16px;
+  margin-bottom: 16px;
+}
+
+mat-form-field {
+  width: 100%;
 }

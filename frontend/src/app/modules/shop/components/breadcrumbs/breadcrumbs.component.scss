@@ -2,6 +2,14 @@ ul {
   display: flex;
   list-style: none;
   margin-left: -32px;
+  overflow-x: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 li {
@@ -27,6 +35,7 @@ a {
   color: #BFBEBE;
   font-size: 14px;
   line-height: 20px;
+  white-space: nowrap;
 }
 
 

@@ -15,6 +15,9 @@ span {
   &.wrapper-title {
     margin-right: 24px;
     font-weight: 600;
+    @media(max-width: 768px) {
+      display: none;
+    }
   }
 }
 
@@ -46,6 +49,9 @@ span {
   display: flex;
   position: absolute;
   right: 0;
+  @media(max-width: 1024px) {
+    display: none;
+  }
 
   .view-icon {
     cursor: pointer;

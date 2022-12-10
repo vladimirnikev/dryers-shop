@@ -7,9 +7,29 @@
   transition: 200ms;
   cursor: pointer;
 
+  .img-wrapper {
+    @media(max-width: 1024px) {
+      width: 152px;
+      height: 152px;
+    }
+  }
   img {
     width: 152px;
     height: 152px;
+    object-fit: cover;
+    &.empty {
+      object-fit: contain;
+    }
+
+    @media(max-width: 1024px) {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+
+  .card-title {
+    max-height: 40px;
+    overflow: hidden;
   }
 
   .card-content {
@@ -17,16 +37,29 @@
     padding: 20px 0;
     width: 100%;
     justify-content: space-between;
+    @media(max-width: 1024px) {
+      flex-wrap: wrap;
+    }
   }
 
   .card-text {
     margin-left: 16px;
-    max-width: 352px;
+    max-width: 256px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     font-size: 16px;
     line-height: 20px;
     color: #333333;
+    @media(max-width: 1100px) {
+      max-width: 175px;
+    }
+    @media(max-width: 1024px) {
+      max-width: 165px;
+    }
+    @media(max-width: 539px) {
+      max-width: none;
+    }
 
     .label {
       margin-top: 8px;
@@ -43,6 +76,38 @@
     flex-direction: column;
     align-items: center;
     font-weight: 600;
+    @media(max-width: 900px) {
+      order: 3;
+      margin-left: 16px;
+      margin-top: -40px;
+      align-items: flex-start;
+      min-width: 110px;
+    }
+    @media(max-width: 768px) {
+      order: initial;
+      margin-left: 8px;
+      margin-top: 0;
+      max-width: 114px;
+      width: 100%;
+      align-items: center;
+    }
+    @media(max-width: 665px) {
+      order: 3;
+      margin-top: -40px;
+      margin-left: 16px;
+      align-items: flex-start
+    }
+    @media(max-width: 539px) {
+      order: initial;
+      margin-top: 0;
+      align-items: flex-start;
+      max-width: none;
+    }
+    &.already-in-cart {
+      @media(max-width: 1024px) {
+        margin-top: 8px;
+      }
+    }
 
     .price {
       &.prev {
@@ -50,6 +115,9 @@
         font-size: 14px;
         line-height: 16px;
         text-decoration-line: line-through;
+        @media(max-width: 1024px) {
+          font-size: 16px;
+        }
       }
     }
 
@@ -59,12 +127,15 @@
         color: #FF6700;
         font-size: 18px;
         line-height: 24px;
+        @media(max-width: 1024px) {
+          font-size: 16px;
+          margin-top: 4px;
+        }
       }
     }
   }
 
   .actions-bar {
-    margin-left: 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -92,11 +163,23 @@
         &.decrement {
           border-right: none;
           cursor: pointer;
+          transition: 0.1s ease-in;
+
+          &:hover {
+            background: #eaeaea;
+            transition: 0.1s ease-in;
+          }
         }
 
         &.increment {
           border-left: none;
           cursor: pointer;
+          transition: 0.1s ease-in;
+
+          &:hover {
+            background: #eaeaea;
+            transition: 0.1s ease-in;
+          }
 
           .plus {
             position: relative;
@@ -128,15 +211,23 @@
     }
   }
 
+  .buttons-wrapper {
+    display: flex;
+    flex-direction: column;
+    @media(max-width: 768px) {
+      width: 100%;
+    }
+  }
+
   .actions {
-    max-width: 175px;
+    max-width: 175.29px;
     width: 100%;
   }
 
   .exist-link {
     display: flex;
     align-items: center;
-    width: fit-content;
+    justify-content: center;
     cursor: pointer;
     .link-text {
       margin-left: 8px;
@@ -190,15 +281,31 @@
     flex-direction: column;
     align-items: center;
     padding: 8px;
+    height: 424px;
+    @media(max-width: 768px) {
+      height: 100%;
+    }
 
     .img-wrapper {
       min-width: 220px;
       min-height: 220px;
       max-width: 220px;
       max-height: 220px;
+      @media(max-width: 768px) {
+        min-width: auto;
+        min-height: auto;
+        max-width: none;
+        max-height: none;
+        width: auto;
+        height: auto;
+      }
       img {
         width: 220px;
         height: 220px;
+        @media(max-width: 768px) {
+          width: auto;
+          height: 280px;
+        }
       }
     }
 
@@ -206,6 +313,9 @@
       flex-direction: column;
       max-width: 240px;
       padding: 16px 0 0;
+      @media(max-width: 768px) {
+        max-width: none;
+      }
     }
 
     .card-text {
@@ -217,6 +327,8 @@
 
       .card-title {
         margin-top: 8px;
+        height: 40px;
+        overflow: hidden;
       }
     }
 
@@ -240,9 +352,13 @@
     }
 
     .btn {
-      margin-top: 4px;
+      margin-top: 8px;
       align-self: center;
-      width: fit-content;
+      max-width: 80%;
+      width: 100%;
+      @media(max-width: 768px) {
+        max-width: 100%;
+      }
     }
 
     &:hover {
@@ -251,10 +367,9 @@
       max-height: 100%;
     }
 
-
     .actions {
       max-width: none;
-      margin-top: 8px;
+      margin-top: 16px;
 
       .exist-link {
         width: auto;

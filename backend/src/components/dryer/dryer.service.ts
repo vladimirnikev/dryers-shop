@@ -8,7 +8,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, getRepository, Repository } from 'typeorm';
+import { Brackets, DeleteResult, Repository } from 'typeorm';
 import { DryerEntity } from '@app/components/dryer/entities/dryer.entity';
 import { IGetProductsQuery } from '@app/common/interfaces/get-products-query.interface';
 import { CloudinaryService } from '@app/modules/cloudinary/cloudinary.service';
@@ -27,10 +27,10 @@ export class DryerService {
     @InjectRepository(ColorEntity)
     private readonly colorsRepository: Repository<ColorEntity>,
     private cloudinaryService: CloudinaryService,
-  ) {}
+  ) { }
 
   async getDryers(query: IGetProductsQuery): Promise<{ data: DryerEntity[]; totalCount: number }> {
-    const queryBuilder = getRepository(DryerEntity)
+    const queryBuilder = this.dryerRepository
       .createQueryBuilder('dryers')
       .addSelect('dryers.createdAt')
       .addSelect('dryers.updatedAt')
@@ -43,6 +43,7 @@ export class DryerService {
       const productTypes = ['water', 'electricity', 'combine', 'accessories'];
       const isProductTypesExistQueryType = productTypes.some((type) => type === query.type);
       const isWithDiscounts = query.type === 'discounts';
+      const isNew = query.type === 'new';
 
       // check if query type exist in product types list and find products with this type
       if (isProductTypesExistQueryType) {
@@ -54,6 +55,20 @@ export class DryerService {
       } else if (isWithDiscounts) {
         queryBuilder.andWhere('dryers.oldPrice IS NOT NULL');
 
+        // find new products
+      } else if (isNew) {
+        const today = new Date();
+        const period = new Date(today.setMonth(today.getMonth() - 1));
+        queryBuilder.andWhere(
+          new Brackets((qb) => {
+            qb.where('dryers.createdAt > :period', {
+              period,
+            }).orWhere('dryers.updatedAt > :period', {
+              period,
+            });
+          }),
+        );
+
         // find products with stock, that exist in query type
       } else {
         queryBuilder.andWhere('dryerStock.id = :stock', { stock: query.type });
@@ -61,9 +76,15 @@ export class DryerService {
     }
 
     if (query.name) {
-      queryBuilder.andWhere('dryers.name ILIKE :name', {
-        name: `%${query.name}%`,
-      });
+      queryBuilder.andWhere(
+        new Brackets((qb) => {
+          qb.where('dryers.name ILIKE :name', {
+            name: `%${query.name}%`,
+          }).orWhere('dryers.nameUa ILIKE :name', {
+            name: `%${query.name}%`,
+          });
+        }),
+      );
     }
     if (query.price) {
       const [minPrice, maxPrice] = query.price.split('-');
@@ -119,7 +140,7 @@ export class DryerService {
   }
 
   async getOneDryer(id: number, res, req): Promise<DryerEntity> {
-    const dryer = await this.dryerRepository.findOne({ id });
+    const dryer = await this.dryerRepository.findOne({ where: { id } });
     if (!dryer) {
       throw new HttpException('Товар не существует', HttpStatus.NOT_FOUND);
     }
@@ -156,12 +177,27 @@ export class DryerService {
   }
 
   async createDryer(
-    { name, price, oldPrice, availability, colors, description, manufacturer, power },
+    {
+      name,
+      nameUa,
+      price,
+      oldPrice,
+      availability,
+      colors,
+      description,
+      descriptionUa,
+      manufacturer,
+      power,
+      mainImg,
+    },
     files,
   ): Promise<DryerEntity> {
     price = Number(price);
     const errors = [];
     if (!name) {
+      errors.push('The name must be specified');
+    }
+    if (!nameUa) {
       errors.push('The name must be specified');
     }
     if (!price) {
@@ -176,6 +212,9 @@ export class DryerService {
     if (!description) {
       errors.push('The description must be specified');
     }
+    if (!descriptionUa) {
+      errors.push('The description must be specified');
+    }
     if (!manufacturer) {
       errors.push('The manufacturer must be specified');
     }
@@ -184,6 +223,9 @@ export class DryerService {
     }
     if (!files.length) {
       errors.push('Images must be added');
+    }
+    if (!mainImg) {
+      errors.push('Main image must be specified');
     }
     if (errors.length) {
       throw new HttpException(`${errors}`, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -203,14 +245,18 @@ export class DryerService {
     );
 
     const dryer = new DryerEntity();
+    availability = availability === 'true' ? true : false;
     Object.assign(dryer, {
       name,
+      nameUa,
       price,
       availability,
       description,
+      descriptionUa,
       power,
       imageUrls,
       oldPrice,
+      mainImg: imageUrls[mainImg],
     });
     const manufacturerItem = await this.manufacturerRepository.findOne(manufacturer);
     if (!manufacturerItem) {
@@ -231,13 +277,28 @@ export class DryerService {
   }
 
   async updateDryer(
-    { name, price, oldPrice, availability, colors, description, manufacturer, power },
+    {
+      name,
+      nameUa,
+      price,
+      oldPrice,
+      availability,
+      colors,
+      description,
+      descriptionUa,
+      manufacturer,
+      power,
+      mainImg,
+    },
     files,
     id: number,
   ): Promise<DryerEntity> {
     price = Number(price);
     const errors = [];
     if (!name) {
+      errors.push('The name must be specified');
+    }
+    if (!nameUa) {
       errors.push('The name must be specified');
     }
     if (!price) {
@@ -252,18 +313,26 @@ export class DryerService {
     if (!description) {
       errors.push('The description must be specified');
     }
+    if (!descriptionUa) {
+      errors.push('The description must be specified');
+    }
     if (!manufacturer) {
       errors.push('The manufacturer must be specified');
     }
     if (!power) {
       errors.push('The power must be specified');
     }
+    if (!mainImg) {
+      errors.push('The main img must be specified');
+    }
     if (errors.length) {
       throw new HttpException(`${errors}`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    const dryer = await this.dryerRepository.findOne({ id });
+    const dryer = await this.dryerRepository.findOne({ where: { id } });
     let imageUrls = [];
+
+    // send all images to Cloudinary
     await Promise.all(
       files.map(async (file) => {
         try {
@@ -274,35 +343,54 @@ export class DryerService {
         }
       }),
     );
+
+    // check is main img new or was added before (index or link)
+    let mainImgUrl;
+
+    if (mainImg.match(/^\d+$/)) {
+      mainImgUrl = imageUrls[mainImg];
+    } else {
+      mainImgUrl = mainImg;
+    }
+
     imageUrls = dryer.imageUrls ? [...dryer.imageUrls, ...imageUrls] : imageUrls;
+    availability = availability === 'true' ? true : false;
     Object.assign(dryer, {
       name,
+      nameUa,
       price,
       availability,
       description,
+      descriptionUa,
       power,
       imageUrls,
       oldPrice,
+      mainImg: mainImgUrl,
     });
+
     const manufacturerItem = await this.manufacturerRepository.findOne(manufacturer);
+
     if (!manufacturerItem) {
       throw new NotFoundException('The manufacturer with this id does not exist');
     }
+
     colors = colors.split(',');
     dryer.manufacturer = manufacturerItem;
     const colorItems = await this.colorsRepository
       .createQueryBuilder('color')
       .where('color.id IN (:...ids)', { ids: [...colors] })
       .getMany();
+
     if (!colorItems) {
       throw new NotFoundException('These colors do not exist');
     }
+
     dryer.colors = colorItems;
     return await this.dryerRepository.save(dryer);
   }
 
   async deleteDryer(id: number): Promise<DeleteResult> {
-    const product = await this.dryerRepository.findOne(id);
+    const product = await this.dryerRepository.findOne({ where: { id } });
     if (!product) {
       throw new NotFoundException("Product doesn't exist");
     }
@@ -313,17 +401,23 @@ export class DryerService {
       .from(ItemRecordEntity)
       .where('item.id = :id', { id })
       .execute();
+
     return await this.dryerRepository.delete(id);
   }
 
   async deleteImage(productId: number, imageUrl: string): Promise<DryerEntity> {
-    await this.cloudinaryService.deleteImage(imageUrl);
-    const product = await this.dryerRepository.findOne(productId);
+    const deletingImg = await this.cloudinaryService.deleteImage(imageUrl);
+    const product = await this.dryerRepository.findOne({ where: { id: productId } });
     if (!product) {
       throw new NotFoundException('Product does not exist');
     }
 
     product.imageUrls = product.imageUrls.filter((url) => url !== imageUrl);
+
+    if (product.mainImg === imageUrl) {
+      product.mainImg = '';
+    }
+
     return await this.dryerRepository.save(product);
   }
 
@@ -338,6 +432,7 @@ export class DryerService {
       const productTypes = ['water', 'electricity', 'combine', 'accessories'];
       const isProductTypesExistQueryType = productTypes.some((type) => type === query.type);
       const isWithDiscounts = query.type === 'discounts';
+      const isNew = query.type === 'new';
 
       if (isProductTypesExistQueryType) {
         queryBuilder.andWhere('products.category = :type', {
@@ -345,6 +440,18 @@ export class DryerService {
         });
       } else if (isWithDiscounts) {
         queryBuilder.andWhere('products.oldPrice IS NOT NULL');
+      } else if (isNew) {
+        const today = new Date();
+        const period = new Date(today.setMonth(today.getMonth() - 1));
+        queryBuilder.andWhere(
+          new Brackets((qb) => {
+            qb.where('products.createdAt > :period', {
+              period,
+            }).orWhere('products.updatedAt > :period', {
+              period,
+            });
+          }),
+        );
       } else {
         queryBuilder.andWhere('productStock.id = :stock', {
           stock: query.type,
@@ -353,9 +460,15 @@ export class DryerService {
     }
 
     if (query.name) {
-      queryBuilder.andWhere('products.name ILIKE :name', {
-        name: `%${query.name}%`,
-      });
+      queryBuilder.andWhere(
+        new Brackets((qb) => {
+          qb.where('products.name ILIKE :name', {
+            name: `%${query.name}%`,
+          }).orWhere('products.nameUa ILIKE :name', {
+            name: `%${query.name}%`,
+          });
+        }),
+      );
     }
     if (query.availability) {
       const availabilityValues = query.availability.split(',');

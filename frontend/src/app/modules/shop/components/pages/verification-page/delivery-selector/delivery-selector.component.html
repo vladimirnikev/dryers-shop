@@ -19,8 +19,8 @@
             id="delivery-city"
             name="city"
             inputType="text"
-            label="Город"
-            placeholder="Ваш населенный пункт"
+            [label]="'VERIFICATION_PAGE.CITY' | transloco"
+            [placeholder]="'VERIFICATION_PAGE.CITY_PLACEHOLDER' | transloco"
             formControlName="city"
             [isTriedSubmit]="isTriedSubmit"
             [required]="true"
@@ -29,7 +29,7 @@
             *ngIf="
               (formCity.dirty || formCity.touched || isTriedSubmit) && formCity?.errors?.required
             "
-            >Введите ваш населенный пункт</app-input-error
+            >{{ 'VERIFICATION_PAGE.CITY_EXIST_ERROR' | transloco }}</app-input-error
           >
         </div>
         <ng-container *ngFor="let item of postTypeSelectors | slice: 0:1">
@@ -49,8 +49,8 @@
             id="post-office"
             inputName="office"
             inputType="text"
-            label="Отделение новой почты"
-            placeholder="Новая Почта"
+            [label]="'VERIFICATION_PAGE.POST_OFFICE_NUMBER' | transloco"
+            [placeholder]="'VERIFICATION_PAGE.POST_OFFICE_NUMBER_PLACEHOLDER' | transloco"
             formControlName="office"
             [isTriedSubmit]="isTriedSubmit"
             [required]="true"
@@ -60,7 +60,7 @@
               (formOffice.dirty || formOffice.touched || isTriedSubmit) &&
               formOffice?.errors?.required
             "
-            >Введите удобное для вас отделение</app-input-error
+            >{{ 'VERIFICATION_PAGE.POST_OFFICE_NUMBER_EXIST_ERROR' | transloco }}</app-input-error
           >
         </div>
         <ng-container *ngFor="let item of postTypeSelectors | slice: 1:2">
@@ -81,8 +81,8 @@
               id="courier-street"
               inputName="street"
               inputType="text"
-              label="Улица"
-              placeholder="Название улицы"
+              [label]="'VERIFICATION_PAGE.STREET' | transloco"
+              [placeholder]="'VERIFICATION_PAGE.STREET_PLACEHOLDER' | transloco"
               formControlName="street"
               [isTriedSubmit]="isTriedSubmit"
               [required]="true"
@@ -92,7 +92,7 @@
                 (formCourierStreet.dirty || formCourierStreet.touched || isTriedSubmit) &&
                 formCourierStreet?.errors?.required
               "
-              >Введите улицу</app-input-error
+              >{{ 'VERIFICATION_PAGE.STREET_EXIST_ERROR' | transloco }}</app-input-error
             >
           </div>
           <div class="form-control">
@@ -100,8 +100,8 @@
               id="courier-house"
               inputName="house"
               inputType="text"
-              label="Дом"
-              placeholder="Номер дома"
+              [label]="'VERIFICATION_PAGE.HOUSE_NUMBER' | transloco"
+              [placeholder]="'VERIFICATION_PAGE.HOUSE_NUMBER_PLACEHOLDER' | transloco"
               formControlName="houseNumber"
               [isTriedSubmit]="isTriedSubmit"
               [required]="true"
@@ -111,7 +111,7 @@
                 (formCourierHouseNumber.dirty || formCourierHouseNumber.touched || isTriedSubmit) &&
                 formCourierHouseNumber?.errors?.required
               "
-              >Введите номер дома</app-input-error
+              >{{ 'VERIFICATION_PAGE.HOUSE_NUMBER_EXIST_ERROR' | transloco }}</app-input-error
             >
           </div>
           <div class="form-control">
@@ -119,8 +119,8 @@
               id="courier-apartment"
               inputName="apartment"
               inputType="text"
-              label="Квартира"
-              placeholder="Номер квартиры"
+              [label]="'VERIFICATION_PAGE.APARTMENT_NUMBER' | transloco"
+              [placeholder]="'VERIFICATION_PAGE.APARTMENT_NUMBER_PLACEHOLDER' | transloco"
               formControlName="apartmentNumber"
             ></app-input>
           </div>
@@ -129,8 +129,8 @@
               id="courier-entrance"
               inputName="entrance"
               inputType="text"
-              label="Подъезд"
-              placeholder="Номер подъезда"
+              [label]="'VERIFICATION_PAGE.ENTRANCE' | transloco"
+              [placeholder]="'VERIFICATION_PAGE.ENTRANCE_PLACEHOLDER' | transloco"
               formControlName="entrance"
             ></app-input>
           </div>
@@ -139,8 +139,8 @@
               id="courier-floor"
               inputName="floor"
               inputType="text"
-              label="Этаж"
-              placeholder="Номер этажа"
+              [label]="'VERIFICATION_PAGE.FLOOR' | transloco"
+              [placeholder]="'VERIFICATION_PAGE.FLOOR_PLACEHOLDER' | transloco"
               formControlName="floor"
             ></app-input>
           </div>

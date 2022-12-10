@@ -15,7 +15,7 @@ const routes: Routes = [
   {
     path: '',
     component: ShopLayoutComponent,
-    data: { breadcrumb: 'Главная' },
+    data: { breadcrumb: { uk_UA: 'Головна', ru: 'Главная' } },
     children: [
       {
         path: '',
@@ -26,7 +26,12 @@ const routes: Routes = [
         children: [
           {
             path: ':product-group',
-            data: { breadcrumb: (data: any) => `${data.productGroup.name}` },
+            data: {
+              breadcrumb: (data: any) => ({
+                ru: `${data.productGroup.name}`,
+                uk_UA: `${data.productGroup.nameUa}`,
+              }),
+            },
             resolve: { productGroup: ProductGroupResolverService },
             children: [
               {
@@ -36,7 +41,6 @@ const routes: Routes = [
               {
                 path: 'product/:id',
                 component: ProductPageComponent,
-                data: { breadcrumb: (data: any) => `${data.product.name}` },
                 resolve: { product: ProductResolverService },
               },
             ],
@@ -58,17 +62,17 @@ const routes: Routes = [
       },
       {
         path: 'cart',
-        data: { breadcrumb: 'Корзина' },
+        data: { breadcrumb: { uk_UA: 'Кошик', ru: 'Корзина' } },
         component: CartPageComponent,
       },
       {
         path: 'verification',
-        data: { breadcrumb: 'Оформление заказа' },
+        data: { breadcrumb: { uk_UA: 'Оформлення замовлення', ru: 'Оформление заказа' } },
         component: VerificationPageComponent,
       },
       {
         path: 'contacts',
-        data: { breadcrumb: 'Контакты' },
+        data: { breadcrumb: { uk_UA: 'Контакти', ru: 'Контакты' } },
         component: ContactsPageComponent,
       },
       {
@@ -77,7 +81,9 @@ const routes: Routes = [
           {
             path: ':category',
             component: AdditionalInformationPageComponent,
-            data: { breadcrumb: 'Дополнительная информация' },
+            data: {
+              breadcrumb: { uk_UA: 'Додаткова інформація', ru: 'Дополнительная информация' },
+            },
           },
         ],
       },

@@ -1,0 +1,9 @@
+<div class="bar-item language-switcher">
+  <button (click)="setCurrentLanguage('uk_UA')" [ngClass]="{ active: activeLanguage === 'uk_UA' }">
+    UA
+  </button>
+  <span>/</span>
+  <button (click)="setCurrentLanguage('ru')" [ngClass]="{ active: activeLanguage === 'ru' }">
+    RU
+  </button>
+</div>

@@ -50,6 +50,10 @@ export enum EItemsActions {
   GetSimilarProductsByName = '[Products] Get Similar Products By Name',
   GetSimilarProductsByNameSuccess = '[Products] Get Similar Products By Name Success',
   GetSimilarProductsByNameFailed = '[Products] Get Similar Products By Name Failed',
+
+  AddImageToDeletingList = '[Products] Add Image To Deleting List',
+
+  CleanImagesOnDeleting = '[Products] Clean Images On Deleting',
 }
 
 export const createProduct = createAction(EItemsActions.CreateProduct, props<{ dto: any }>());
@@ -178,3 +182,10 @@ export const getSimilarProductsByNameFailed = createAction(
   EItemsActions.GetSimilarProductsByNameFailed,
   props<{ error: Error }>(),
 );
+
+export const addImageToDeletingList = createAction(
+  EItemsActions.AddImageToDeletingList,
+  props<{ url: string }>(),
+);
+
+export const cleanImagesOnDeleting = createAction(EItemsActions.CleanImagesOnDeleting);

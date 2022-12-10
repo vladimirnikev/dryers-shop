@@ -2,6 +2,11 @@
   padding-bottom: 30px;
 }
 
+mat-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .checkbox-field {
   display: flex;
   flex-direction: column;
@@ -62,4 +67,14 @@
 mat-error {
   margin: auto;
   text-align: center;
+}
+
+.image-selector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  mat-radio-button {
+    margin-top: 8px;
+  }
 }

@@ -36,10 +36,13 @@ export class DryerEntity {
   })
   updatedAt: Date;
 
-  @Column()
+  @Column({ default: '' })
   name: string;
 
-  @Column()
+  @Column({ default: '' })
+  nameUa: string;
+
+  @Column({ default: 0 })
   price: number;
 
   @Column({ nullable: true })
@@ -52,17 +55,20 @@ export class DryerEntity {
   })
   category: EProductType;
 
-  @Column()
+  @Column({ default: false })
   availability: boolean;
 
   @Column({ type: 'simple-array', nullable: true })
   imageUrls: string[];
 
-  @Column({ nullable: true })
-  code: string;
+  @Column({ default: '' })
+  mainImg: string;
 
-  @Column()
+  @Column({ default: '' })
   description: string;
+
+  @Column({ default: '' })
+  descriptionUa: string;
 
   @Column()
   power: number;
@@ -79,6 +85,7 @@ export class DryerEntity {
 
   @ManyToOne(() => ManufacturerEntity, (manufacturer) => manufacturer.products, {
     onDelete: 'CASCADE',
+    eager: true,
   })
   manufacturer: ManufacturerEntity;
 

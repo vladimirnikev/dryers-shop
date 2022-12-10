@@ -10,11 +10,6 @@
       ></ng-container>
 
       <ng-container
-        *ngIf="(modalType$ | async) === 'existing'"
-        [ngTemplateOutlet]="existing"
-      ></ng-container>
-
-      <ng-container
         *ngIf="(modalType$ | async) === 'buy-in-click'"
         [ngTemplateOutlet]="buyInClick"
       ></ng-container>
@@ -29,8 +24,8 @@
 
 <ng-template #recall>
   <div *ngIf="!isFormSent; else successMessage" class="modal-content">
-    <span class="modal-title">У вас есть вопрос?</span>
-    <p>Оставьте свои данные и мы свяжемся с вами в ближайшее время</p>
+    <span class="modal-title">{{ 'RECALL_MODAL.TITLE' | transloco }}</span>
+    <p>{{ 'RECALL_MODAL.TEXT' | transloco }}</p>
 
     <form [formGroup]="recallForm">
       <div
@@ -41,7 +36,9 @@
         }"
         class="form-control"
       >
-        <label for="recall-phone">Номер телефона<img src="assets/images/star.svg" /></label>
+        <label for="recall-phone"
+          >{{ 'RECALL_MODAL.PHONE_NUMBER' | transloco }}<img src="assets/images/star.svg"
+        /></label>
         <input
           formControlName="phone"
           name="phone"
@@ -56,7 +53,7 @@
           "
           class="error-message"
         >
-          Введите ваш номер телефона
+          {{ 'RECALL_MODAL.PHONE_NUMBER_EXIST_ERROR' | transloco }}
         </span>
         <span
           *ngIf="
@@ -65,7 +62,7 @@
           "
           class="error-message"
         >
-          Введите корректный номер телефона
+          {{ 'RECALL_MODAL.PHONE_NUMBER_PATTERN_ERROR' | transloco }}
         </span>
       </div>
 
@@ -77,13 +74,15 @@
         }"
         class="form-control"
       >
-        <label for="recall-name">Ваше имя<img src="assets/images/star.svg" /></label>
+        <label for="recall-name"
+          >{{ 'RECALL_MODAL.NAME' | transloco }}<img src="assets/images/star.svg"
+        /></label>
         <input
           formControlName="fullName"
           name="name"
           id="recall-name"
           type="text"
-          placeholder="Имя"
+          [placeholder]="'RECALL_MODAL.NAME_PLACEHOLDER' | transloco"
         />
         <span
           *ngIf="
@@ -92,18 +91,18 @@
           "
           class="error-message"
         >
-          Введите ваше имя
+          {{ 'RECALL_MODAL.NAME_EXIST_ERROR' | transloco }}
         </span>
       </div>
 
       <div class="form-control">
-        <label for="recall-message">Текст обращения</label>
+        <label for="recall-message">{{ 'RECALL_MODAL.MESSAGE' | transloco }}</label>
         <textarea
           formControlName="message"
           name="message"
           id="recall-message"
           type="text"
-          placeholder="Введите текст вашего обращения"
+          [placeholder]="'RECALL_MODAL.MESSAGE_PLACEHOLDER' | transloco"
         ></textarea>
       </div>
 
@@ -112,120 +111,16 @@
         (click)="sendRecallForm()"
         class="btn outline"
       >
-        Отправить
+        {{ 'SEND' | transloco }}
       </button>
-    </form>
-  </div>
-</ng-template>
-
-<ng-template #existing>
-  <div class="modal-content">
-    <span class="modal-title">Введите свои контактные данные</span>
-    <p>Мы сообщим вам когда товар появится в наличии</p>
-
-    <form [formGroup]="existingForm">
-      <div
-        [ngClass]="{
-          error:
-            (existingFormPhone?.dirty || existingFormPhone?.touched || isInvalidExistingForm) &&
-            existingFormPhone?.errors
-        }"
-        class="form-control"
-      >
-        <label for="existing-phone">Номер телефона<img src="assets/images/star.svg" /></label>
-        <input
-          formControlName="phone"
-          name="phone"
-          id="existing-phone"
-          type="text"
-          placeholder="+380 (00) 000 00 00"
-        />
-        <span
-          *ngIf="
-            (existingFormPhone?.dirty || existingFormPhone?.touched || isInvalidExistingForm) &&
-            existingFormPhone?.errors?.required
-          "
-          class="error-message"
-        >
-          Введите ваш номер телефона
-        </span>
-        <span
-          *ngIf="
-            (existingFormPhone?.dirty || existingFormPhone?.touched || isInvalidExistingForm) &&
-            existingFormPhone?.errors?.pattern
-          "
-          class="error-message"
-        >
-          Введите корректный номер телефона
-        </span>
-      </div>
-
-      <div
-        [ngClass]="{
-          error:
-            (existingFormFullName?.dirty ||
-              existingFormFullName?.touched ||
-              isInvalidExistingForm) &&
-            existingFormFullName?.errors
-        }"
-        class="form-control"
-      >
-        <label for="existing-name">Ваше имя<img src="assets/images/star.svg" /></label>
-        <input
-          formControlName="fullName"
-          name="name"
-          id="existing-name"
-          type="text"
-          placeholder="Ваше имя"
-        />
-        <span
-          *ngIf="
-            (existingFormFullName?.dirty ||
-              existingFormFullName?.touched ||
-              isInvalidExistingForm) &&
-            existingFormFullName?.errors?.required
-          "
-          class="error-message"
-        >
-          Введите ваше имя
-        </span>
-      </div>
-
-      <div
-        [ngClass]="{
-          error:
-            (existingFormEmail?.dirty || existingFormEmail?.touched || isInvalidExistingForm) &&
-            existingFormEmail?.errors?.email
-        }"
-        class="form-control"
-      >
-        <label for="existing-email">Email</label>
-        <input
-          formControlName="email"
-          name="email"
-          id="existing-email"
-          type="email"
-          placeholder="example@email.com"
-        />
-        <span
-          *ngIf="
-            (existingFormEmail?.dirty || existingFormEmail?.touched || isInvalidExistingForm) &&
-            existingFormEmail?.errors?.email
-          "
-          class="error-message"
-        >
-          Введите корректный email
-        </span>
-      </div>
-      <button (click)="sendExistingForm()" class="btn outline">Отправить</button>
     </form>
   </div>
 </ng-template>
 
 <ng-template #buyInClick>
   <div *ngIf="!isFormSent; else successMessage" class="modal-content">
-    <span class="modal-title">Покупка в один клик</span>
-    <p>Всего пара пунктов и мы свяжемся с вами!</p>
+    <span class="modal-title">{{ 'BUY_IN_CLICK_MODAL.TITLE' | transloco }}</span>
+    <p>{{ 'BUY_IN_CLICK_MODAL.TEXT' | transloco }}</p>
 
     <form [formGroup]="buyInClickForm">
       <div
@@ -238,7 +133,9 @@
         }"
         class="form-control"
       >
-        <label for="buy-in-click-phone">Номер телефона<img src="assets/images/star.svg" /></label>
+        <label for="buy-in-click-phone"
+          >{{ 'BUY_IN_CLICK_MODAL.PHONE_NUMBER' | transloco }}<img src="assets/images/star.svg"
+        /></label>
         <input
           formControlName="phone"
           name="phone"
@@ -255,7 +152,7 @@
           "
           class="error-message"
         >
-          Введите ваш номер телефона
+          {{ 'BUY_IN_CLICK_MODAL.PHONE_NUMBER_EXIST_ERROR' | transloco }}
         </span>
         <span
           *ngIf="
@@ -266,7 +163,7 @@
           "
           class="error-message"
         >
-          Введите корректный номер телефона
+          {{ 'BUY_IN_CLICK_MODAL.PHONE_NUMBER_PATTERN_ERROR' | transloco }}
         </span>
       </div>
 
@@ -280,13 +177,15 @@
         }"
         class="form-control"
       >
-        <label for="buy-in-click-name">Ваше имя<img src="assets/images/star.svg" /></label>
+        <label for="buy-in-click-name"
+          >{{ 'BUY_IN_CLICK_MODAL.NAME' | transloco }}<img src="assets/images/star.svg"
+        /></label>
         <input
           formControlName="fullName"
           name="fullName"
           id="buy-in-click-name"
           type="text"
-          placeholder="Ваше имя"
+          [placeholder]="'BUY_IN_CLICK_MODAL.NAME_PLACEHOLDER' | transloco"
         />
         <span
           *ngIf="
@@ -297,7 +196,7 @@
           "
           class="error-message"
         >
-          Введите ваше имя
+          {{ 'BUY_IN_CLICK_MODAL.NAME_EXIST_ERROR' | transloco }}
         </span>
       </div>
 
@@ -328,35 +227,35 @@
           "
           class="error-message"
         >
-          Введите корректный email
+          {{ 'BUY_IN_CLICK_MODAL.EMAIL_PATTERN_ERROR' | transloco }}
         </span>
       </div>
 
       <div class="form-control">
-        <label for="buy-in-click-message">Комментарий к заказу</label>
+        <label for="buy-in-click-message">{{ 'BUY_IN_CLICK_MODAL.COMMENTS' | transloco }}</label>
         <textarea
           formControlName="message"
           name="message"
           id="buy-in-click-message"
           type="text"
-          placeholder="Введите текст комментария"
+          [placeholder]="'BUY_IN_CLICK_MODAL.COMMENTS_PLACEHOLDER' | transloco"
         ></textarea>
       </div>
-      <button (click)="sendBuyInClickForm()" class="btn outline">Отправить</button>
+      <button (click)="sendBuyInClickForm()" class="btn outline">{{ 'SEND' | transloco }}</button>
     </form>
   </div>
 </ng-template>
 
 <ng-template #successOrder>
   <div class="modal-content">
-    <span class="modal-title">Заказ успешно оформлен</span>
-    <p>Мы свяжемся с вами в ближайшее время, если нужно будет уточнить детали.</p>
+    <span class="modal-title">{{ 'SUCCESS_MODAL.TITLE' | transloco }}</span>
+    <p>{{ 'SUCCESS_MODAL.TEXT' | transloco }}</p>
   </div>
 </ng-template>
 
 <ng-template #successMessage>
   <div class="modal-content">
-    <span class="modal-title">Ваша заявка принята</span>
-    <p>Спасибо. Мы свяжемся с вами в ближайшее время!</p>
+    <span class="modal-title">{{ 'SUCCESS_MESSAGE_MODAL.TITLE' | transloco }}</span>
+    <p>{{ 'SUCCESS_MESSAGE_MODAL.TEXT' | transloco }}</p>
   </div>
 </ng-template>

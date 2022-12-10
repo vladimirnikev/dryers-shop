@@ -1,7 +1,9 @@
 <div *ngIf="(currentCart$ | async)?.itemRecords?.length; else emptyCard" class="basket-card">
   <div class="items-wrapper">
     <div *ngFor="let item of (currentCart$ | async)?.itemRecords" class="item">
-      <div class="img-wrapper"><img [src]="item.item.imageUrls[0]" /></div>
+      <div class="img-wrapper">
+        <img [src]="item.item.mainImg || '/assets/images/blank-image.svg'" />
+      </div>
       <div class="text-wrapper">
         <span class="item-title">{{ item.item?.name }}</span>
         <span class="price">{{ item.item?.price }} грн.</span>

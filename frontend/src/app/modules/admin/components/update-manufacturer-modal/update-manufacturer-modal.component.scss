@@ -5,8 +5,40 @@ form {
   position: relative;
 }
 
+mat-form-field {
+  width: 100;
+}
+
 .custom-error {
   position: absolute;
   font-size: 75%;
   bottom: 0;
+}
+
+.image-list {
+  margin-top: 24px;
+
+  .image-preview {
+    display: block;
+    width: fit-content;
+    margin: auto;
+    max-width: 100%;
+  }
+}
+
+.upload-button {
+  max-width: 200px;
+  margin: 8px auto;
+  cursor: pointer;
+
+  input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    cursor: pointer;
+    display: none;
+  }
 }

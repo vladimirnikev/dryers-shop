@@ -23,28 +23,28 @@ import { DeleteImageDto } from './dto/deleteImage.dto';
 import { JwtAuthGuard } from '@app/modules/auth/guards/jwt-auth.guard';
 import { ProductPriceRange } from '@app/common/interfaces/product-price-range.interface';
 
-@Controller()
+@Controller('products')
 export class DryerController {
   constructor(private dryerService: DryerService) {}
 
-  @Get('products')
+  @Get()
   async getDryers(
     @Query() query: IGetProductsQuery,
   ): Promise<{ data: DryerEntity[]; totalCount: number }> {
     return await this.dryerService.getDryers(query);
   }
 
-  @Get('products/price-range')
+  @Get('price-range')
   async getPriceRange(@Query() query: any): Promise<ProductPriceRange> {
     return await this.dryerService.getPriceRange(query);
   }
 
-  @Get('products/viewed')
+  @Get('viewed')
   async getViewedProducts(@Req() req) {
     return await this.dryerService.getViewedDryers(req);
   }
 
-  @Get('products/:id')
+  @Get(':id')
   async getOneDryer(
     @Param('id') id: number,
     @Res({ passthrough: true }) res,
@@ -53,14 +53,14 @@ export class DryerController {
     return await this.dryerService.getOneDryer(id, res, req);
   }
 
-  @Post('products')
+  @Post()
   @UseGuards(JwtAuthGuard, AdminGuard)
   @UseInterceptors(FilesInterceptor('files'))
   async createDryer(@Body() dto, @UploadedFiles() files): Promise<DryerEntity> {
     return await this.dryerService.createDryer(dto, files);
   }
 
-  @Put('products/:id')
+  @Put(':id')
   @UseGuards(JwtAuthGuard, AdminGuard)
   @UseInterceptors(FilesInterceptor('files'))
   async updateDryer(
@@ -71,13 +71,13 @@ export class DryerController {
     return await this.dryerService.updateDryer(dto, files, id);
   }
 
-  @Delete('products/:id')
+  @Delete(':id')
   @UseGuards(JwtAuthGuard, AdminGuard)
   async deleteDryer(@Param('id') id: number): Promise<DeleteResult> {
     return await this.dryerService.deleteDryer(id);
   }
 
-  @Put('products/:id/image')
+  @Put(':id/image')
   @UseGuards(JwtAuthGuard, AdminGuard)
   async deleteImage(
     @Body() dto: DeleteImageDto,

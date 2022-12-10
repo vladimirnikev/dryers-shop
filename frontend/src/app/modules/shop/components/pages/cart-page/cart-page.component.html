@@ -2,7 +2,7 @@
 
 <section>
   <div class="container">
-    <h3 class="page-title">Корзина</h3>
+    <h3 class="page-title">{{ 'CART_PAGE.CART' | transloco }}</h3>
     <app-breadcrumbs></app-breadcrumbs>
     <div *ngIf="(currentCart$ | async)?.itemRecords.length; else empty" class="cards-list">
       <app-cart-item
@@ -13,14 +13,18 @@
 
     <div *ngIf="(currentCart$ | async)?.itemRecords.length" class="cart-actions">
       <div class="cart-sum">
-        <span>Итого:</span>
+        <span>{{ 'CART_PAGE.SUM' | transloco }}:</span>
         <div class="sum">
           {{ (currentCart$ | async)?.totalSum | currency: 'UAH':'грн.':'1.2-2':'ua' }}
         </div>
       </div>
       <div class="actions">
-        <button [routerLink]="['', 'verification']" class="btn primary">К оформлению</button>
-        <button (click)="openBuyInClickModal()" class="btn outline">Покупка в один клик</button>
+        <button [routerLink]="['', 'verification']" class="btn primary">
+          {{ 'CART_PAGE.TO_ORDERING' | transloco }}
+        </button>
+        <button (click)="openBuyInClickModal()" class="btn outline">
+          {{ 'BUY_IN_CLICK' | transloco }}
+        </button>
       </div>
     </div>
     <app-viewed-products-list></app-viewed-products-list>
@@ -29,8 +33,10 @@
 
 <ng-template #empty>
   <div class="empty-cart">
-    <span class="cart-title">Корзина пуста</span>
-    <span class="cart-subtitle">Но это можно исправить :)</span>
-    <button [routerLink]="['', 'catalog', 'water']" class="btn primary">В каталог</button>
+    <span class="cart-title">{{ 'CART_PAGE.EMPTY_CART' | transloco }}</span>
+    <span class="cart-subtitle">{{ 'CART_PAGE.EMPTY_CART_TEXT' | transloco }}</span>
+    <button [routerLink]="['', 'catalog', 'water']" class="btn primary">
+      {{ 'CART_PAGE.TO_CATALOG' | transloco }}
+    </button>
   </div>
 </ng-template>

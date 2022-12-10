@@ -21,13 +21,19 @@ export class StockEntity {
   })
   createdAt: Date;
 
-  @Column()
+  @Column({ default: '' })
   name: string;
 
-  @Column()
+  @Column({ default: '' })
+  nameUa: string;
+
+  @Column({ default: '' })
   img: string;
 
-  @Column()
+  @Column({ default: '' })
+  imgUa: string;
+
+  @Column({ default: false })
   isActive: boolean;
 
   @ManyToMany(() => DryerEntity, (product) => product.stocks, {

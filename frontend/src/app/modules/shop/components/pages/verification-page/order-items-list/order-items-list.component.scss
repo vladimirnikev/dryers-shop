@@ -59,3 +59,34 @@ td {
     }
   }
 }
+
+.cards-list {
+  padding: 24px 16px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  &:not(:nth-of-type(1)) {
+    margin-top: 16px;
+    border-top: 1px solid #BFBEBE;
+    padding-top: 16px;
+  }
+
+  img {
+    max-height: 300px;
+    object-fit: contain;
+  }
+
+  div {
+    margin-top: 8px;
+
+    &.card-name {
+      margin-top: 16px;
+    }
+
+    span {
+      font-weight: 800;
+    }
+  }
+}

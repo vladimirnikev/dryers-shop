@@ -12,6 +12,8 @@ import * as productActions from 'src/app/store/products/products.actions';
 import { IColor } from 'src/app/common/interfaces/color.interface';
 import { HelperService } from 'src/app/shared/services/helper.service';
 import { PaginationService } from 'src/app/modules/shop/services/pagination.service';
+import { TranslocoService } from '@ngneat/transloco';
+import { MobileService } from 'src/app/modules/shop/services/mobile.service';
 
 @Component({
   selector: 'app-filtering-bar',
@@ -20,6 +22,8 @@ import { PaginationService } from 'src/app/modules/shop/services/pagination.serv
 })
 export class FilteringBarComponent implements OnInit, OnDestroy {
   @ViewChildren('checkbox') checkboxes;
+
+  currentLanguage: 'uk_UA' | 'ru';
 
   sub = new Subscription();
 
@@ -45,12 +49,16 @@ export class FilteringBarComponent implements OnInit, OnDestroy {
 
   colors$: Observable<IColor[]>;
 
+  isMobile$: Observable<boolean>;
+
   constructor(
     private fb: FormBuilder,
     private store: Store,
     private route: ActivatedRoute,
     private helperService: HelperService,
     private paginationService: PaginationService,
+    private translocoService: TranslocoService,
+    private mobileService: MobileService,
   ) {
     this.filterForm = this.fb.group({
       manufacturer: new FormArray([]),
@@ -60,6 +68,7 @@ export class FilteringBarComponent implements OnInit, OnDestroy {
 
     this.manufacturers$ = this.store.select(manufacturerSelectors.selectAllManufacturers);
     this.colors$ = this.store.select(colorSelectors.selectAllColors);
+    this.isMobile$ = mobileService.isMobile$;
   }
 
   ngOnInit(): void {
@@ -97,6 +106,18 @@ export class FilteringBarComponent implements OnInit, OnDestroy {
         this.store.dispatch(manufacturerActions.getManufacturers());
         this.store.dispatch(colorActions.getColors());
         this.resetFilters();
+      }),
+    );
+
+    this.sub.add(
+      this.translocoService.langChanges$.subscribe(
+        (language: 'uk_UA' | 'ru') => (this.currentLanguage = language),
+      ),
+    );
+
+    this.sub.add(
+      this.mobileService.isMobile$.subscribe((value: boolean) => {
+        this.isHiddenFilterBar = value;
       }),
     );
   }

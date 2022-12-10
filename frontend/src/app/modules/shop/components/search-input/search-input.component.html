@@ -4,14 +4,9 @@
     (keyup.enter)="search()"
     [(ngModel)]="searchValue"
     type="text"
-    placeholder="Поиск..."
+    [placeholder]="'NAVIGATION.SEARCH' | transloco"
   />
   <button>
-    <img
-      (click)="search()"
-      class="icon"
-      src="/assets/images/search-icon.svg"
-      alt="search-icon"
-    />
+    <img (click)="search()" class="icon" src="/assets/images/search-icon.svg" alt="search-icon" />
   </button>
 </div>

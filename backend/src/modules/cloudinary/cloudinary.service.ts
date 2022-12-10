@@ -22,7 +22,7 @@ export class CloudinaryService {
     url = url.slice(27); // It remove first part of url, that include 'https://res.cloudinary.com/'
     try {
       const image = await v2.search.expression(url).execute();
-      await v2.uploader.destroy(image.resources[0].public_id);
+      return await v2.uploader.destroy(image.resources[0].public_id);
     } catch (error) {
       throw new NotFoundException('Image does not exist');
     }

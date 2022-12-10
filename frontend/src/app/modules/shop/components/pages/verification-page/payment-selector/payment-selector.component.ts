@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { TranslocoService } from '@ngneat/transloco';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-payment-selector',
@@ -13,12 +15,10 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     },
   ],
 })
-export class PaymentSelectorComponent implements ControlValueAccessor {
-  paymentTypes = [
-    { type: 'CASH', text: 'Оплата наличными при получении' },
-    { type: 'CARD', text: 'Оплата картой при получении (Visa/MasterCard)' },
-    { type: 'CARD-ONLINE', text: 'Оплата картой онлайн (Visa/MasterCard)' },
-  ];
+export class PaymentSelectorComponent implements OnInit, OnDestroy, ControlValueAccessor {
+  sub = new Subscription();
+
+  paymentTypes: { type: string; text: string }[];
 
   selected: string;
 
@@ -27,6 +27,24 @@ export class PaymentSelectorComponent implements ControlValueAccessor {
   private onTouched: Function;
 
   private onChanged: Function;
+
+  constructor(private translocoService: TranslocoService) {}
+
+  ngOnInit(): void {
+    this.sub.add(
+      this.translocoService.selectTranslation().subscribe((translate) => {
+        this.paymentTypes = [
+          { type: 'CASH', text: translate['VERIFICATION_PAGE.CASH'] },
+          { type: 'CARD', text: translate['VERIFICATION_PAGE.CARD'] },
+          { type: 'CARD-ONLINE', text: translate['VERIFICATION_PAGE.CARD_ONLINE'] },
+        ];
+      }),
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
 
   selectType(type: string) {
     this.onTouched(); // <-- mark as touched

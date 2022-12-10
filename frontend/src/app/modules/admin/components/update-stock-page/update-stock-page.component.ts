@@ -31,13 +31,15 @@ export class UpdateStockPageComponent implements OnInit, OnDestroy, AfterViewIni
 
   filterForm: FormGroup;
 
-  displayedColumns: string[] = ['name', 'code', 'add'];
+  displayedColumns: string[] = ['name', 'add'];
 
   sub = new Subscription();
 
   isSimilarName = false;
 
-  image: string | ArrayBuffer;
+  imagesArr: string[] = [];
+
+  newImages = [];
 
   formData: FormData = new FormData();
 
@@ -83,14 +85,14 @@ export class UpdateStockPageComponent implements OnInit, OnDestroy, AfterViewIni
         [Validators.required],
         [ValidatorService.isExistName(this.stocks$, this.currentStock$)],
       ],
+      nameUa: ['', Validators.required],
       file: [this.formData],
-      products: [[], Validators.required],
+      products: [[], [Validators.required, Validators.minLength(1)]],
       isActive: false,
     });
 
     this.filterForm = this.fb.group({
       name: '',
-      code: '',
     });
 
     this.isLoading$ = this.store$.select(stockSelectors.selectLoadingStatus);
@@ -115,12 +117,13 @@ export class UpdateStockPageComponent implements OnInit, OnDestroy, AfterViewIni
         .subscribe((stock) => {
           this.form.patchValue({
             name: stock?.name,
+            nameUa: stock?.nameUa,
             products: stock?.products,
             isActive: stock?.isActive,
           });
 
           this.isDataChanged = false;
-          this.image = stock.img;
+          this.imagesArr = [stock.img, stock.imgUa];
         }),
     );
 
@@ -189,7 +192,7 @@ export class UpdateStockPageComponent implements OnInit, OnDestroy, AfterViewIni
   }
 
   cleanForm() {
-    this.deleteImage();
+    this.newImages = [];
     this.form.reset();
     this.form.get('products').setValue([]);
     this.stockIsActive = false;
@@ -197,38 +200,27 @@ export class UpdateStockPageComponent implements OnInit, OnDestroy, AfterViewIni
     this.formData = new FormData();
   }
 
-  deleteImage() {
-    this.image = null;
-    this.imgCard.nativeElement.innerHTML = '';
+  deleteImage(idx) {
+    this.newImages = this.newImages.filter((img, index) => index !== idx);
     this.form.patchValue({
-      image: null,
+      images: this.newImages,
     });
   }
 
   preview(files) {
-    if (!files.length) {
-      return;
-    }
-
-    this.isDataChanged = true;
-    this.formData = new FormData();
-
-    if (this.image?.toString().includes('svg')) {
-      this.imgCard.nativeElement.innerHTML = '';
-    }
-
     files = Array(files)[0];
     const formData = new FormData();
-    this.formData.append('files', files[0], files[0].name);
+    for (let i = 0; i < files.length; i++) {
+      this.formData.append('files', files[i], files[i].name);
+    }
 
     if (files.length === 0) {
       return;
     }
-
     const isNotValidFiles = Object.keys(files).some((key) => {
+      const extension = files[0].name.split('.').pop().toLowerCase();
       const mimeType = files[key].type;
-
-      if (mimeType.match(/image\/*/) == null) {
+      if (mimeType.match(/image\/*/) == null || extension === 'svg') {
         this.snackBar.open(`Данный формат не поддерживается`, 'Error', {
           duration: 5000,
           panelClass: 'red-snackbar',
@@ -242,30 +234,17 @@ export class UpdateStockPageComponent implements OnInit, OnDestroy, AfterViewIni
       return;
     }
 
-    const extension = files[0].name.split('.').pop().toLowerCase();
-    const fileKey = files[Object.keys(files)[0]];
-    const reader = new FileReader();
-
-    if (extension === 'svg') {
-      reader.readAsText(fileKey);
+    Object.keys(files).forEach((key) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(files[key]);
       reader.onload = () => {
-        this.image = reader.result;
-        this.imgCard.nativeElement.innerHTML = this.image.toString();
+        this.newImages.push(reader.result);
       };
+    });
 
-      this.form.patchValue({
-        file: formData,
-      });
-    } else {
-      reader.readAsDataURL(fileKey);
-      reader.onload = () => {
-        this.image = reader.result;
-      };
-
-      this.form.patchValue({
-        file: formData,
-      });
-    }
+    this.form.patchValue({
+      file: formData,
+    });
   }
 
   triggerClickInput() {

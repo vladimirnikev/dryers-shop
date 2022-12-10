@@ -14,15 +14,25 @@ section {
   display: flex;
   justify-content: space-between;
   margin-top: 24px;
+  @media(max-width: 1024px) {
+    flex-direction: column;
+  }
 }
 
 .left-side {
   max-width: 448px;
+  @media(max-width: 1024px) {
+    max-width: none;
+  }
 }
 
 .shop-photo {
   width: 448px;
   height: 252px;
+  @media(max-width: 1024px) {
+    width: 100%;
+    height: auto;
+  }
 }
 
 .cards-list {
@@ -71,5 +81,22 @@ section {
   img {
     width: 48px;
     height: 48px;
+  }
+}
+
+.right-side {
+  iframe {
+    @media(max-width: 1090px) {
+      width: 500px !important;
+      height: 500px !important;
+    }
+    @media(max-width: 1024px) {
+      margin-top: 16px;
+      width: 100% !important;
+      height: 300px !important;
+    }
+    @media (max-width: 768px) {
+      height: 400px !important;
+    }
   }
 }

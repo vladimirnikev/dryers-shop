@@ -11,7 +11,7 @@ export class CallEntity {
   @Column()
   fullName: string;
 
-  @Column()
+  @Column({ nullable: true })
   message: string;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

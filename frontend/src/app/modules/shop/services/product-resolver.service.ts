@@ -6,9 +6,8 @@ import * as productSelectors from 'src/app/store/products/products.selectors';
 
 @Injectable()
 export class ProductResolverService implements Resolve<any> {
-  name: string;
 
-  constructor(private store: Store) {}
+  constructor(private store: Store) { }
 
   // eslint-disable-next-line
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {

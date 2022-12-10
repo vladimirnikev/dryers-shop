@@ -2,13 +2,16 @@
 
 <section>
   <div class="container">
-    <h2 class="page-title">{{ (product$ | async)?.name }}</h2>
+    <h2 class="page-title">
+      {{ currentLanguage === 'uk_UA' ? (product$ | async)?.nameUa : (product$ | async)?.name }}
+    </h2>
     <app-breadcrumbs></app-breadcrumbs>
   </div>
 
   <div class="product-info">
     <div class="container">
-      <div class="product-images">
+      <!-- eslint-disable-next-line @angular-eslint/template/no-negated-async -->
+      <div *ngIf="!(isMobile$ | async); else mobileSwiper" class="product-images">
         <div class="swiper-wrapper">
           <button class="swiper-button btn-prev">
             <svg-icon src="assets/images/arrow-left.svg" alt="arrow"></svg-icon>
@@ -33,7 +36,7 @@
             [thumbs]="{ swiper: thumbsSwiper }"
           >
             <ng-template *ngFor="let slide of (product$ | async)?.imageUrls" swiperSlide>
-              <img class="img-in-swiper" [src]="slide" alt="" />
+              <img class="img-in-swiper" [src]="slide" />
             </ng-template>
           </swiper>
         </div>
@@ -41,31 +44,38 @@
       <div class="product-content">
         <div class="product-header">
           <span class="is-exist">{{
-            (product$ | async)?.availability ? 'Есть в наличии' : 'Нет на складе'
+            (product$ | async)?.availability ? ('AVAILABLE' | transloco) : ('ON_ORDER' | transloco)
           }}</span>
-          <span class="articul">{{ (product$ | async)?.code }}</span>
           <div class="manufacturer-logo">
-            <img [src]="(product$ | async)?.manufacturer" />
+            <img [src]="(product$ | async)?.manufacturer?.img" />
           </div>
         </div>
         <div class="product-body">
           <div class="product-characteristics">
-            <span class="info-title">Характеристики</span>
+            <span class="info-title">{{ 'PRODUCT_PAGE.CHARACTERS' | transloco }}</span>
             <div class="characteristics">
               <div *ngIf="(product$ | async)?.category !== 'ACCESSORIES'" class="char-group">
-                <span class="char name">Тип полотенцесушителя</span>
+                <span class="char name">{{ 'PRODUCT_PAGE.PRODUCT_TYPE' | transloco }}</span>
                 <span class="char value">{{
-                  ((product$ | async)?.category === 'WATER' && 'Водяной') ||
-                    ((product$ | async)?.category === 'ELECTRICITY' && 'Електрический') ||
-                    ((product$ | async)?.category === 'COMBINE' && 'Комбинированный')
+                  ((product$ | async)?.category === 'WATER' && 'PRODUCT_PAGE.WATER' | transloco) ||
+                    ((product$ | async)?.category === 'ELECTRICITY' && 'PRODUCT_PAGE.ELECTRICITY'
+                      | transloco) ||
+                    ((product$ | async)?.category === 'COMBINE' && 'PRODUCT_PAGE.COMBINE'
+                      | transloco)
                 }}</span>
               </div>
               <div class="char-group">
-                <span class="char name">Доступные цвета:</span>
+                <span class="char name">{{ 'PRODUCT_PAGE.EXISTING_COLORS' | transloco }}:</span>
                 <div class="colors-list">
-                  <span *ngFor="let color of (product$ | async)?.colors" class="char value">{{
-                    color.name
-                  }}</span>
+                  <span
+                    (click)="selectColor(color.id)"
+                    *ngFor="let color of (product$ | async)?.colors"
+                    class="char value"
+                    [ngClass]="{ selected: color.id === selectedColor }"
+                  >
+                    <div class="color-example" [ngStyle]="{ background: color.code }"></div>
+                    {{ currentLanguage === 'uk_UA' ? color.nameUa : color.name }}
+                  </span>
                 </div>
               </div>
             </div>
@@ -93,10 +103,10 @@
                 ></span>
               </div>
               <button *ngIf="!isExistInCart" (click)="addProductToCart()" class="btn primary">
-                Добавить в корзину
+                {{ 'ADD_TO_CART' | transloco }}
               </button>
               <button *ngIf="!isExistInCart" (click)="openBuyInClickModal()" class="btn outline">
-                Покупка в один клик
+                {{ 'BUY_IN_CLICK' | transloco }}
               </button>
             </div>
             <ng-template #existInCart>
@@ -108,7 +118,7 @@
                       <span class="symbol">✓</span>
                     </div>
                   </button>
-                  <span class="link-text">В корзине</span>
+                  <span class="link-text">{{ 'IN_CART' | transloco }}</span>
                 </div>
               </div>
             </ng-template>
@@ -120,10 +130,14 @@
 
   <div class="container">
     <div class="product-desctiption">
-      <h3 class="description-title">Описание</h3>
+      <h3 class="description-title">{{ 'PRODUCT_PAGE.DESCRIBING' | transloco }}</h3>
       <div class="description-body">
         <p>
-          {{ (product$ | async)?.description }}
+          {{
+            currentLanguage === 'uk_UA'
+              ? (product$ | async)?.descriptionUa
+              : (product$ | async)?.description
+          }}
         </p>
         <app-faq></app-faq>
       </div>
@@ -132,3 +146,13 @@
     <app-viewed-products-list [currentProductId]="currentProductId"></app-viewed-products-list>
   </div>
 </section>
+
+<ng-template #mobileSwiper>
+  <div class="mobile-swiper-wrapper">
+    <swiper [config]="mobileSwiperConfig" class="mobile-swiper">
+      <ng-template *ngFor="let slide of (product$ | async)?.imageUrls" swiperSlide>
+        <img class="img-in-swiper" [src]="slide || '/assets/images/blank-image.svg'" />
+      </ng-template>
+    </swiper>
+  </div>
+</ng-template>

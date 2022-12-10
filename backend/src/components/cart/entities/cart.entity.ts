@@ -14,9 +14,6 @@ export class CartEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ default: 0 })
-  totalSum: number;
-
   @Column({ nullable: true })
   sessionId: string;
 

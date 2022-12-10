@@ -39,7 +39,7 @@ export const getCartFailed = createAction(ECartActions.GetCartFailed, props<{ er
 
 export const addProductToCart = createAction(
   ECartActions.AddProductToCart,
-  props<{ item: number; count: number }>(),
+  props<{ item: number; count: number; color: number }>(),
 );
 export const addProductToCartSuccess = createAction(
   ECartActions.AddProductToCartSuccess,

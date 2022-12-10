@@ -10,24 +10,30 @@ export class ValidatorService {
     currentStockObs?: Observable<IStock> | null,
   ): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors> | null => {
-      return zip(itemsObs, currentStockObs)
-        .pipe(
-          debounceTime(200),
-          distinctUntilChanged(),
-          map(([stocks, currentStock]) => {
-            console.log(stocks, currentStock);
-            let nameExist: boolean;
-            if (currentStock) {
-              nameExist = stocks.some(
+      if (currentStockObs) {
+        return zip(itemsObs, currentStockObs)
+          .pipe(
+            debounceTime(200),
+            distinctUntilChanged(),
+            map(([stocks, currentStock]) => {
+              const nameExist = stocks.some(
                 (stock) =>
                   +stock.id !== +currentStock.id &&
                   stock.name.toLowerCase() === control.value.toLowerCase(),
               );
-            } else {
-              nameExist = stocks.some(
-                (stock) => stock.name.toLowerCase() === control.value.toLowerCase(),
-              );
-            }
+              return nameExist ? { nameExist: true } : null;
+            }),
+          )
+          .pipe(first());
+      }
+      return itemsObs
+        .pipe(
+          debounceTime(200),
+          distinctUntilChanged(),
+          map((stocks) => {
+            const nameExist = stocks.some(
+              (stock) => stock.name.toLowerCase() === control.value.toLowerCase(),
+            );
             return nameExist ? { nameExist: true } : null;
           }),
         )

@@ -6,6 +6,7 @@ import {
   NG_VALUE_ACCESSOR,
   Validators,
 } from '@angular/forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { Subscription } from 'rxjs';
 import { HelperService } from 'src/app/shared/services/helper.service';
 
@@ -26,25 +27,21 @@ export class DeliverySelectorComponent implements OnInit, OnDestroy, ControlValu
 
   sub = new Subscription();
 
-  deliveryTypes = [
+  deliveryTypes: { type: string; text?: string }[] = [
     {
       type: 'SHOP',
-      text: 'Самовывоз (г. Одесса, Староконный рынок)',
     },
     {
       type: 'POST',
-      text: 'Доставка "Нова Пошта"',
     },
   ];
 
-  postTypeSelectors = [
+  postTypeSelectors: { type: string; text?: string }[] = [
     {
       type: 'OFFICE',
-      text: 'Доставка в отделение',
     },
     {
       type: 'COURIER',
-      text: 'Курьерская доставка',
     },
   ];
 
@@ -60,7 +57,11 @@ export class DeliverySelectorComponent implements OnInit, OnDestroy, ControlValu
 
   private onChanged: Function;
 
-  constructor(private fb: FormBuilder, private helperService: HelperService) {
+  constructor(
+    private fb: FormBuilder,
+    private helperService: HelperService,
+    private translocoService: TranslocoService,
+  ) {
     this.deliveryForm = this.fb.group({
       city: [''],
       courier: this.fb.group({
@@ -83,6 +84,32 @@ export class DeliverySelectorComponent implements OnInit, OnDestroy, ControlValu
           postType: this.selectedPost,
           address: { ...clearForm },
         });
+      }),
+    );
+
+    this.sub.add(
+      this.translocoService.selectTranslation().subscribe((translate) => {
+        this.deliveryTypes = [
+          {
+            type: 'SHOP',
+            text: translate['VERIFICATION_PAGE.PICKUP'],
+          },
+          {
+            type: 'POST',
+            text: translate['VERIFICATION_PAGE.DELIVERY_NEW_POST'],
+          },
+        ];
+
+        this.postTypeSelectors = [
+          {
+            type: 'OFFICE',
+            text: translate['VERIFICATION_PAGE.DELIVERY_TO_POST_OFFICE'],
+          },
+          {
+            type: 'COURIER',
+            text: translate['VERIFICATION_PAGE.DELIVERY_COURIER'],
+          },
+        ];
       }),
     );
   }

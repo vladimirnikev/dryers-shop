@@ -1,12 +1,31 @@
 <h2 mat-dialog-title class="title">Изменить производителя:</h2>
 <div mat-dialog-content>
   <form [formGroup]="form">
+    <div class="image-list">
+      <mat-card class="image-card">
+        <div #imgCard class="image-preview"></div>
+        <img *ngIf="!this.image?.toString().includes('svg')" class="image-preview" [src]="image" />
+      </mat-card>
+      <mat-error *ngIf="!image && (form.dirty || form.touched)"
+        >Загрузите логотип производителя</mat-error
+      >
+    </div>
+
+    <button
+      type="button"
+      (click)="triggerClickInput()"
+      class="upload-button"
+      mat-raised-button
+      color="primary"
+    >
+      <input #file (change)="preview(file?.files)" type="file" accept="image/*" />
+      {{ !image ? 'Загрузить изображение' : 'Поменять изображение' }}
+    </button>
+
     <mat-form-field appearance="outline">
       <mat-label>Введите название производителя</mat-label>
       <input matInput formControlName="name" />
-      <mat-error *ngIf="form.get('name').errors?.required"
-        >Это обязательное поле</mat-error
-      >
+      <mat-error *ngIf="form.get('name').errors?.required">Это обязательное поле</mat-error>
     </mat-form-field>
     <mat-error *ngIf="isSimilarName" class="custom-error"
       >Производитель с таким именем уже существует в базе</mat-error
@@ -20,7 +39,7 @@
     (click)="updateItem()"
     mat-raised-button
     color="primary"
-    [disabled]="form.invalid || isSimilarName"
+    [disabled]="form.invalid || isSimilarName || !image || (!form.dirty && !isImgChanged)"
   >
     Обновить производителя
   </button>

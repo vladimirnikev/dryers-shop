@@ -1,0 +1,27 @@
+.language-switcher {
+  * {
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 600;
+    color: #333333;
+  }
+
+  button {
+    background: none;
+    border: none;
+    transition: 0.1s ease-in;
+    &:not(.active):hover {
+      color: #3F75BE;
+      cursor: pointer;
+      transition: 0.1s ease-in;
+    }
+  }
+
+  span {
+    padding: 0 2px;
+  }
+
+  .active {
+    color: #ff6700;
+  }
+}

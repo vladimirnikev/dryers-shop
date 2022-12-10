@@ -1,10 +1,12 @@
 <div (click)="navigateToItem($event)" class="card-wrapper">
   <div class="img-wrapper">
-    <img class="card-img" [src]="item.imageUrls[0]" alt="dryer" />
+    <img class="card-img" [src]="item?.mainImg || '/assets/images/blank-image.svg'" alt="dryer" />
   </div>
   <div class="content">
-    <span class="label">{{ item?.availability ? 'Есть в наличии' : 'Нет в наличии' }}</span>
-    <span class="card-title">{{ item.name }}</span>
+    <span class="label">{{
+      item?.availability ? ('AVAILABLE' | transloco) : ('ON_ORDER' | transloco)
+    }}</span>
+    <span class="card-title">{{ currentLanguage === 'uk_UA' ? item.nameUa : item.name }}</span>
     <div class="price-wrapper">
       <span *ngIf="item.oldPrice" class="prev-price">
         {{ item.oldPrice | currency: 'UAH':'грн.':'1.2-2':'ua' }}</span
@@ -17,19 +19,19 @@
       class="btn primary"
       (click)="addToCart()"
     >
-      Добавить в корзину
+      {{ 'ADD_TO_CART' | transloco }}
     </button>
   </div>
 </div>
 
 <ng-template #existInCart>
-  <div [routerLink]="['', 'cart']" class="exist-link" *ngIf="isExistInCart">
+  <div #buttonWithOwnEvent [routerLink]="['', 'cart']" class="exist-link" *ngIf="isExistInCart">
     <button class="bar-item">
       <svg-icon src="/assets/images/shop-icon.svg"></svg-icon>
       <div class="circle">
         <span class="symbol">✓</span>
       </div>
     </button>
-    <span class="link-text">В корзине</span>
+    <span class="link-text">{{ 'IN_CART' | transloco }}</span>
   </div>
 </ng-template>

@@ -48,6 +48,9 @@ svg-icon {
   font-size: 14px;
   line-height: 20px;
   color: #0D0D0D;
+  @media(max-width: 500px) {
+    display: none;
+  }
 
   .count-title {
     font-weight: 600;
