@@ -23,8 +23,7 @@ services:
     restart: always
     env_file: .env
     ports:
-      # - "3000:80" #specify ports forwarding
-      - "3000:3000" # IT"S FOR TEST #specify ports forwarding
+      - "3000:3000" #specify ports forwarding
     depends_on:
       - db
 
