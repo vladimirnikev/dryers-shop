@@ -10,7 +10,7 @@ import {
   TranslocoService,
 } from '@ngneat/transloco';
 import { APP_INITIALIZER, Injectable, NgModule } from '@angular/core';
-import { environment } from '../environments/environment';
+import { environment } from '../environments/environment.prod';
 
 const DEFAULT_LANG = 'uk_UA';
 
@@ -28,7 +28,7 @@ export class TranslocoHttpLoader implements TranslocoLoader {
   constructor(private http: HttpClient) {}
 
   getTranslation(lang: string) {
-    return this.http.get<Translation>(`/assets/i18n/${lang}.json`);
+    return this.http.get<Translation>(`./assets/i18n/${lang}.json`);
   }
 }
 
