@@ -22,7 +22,9 @@
     <app-root></app-root>
     <script src="https://cdn.jsdelivr.net/gh/stevenschobert/instafeed.js@2.0.0rc1/src/instafeed.min.js"></script>
     <script type="text/javascript">
+      process.env.INSTAGRAM_TOKEN;
       const instafeed = new Instafeed({
+        // accessToken: process.env.INSTAGRAM_TOKEN,
         accessToken:
           'IGQVJVd0tnVWkwT3pLdVFNMmNybmF2ZA0ZAJQ1NwNW9JZA3hIZA3lkcFptS1hiMURHaVpVZA0E2bDhub2RISms0cTZAzbUFOVkFGa3MtRERiMHNKQ1ZAEYnA3bFZAiYWJKWmtYekNQUXFnMi1najI5aFdPV2lZAUAZDZD',
         target: 'instafeed',
