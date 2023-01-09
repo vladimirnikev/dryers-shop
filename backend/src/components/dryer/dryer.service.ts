@@ -406,7 +406,7 @@ export class DryerService {
   }
 
   async deleteImage(productId: number, imageUrl: string): Promise<DryerEntity> {
-    const deletingImg = await this.cloudinaryService.deleteImage(imageUrl);
+    await this.cloudinaryService.deleteImage(imageUrl);
     const product = await this.dryerRepository.findOne({ where: { id: productId } });
     if (!product) {
       throw new NotFoundException('Product does not exist');

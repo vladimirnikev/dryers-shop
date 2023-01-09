@@ -10,7 +10,7 @@ import {
   TranslocoService,
 } from '@ngneat/transloco';
 import { APP_INITIALIZER, Injectable, NgModule } from '@angular/core';
-import { environment } from '../environments/environment.prod';
+import { environment } from '../environments/environment';
 
 const DEFAULT_LANG = 'uk_UA';
 

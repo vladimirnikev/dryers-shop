@@ -1,4 +1,4 @@
-import { Seeder, SeederFactoryManager } from 'typeorm-extension';
+import { Seeder } from 'typeorm-extension';
 import { DataSource } from 'typeorm';
 import { ManufacturerEntity } from '@app/components/manufacturer/entities/manufacturer.entity';
 

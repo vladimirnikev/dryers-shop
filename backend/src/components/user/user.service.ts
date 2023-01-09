@@ -28,8 +28,7 @@ export class UserService {
 
     const user = new UserEntity();
     Object.assign(user, dto);
-    const cart = await this.cartService.createCartForUser();
-    // user.cart = cart;
+    await this.cartService.createCartForUser();
     const createdUser = await this.userRepository.save(user);
 
     delete createdUser.password;

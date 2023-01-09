@@ -9,21 +9,31 @@ services:
       context: ./frontend
       dockerfile: Dockerfile-server # specify the directory of the Dockerfile
     restart: always
+    environment:
+      VIRTUAL_HOST: ${FRONTEND_VIRTUAL_HOST}
+      VIRTUAL_PORT: ${FRONTEND_VIRTUAL_PORT}
+      LETSENCRYPT_HOST: ${FRONTEND_LETSENCRYPT_HOST}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
     ports:
       - "4200:4200" # specify port forewarding
     volumes:
       - ./frontend:/app
 
   backend:
-    #name of the second service
+    # name of the second service
     container_name: backend
     build:
       context: ./backend # specify the directory of the Dockerfile
       dockerfile: Dockerfile-server
     restart: always
     env_file: .env
+    environment: 
+      VIRTUAL_HOST: ${BACKEND_VIRTUAL_HOST}
+      VIRTUAL_PORT: ${BACKEND_VIRTUAL_PORT}
+      LETSENCRYPT_HOST: ${BACKEND_LETSENCRYPT_HOST}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
     ports:
-      - "3000:3000" #specify ports forwarding
+      - "3000:3000"
     depends_on:
       - db
 
@@ -42,14 +52,7 @@ services:
     ports:
       - "5432:5432" # specify port forwarding
 
-  proxy:
-    image: nginx:mainline
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-    ports:
-      - "80:80"
-
-# networks:
-#   default:
-#     external:
-#       name: nginx-proxy
+networks:
+  default:
+    external:
+      name: nginx-proxy_default
