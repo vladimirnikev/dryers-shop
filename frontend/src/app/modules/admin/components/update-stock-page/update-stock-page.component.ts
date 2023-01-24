@@ -20,6 +20,7 @@ import * as productActions from 'src/app/store/products/products.actions';
 import * as productSelectors from 'src/app/store/products/products.selectors';
 import { debounceTime, distinctUntilChanged, map, skipWhile, tap } from 'rxjs/operators';
 import { ValidatorService } from 'src/app/shared/services/validator.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-update-stock-page',
@@ -36,6 +37,8 @@ export class UpdateStockPageComponent implements OnInit, OnDestroy, AfterViewIni
   sub = new Subscription();
 
   isSimilarName = false;
+
+  imagesApi = environment.serverImagesUrl;
 
   imagesArr: string[] = [];
 

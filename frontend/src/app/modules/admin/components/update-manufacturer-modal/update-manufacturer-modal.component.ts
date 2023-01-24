@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -47,7 +48,9 @@ export class UpdateManufacturerModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.image = this.data.manufacturer.img;
+    this.image = this.data.manufacturer.img.includes('https://')
+      ? this.data.manufacturer.img
+      : environment.serverImagesUrl + this.data.manufacturer.img;
     this.sub.add(
       this.store$
         .select(selectAllManufacturers)

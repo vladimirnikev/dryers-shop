@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { CreateItemPageComponent } from './components/create-item-page/create-item-page.component';
 import { MaterialModule } from '../material/material.module';
 import { AdminLayoutComponent } from './components/admin-layout/admin-layout.component';
@@ -41,6 +42,13 @@ import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.
     UpdateStockPageComponent,
     ConfirmModalComponent,
   ],
-  imports: [CommonModule, MaterialModule, FormsModule, ReactiveFormsModule, AdminRoutingModule],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AdminRoutingModule,
+    SharedModule,
+  ],
 })
 export class AdminModule {}

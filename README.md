@@ -1,4 +1,5 @@
 Run the project:
 
-- `npm run init`
-- `npm run dev`
+- Fill environment variables in .env.example and rename this file to .env
+- `npm run shell:build`
+- `npm run shell:start`

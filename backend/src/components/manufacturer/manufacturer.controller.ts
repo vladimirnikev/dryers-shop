@@ -16,6 +16,8 @@ import { ManufacturerEntity } from './entities/manufacturer.entity';
 import { DeleteResult } from 'typeorm';
 import { AdminGuard } from '../user/guards/admin.guard';
 import { JwtAuthGuard } from '@app/modules/auth/guards/jwt-auth.guard';
+import { diskStorage } from 'multer';
+import { editFileName, imageFileFilter } from '@app/common/helpers/fileUploading';
 
 @Controller('manufacturers')
 export class ManufacturerController {
@@ -28,21 +30,37 @@ export class ManufacturerController {
 
   @Post()
   @UseGuards(JwtAuthGuard, AdminGuard)
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './uploads',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
   create(@Body() dto, @UploadedFile() file): Promise<ManufacturerEntity> {
     return this.manufacturerService.create(dto, file);
   }
 
   @Put(':id')
   @UseGuards(JwtAuthGuard, AdminGuard)
-  @UseInterceptors(FileInterceptor('file'))
-  update(@Body() dto, @Param() id, @UploadedFile() file): Promise<ManufacturerEntity> {
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './uploads',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
+  update(@Body() dto, @Param('id') id, @UploadedFile() file): Promise<ManufacturerEntity> {
     return this.manufacturerService.update(dto, id, file);
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard, AdminGuard)
-  delete(@Param() id): Promise<DeleteResult> {
+  delete(@Param('id') id): Promise<DeleteResult> {
     return this.manufacturerService.delete(id);
   }
 }

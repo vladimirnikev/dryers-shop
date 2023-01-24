@@ -22,6 +22,8 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { DeleteImageDto } from './dto/deleteImage.dto';
 import { JwtAuthGuard } from '@app/modules/auth/guards/jwt-auth.guard';
 import { ProductPriceRange } from '@app/common/interfaces/product-price-range.interface';
+import { diskStorage } from 'multer';
+import { editFileName, imageFileFilter } from '@app/common/helpers/fileUploading';
 
 @Controller('products')
 export class DryerController {
@@ -55,14 +57,30 @@ export class DryerController {
 
   @Post()
   @UseGuards(JwtAuthGuard, AdminGuard)
-  @UseInterceptors(FilesInterceptor('files'))
+  @UseInterceptors(
+    FilesInterceptor('files', 20, {
+      storage: diskStorage({
+        destination: './uploads',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
   async createDryer(@Body() dto, @UploadedFiles() files): Promise<DryerEntity> {
     return await this.dryerService.createDryer(dto, files);
   }
 
   @Put(':id')
   @UseGuards(JwtAuthGuard, AdminGuard)
-  @UseInterceptors(FilesInterceptor('files'))
+  @UseInterceptors(
+    FilesInterceptor('files', 20, {
+      storage: diskStorage({
+        destination: './uploads',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
   async updateDryer(
     @Param('id') id: number,
     @Body() dto,

@@ -22,6 +22,8 @@ export class CreateItemPageComponent implements OnInit, OnDestroy {
 
   imagesArr = [];
 
+  files: File[] = [];
+
   manufacturers$ = this.store$.select(selectAllManufacturers);
 
   colors: IColor[];
@@ -80,9 +82,16 @@ export class CreateItemPageComponent implements OnInit, OnDestroy {
 
   deleteImage(idx) {
     this.imagesArr = this.imagesArr.filter((img, index) => index !== idx);
+    this.files = this.files.filter((file, index) => index !== idx);
     this.form.patchValue({
       images: this.imagesArr,
     });
+
+    this.formData.delete('files');
+
+    for (let i = 0; i < this.files.length; i++) {
+      this.formData.append('files', this.files[i], this.files[i].name);
+    }
 
     if (this.form.value.mainImg === idx) {
       if (this.imagesArr.length) {
@@ -145,6 +154,7 @@ export class CreateItemPageComponent implements OnInit, OnDestroy {
       reader.readAsDataURL(files[key]);
       reader.onload = () => {
         this.imagesArr.push(reader.result);
+        this.files.push(files[key]);
       };
     });
 

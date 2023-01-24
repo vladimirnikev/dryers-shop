@@ -1,6 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { UploadApiErrorResponse, UploadApiResponse, v2 } from 'cloudinary';
 import toStream = require('buffer-to-stream');
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Injectable()
 export class CloudinaryService {
@@ -26,5 +28,17 @@ export class CloudinaryService {
     } catch (error) {
       throw new NotFoundException('Image does not exist');
     }
+  }
+
+  async removeUploadedImage(imageUrl: string): Promise<void> {
+    if (imageUrl.includes('https://')) {
+      return;
+    }
+    const resolvedPath = path.resolve(`./uploads/${imageUrl}`);
+    await fs.unlink(resolvedPath, (err) => {
+      if (err) {
+        throw new HttpException('Error during deleting an image', HttpStatus.CONFLICT);
+      }
+    });
   }
 }

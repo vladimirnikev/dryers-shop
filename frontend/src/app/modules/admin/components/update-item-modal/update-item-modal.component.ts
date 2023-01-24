@@ -11,6 +11,7 @@ import { Subscription, zip } from 'rxjs';
 import { HelperService } from 'src/app/shared/services/helper.service';
 import { selectAllManufacturers } from 'src/app/store/manufacturers/manufacturers.selectors';
 import { IColor } from 'src/app/common/interfaces/color.interface';
+import { environment } from 'src/environments/environment';
 import { deleteImage, updateProduct } from '../../../../store/products/products.actions';
 import { selectAllColors } from '../../../../store/colors/colors.selectors';
 
@@ -21,6 +22,8 @@ import { selectAllColors } from '../../../../store/colors/colors.selectors';
 })
 export class UpdateItemModalComponent implements OnInit, OnDestroy {
   @ViewChild('file') fileInput: ElementRef<HTMLElement>;
+
+  imagesApi = environment.serverImagesUrl;
 
   formData: FormData = new FormData();
 

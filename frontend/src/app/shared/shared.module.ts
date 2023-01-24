@@ -15,9 +15,10 @@ import { StocksService } from './services/stocks.service';
 import { ValidatorService } from './services/validator.service';
 import { UserService } from './services/user.service';
 import { CartService } from './services/cart.service';
+import { ImgUrlPipe } from './pipes/img-url.pipe';
 
 @NgModule({
-  declarations: [ConfirmModalTemplateComponent, IsExistNotEmptyValuePipe],
+  declarations: [ConfirmModalTemplateComponent, IsExistNotEmptyValuePipe, ImgUrlPipe],
   imports: [CommonModule, HttpClientModule, MaterialModule],
 
   providers: [
@@ -33,6 +34,6 @@ import { CartService } from './services/cart.service';
     UserService,
     CartService,
   ],
-  exports: [IsExistNotEmptyValuePipe],
+  exports: [IsExistNotEmptyValuePipe, ImgUrlPipe],
 })
 export class SharedModule {}

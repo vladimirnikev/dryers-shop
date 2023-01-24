@@ -13,7 +13,9 @@
           [routerLink]="['', 'catalog', product.category.toLowerCase(), 'product', product.id]"
           class="item"
         >
-          <img [src]="product.mainImg || 'assets/images/blank-image.svg'" />
+          <img
+            [src]="product.mainImg ? (product.mainImg | imgUrl) : 'assets/images/blank-image.svg'"
+          />
           <div class="content">
             <div class="card-title">
               {{ currentLanguage === 'uk_UA' ? product.nameUa : product.name }}

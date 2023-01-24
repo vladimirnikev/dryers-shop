@@ -22,7 +22,7 @@ export class ColorService {
   }
 
   async update(dto: CreateColorDto, id): Promise<ColorEntity> {
-    const color = await this.colorRepository.findOne(id);
+    const color = await this.colorRepository.findOne({ where: { id } });
     if (!color) {
       throw new NotFoundException('The color with this id does not exist');
     }

@@ -25,7 +25,7 @@
             class="vertical-swiper"
           >
             <ng-template *ngFor="let slide of (product$ | async)?.imageUrls" swiperSlide>
-              <img class="img-in-swiper" [src]="slide" alt="" />
+              <img class="img-in-swiper" [src]="slide | imgUrl" alt="" />
             </ng-template>
           </swiper>
         </div>
@@ -36,7 +36,7 @@
             [thumbs]="{ swiper: thumbsSwiper }"
           >
             <ng-template *ngFor="let slide of (product$ | async)?.imageUrls" swiperSlide>
-              <img class="img-in-swiper" [src]="slide" />
+              <img class="img-in-swiper" [src]="slide | imgUrl" />
             </ng-template>
           </swiper>
         </div>
@@ -47,7 +47,7 @@
             (product$ | async)?.availability ? ('AVAILABLE' | transloco) : ('ON_ORDER' | transloco)
           }}</span>
           <div class="manufacturer-logo">
-            <img [src]="(product$ | async)?.manufacturer?.img" />
+            <img [src]="(product$ | async)?.manufacturer?.img | imgUrl" />
           </div>
         </div>
         <div class="product-body">
@@ -151,7 +151,10 @@
   <div class="mobile-swiper-wrapper">
     <swiper [config]="mobileSwiperConfig" class="mobile-swiper">
       <ng-template *ngFor="let slide of (product$ | async)?.imageUrls" swiperSlide>
-        <img class="img-in-swiper" [src]="slide || '/assets/images/blank-image.svg'" />
+        <img
+          class="img-in-swiper"
+          [src]="slide ? (slide | imgUrl) : '/assets/images/blank-image.svg'"
+        />
       </ng-template>
     </swiper>
   </div>

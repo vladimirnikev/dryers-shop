@@ -1,12 +1,6 @@
 import { StockWithProductIds } from '@app/common/interfaces/stock-with-product-ids.interface';
 import { CloudinaryService } from '@app/modules/cloudinary/cloudinary.service';
-import {
-  BadRequestException,
-  HttpException,
-  HttpStatus,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DryerEntity } from '../dryer/entities/dryer.entity';
@@ -63,18 +57,7 @@ export class StockService {
       throw new HttpException(`${errors}`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    const imageUrls = [];
-
-    await Promise.all(
-      files.map(async (file) => {
-        try {
-          const image = await this.cloudinaryService.uploadImage(file);
-          imageUrls.push(image.url);
-        } catch (error) {
-          throw new BadRequestException('Invalid file type.');
-        }
-      }),
-    );
+    const imageUrls = files.map((file) => file.filename);
 
     const isTrueSet = isActive.toLowerCase() === 'true';
     const stock = new StockEntity();
@@ -114,18 +97,8 @@ export class StockService {
     const isTrueSet = isActive.toLowerCase() === 'true';
 
     if (files.length) {
-      const imageUrls = [];
+      const imageUrls = files.map((file) => file.filename);
 
-      await Promise.all(
-        files.map(async (file) => {
-          try {
-            const image = await this.cloudinaryService.uploadImage(file);
-            imageUrls.push(image.url);
-          } catch (error) {
-            throw new BadRequestException('Invalid file type.');
-          }
-        }),
-      );
       await this.deleteImagesFromStock(stock);
       if (files.length === 1) {
         stock.img = imageUrls[0];
@@ -161,11 +134,11 @@ export class StockService {
   async deleteImagesFromStock(stock: StockEntity) {
     if (stock.img && stock.imgUa) {
       if (stock.img === stock.imgUa) {
-        await this.cloudinaryService.deleteImage(stock.img);
+        await this.cloudinaryService.removeUploadedImage(stock.img);
         return;
       }
-      await this.cloudinaryService.deleteImage(stock.img);
-      await this.cloudinaryService.deleteImage(stock.imgUa);
+      await this.cloudinaryService.removeUploadedImage(stock.img);
+      await this.cloudinaryService.removeUploadedImage(stock.imgUa);
     }
   }
 }

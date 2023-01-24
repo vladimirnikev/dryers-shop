@@ -1,3 +1,7 @@
 <div [routerLink]="['', 'catalog', stock.id]" class="slide-wrapper">
-  <img [src]="currentLanguage === 'uk_UA' ? stock.imgUa : stock.img" height="600" width="800" />
+  <img
+    [src]="currentLanguage === 'uk_UA' ? (stock.imgUa | imgUrl) : (stock.img | imgUrl)"
+    height="600"
+    width="800"
+  />
 </div>
