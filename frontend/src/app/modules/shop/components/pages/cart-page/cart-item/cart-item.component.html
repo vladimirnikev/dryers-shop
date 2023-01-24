@@ -1,6 +1,12 @@
 <div (click)="navigateToItem($event)" class="card">
   <div class="item-img">
-    <img [src]="cartRecord.item.mainImg || '/assets/images/blank-image.svg'" />
+    <img
+      [src]="
+        cartRecord.item.mainImg
+          ? (cartRecord.item.mainImg | imgUrl)
+          : '/assets/images/blank-image.svg'
+      "
+    />
   </div>
   <div class="name">
     <span class="item-name">

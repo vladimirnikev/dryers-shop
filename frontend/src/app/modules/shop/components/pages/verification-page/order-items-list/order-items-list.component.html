@@ -11,7 +11,13 @@
   </tr>
   <tr *ngFor="let itemRecord of itemsInCart$ | async">
     <td>
-      <img [src]="itemRecord.item.mainImg || '/assets/images/blank-image.svg'" />
+      <img
+        [src]="
+          itemRecord.item.mainImg
+            ? (itemRecord.item.mainImg | imgUrl)
+            : '/assets/images/blank-image.svg'
+        "
+      />
       <span class="name">{{
         currentLanguage === 'uk_UA' ? itemRecord.item.nameUa : itemRecord.item.name
       }}</span>
@@ -40,7 +46,7 @@
 <ng-template #mobileList>
   <div class="cards-list">
     <div *ngFor="let itemRecord of itemsInCart$ | async" class="card">
-      <img class="card-img" [src]="itemRecord.item.mainImg" />
+      <img class="card-img" [src]="itemRecord.item.mainImg | imgUrl" />
       <div class="card-name">
         {{ currentLanguage === 'uk_UA' ? itemRecord.item.nameUa : itemRecord.item.name }}
       </div>

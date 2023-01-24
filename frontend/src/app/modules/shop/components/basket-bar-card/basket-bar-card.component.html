@@ -2,7 +2,11 @@
   <div class="items-wrapper">
     <div *ngFor="let item of (currentCart$ | async)?.itemRecords" class="item">
       <div class="img-wrapper">
-        <img [src]="item.item.mainImg || '/assets/images/blank-image.svg'" />
+        <img
+          [src]="
+            item.item.mainImg ? (item.item.mainImg | imgUrl) : '/assets/images/blank-image.svg'
+          "
+        />
       </div>
       <div class="text-wrapper">
         <span class="item-title">{{ item.item?.name }}</span>

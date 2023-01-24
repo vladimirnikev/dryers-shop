@@ -29,7 +29,11 @@
           >Изображение на русском</span
         >
         <span *ngIf="idx === 1" class="card-title">Изображение на украинском</span>
-        <img *ngIf="!this.image?.toString().includes('svg')" class="image-preview" [src]="image" />
+        <img
+          *ngIf="!this.image?.toString().includes('svg')"
+          class="image-preview"
+          [src]="image | imgUrl"
+        />
       </mat-card>
       <mat-error *ngIf="!newImages.length && !imagesArr.length && (form.dirty || form.touched)"
         >Загрузите обложку акции</mat-error

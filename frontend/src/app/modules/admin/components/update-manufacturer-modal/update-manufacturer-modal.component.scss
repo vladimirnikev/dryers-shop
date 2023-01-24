@@ -6,7 +6,7 @@ form {
 }
 
 mat-form-field {
-  width: 100;
+  width: 100%;
 }
 
 .custom-error {
@@ -22,7 +22,7 @@ mat-form-field {
     display: block;
     width: fit-content;
     margin: auto;
-    max-width: 100%;
+    max-width: 240px;
   }
 }
 

@@ -1,6 +1,10 @@
 <div (click)="navigateToItem($event)" class="card-wrapper">
   <div class="img-wrapper">
-    <img class="card-img" [src]="item?.mainImg || '/assets/images/blank-image.svg'" alt="dryer" />
+    <img
+      class="card-img"
+      [src]="item?.mainImg ? (item?.mainImg | imgUrl) : '/assets/images/blank-image.svg'"
+      alt="dryer"
+    />
   </div>
   <div class="content">
     <span class="label">{{

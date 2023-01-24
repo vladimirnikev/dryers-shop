@@ -6,7 +6,7 @@
   <div class="img-wrapper">
     <img
       *ngIf="item?.imageUrls"
-      [src]="item?.mainImg || '/assets/images/blank-image.svg'"
+      [src]="item?.mainImg ? (item?.mainImg | imgUrl) : '/assets/images/blank-image.svg'"
       alt="towel-photo"
       [ngClass]="{ empty: !item?.mainImg }"
     />
@@ -49,7 +49,10 @@
 <ng-template #cardForRowContainer>
   <div (click)="navigateToItem($event)" class="card basic">
     <div class="img-wrapper">
-      <img [src]="item?.mainImg || '/assets/images/blank-image.svg'" alt="towel-photo" />
+      <img
+        [src]="item?.mainImg ? (item?.mainImg | imgUrl) : '/assets/images/blank-image.svg'"
+        alt="towel-photo"
+      />
     </div>
     <div class="card-content">
       <div class="card-text">

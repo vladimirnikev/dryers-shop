@@ -1,12 +1,6 @@
 import { ColorEntity } from '../color/entities/color.entity';
 import { ItemRecordEntity } from './../cart/entities/itemRecord.entity';
-import {
-  Injectable,
-  HttpException,
-  HttpStatus,
-  NotFoundException,
-  BadRequestException,
-} from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Brackets, DeleteResult, Repository } from 'typeorm';
 import { DryerEntity } from '@app/components/dryer/entities/dryer.entity';
@@ -231,18 +225,7 @@ export class DryerService {
       throw new HttpException(`${errors}`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    const imageUrls = [];
-
-    await Promise.all(
-      files.map(async (file) => {
-        try {
-          const image = await this.cloudinaryService.uploadImage(file);
-          imageUrls.push(image.url);
-        } catch (error) {
-          throw new BadRequestException('Invalid file type.');
-        }
-      }),
-    );
+    const imageUrls = files.map((file) => file.filename);
 
     const dryer = new DryerEntity();
     availability = availability === 'true' ? true : false;
@@ -258,7 +241,9 @@ export class DryerService {
       oldPrice,
       mainImg: imageUrls[mainImg],
     });
-    const manufacturerItem = await this.manufacturerRepository.findOne(manufacturer);
+    const manufacturerItem = await this.manufacturerRepository.findOne({
+      where: { id: manufacturer },
+    });
     if (!manufacturerItem) {
       throw new NotFoundException('The manufacturer with this id does not exist');
     }
@@ -330,19 +315,7 @@ export class DryerService {
     }
 
     const dryer = await this.dryerRepository.findOne({ where: { id } });
-    let imageUrls = [];
-
-    // send all images to Cloudinary
-    await Promise.all(
-      files.map(async (file) => {
-        try {
-          const image = await this.cloudinaryService.uploadImage(file);
-          imageUrls.push(image.url);
-        } catch (error) {
-          throw new BadRequestException('Invalid file type.');
-        }
-      }),
-    );
+    let imageUrls = files.map((file) => file.filename);
 
     // check is main img new or was added before (index or link)
     let mainImgUrl;
@@ -368,7 +341,9 @@ export class DryerService {
       mainImg: mainImgUrl,
     });
 
-    const manufacturerItem = await this.manufacturerRepository.findOne(manufacturer);
+    const manufacturerItem = await this.manufacturerRepository.findOne({
+      where: { id: manufacturer },
+    });
 
     if (!manufacturerItem) {
       throw new NotFoundException('The manufacturer with this id does not exist');
@@ -402,11 +377,16 @@ export class DryerService {
       .where('item.id = :id', { id })
       .execute();
 
+    product.imageUrls.forEach(async (url) => {
+      await this.cloudinaryService.removeUploadedImage(url);
+    });
+
     return await this.dryerRepository.delete(id);
   }
 
   async deleteImage(productId: number, imageUrl: string): Promise<DryerEntity> {
-    await this.cloudinaryService.deleteImage(imageUrl);
+    this.cloudinaryService.removeUploadedImage(imageUrl);
+
     const product = await this.dryerRepository.findOne({ where: { id: productId } });
     if (!product) {
       throw new NotFoundException('Product does not exist');

@@ -7,7 +7,7 @@
         <mat-radio-group formControlName="mainImg">
           <div *ngFor="let image of imagesArr; let idx = index" class="image-selector">
             <mat-card class="image-card">
-              <img class="image-preview" [src]="image" />
+              <img class="image-preview" [src]="image | imgUrl" />
               <mat-card-actions align="end">
                 <button
                   type="button"

@@ -37,6 +37,12 @@
 .image-list {
   display: flex;
   flex-wrap: wrap;
+
+  mat-radio-group {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
   .image-card {
     display: flex;
     flex-direction: column;
@@ -45,6 +51,7 @@
     .image-preview {
       max-width: 150px;
       height: 200px;
+      object-fit: cover;
     }
   }
 }
