@@ -5,7 +5,7 @@
       <p>{{ color.name }}</p>
       <div class="bar">
         <button
-          (click)="editManufacturer(color)"
+          (click)="editColor(color)"
           color="primary"
           mat-icon-button
           aria-label="Edit icon button"
@@ -13,7 +13,7 @@
           <mat-icon>edit</mat-icon>
         </button>
         <button
-          (click)="openDeleteManufacturerModal(color.id)"
+          (click)="openDeleteColorModal(color.id)"
           color="warn"
           mat-icon-button
           aria-label="Delete icon button"

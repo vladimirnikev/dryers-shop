@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
+import { DryerEntity } from '../dryer/entities/dryer.entity';
 import { CreateColorDto } from './dto/createColor.dto';
 import { ColorEntity } from './entities/color.entity';
 
@@ -9,6 +10,8 @@ export class ColorService {
   constructor(
     @InjectRepository(ColorEntity)
     private readonly colorRepository: Repository<ColorEntity>,
+    @InjectRepository(DryerEntity)
+    private readonly dryerRepository: Repository<DryerEntity>,
   ) {}
 
   async getAll(): Promise<ColorEntity[]> {
@@ -22,7 +25,7 @@ export class ColorService {
   }
 
   async update(dto: CreateColorDto, id): Promise<ColorEntity> {
-    const color = await this.colorRepository.findOne({ where: { id } });
+    const color = await this.colorRepository.findOne({ where: { id: +id } });
     if (!color) {
       throw new NotFoundException('The color with this id does not exist');
     }
@@ -30,7 +33,16 @@ export class ColorService {
     return await this.colorRepository.save(color);
   }
 
-  async delete(id): Promise<DeleteResult> {
-    return await this.colorRepository.delete(id);
+  async delete(id): Promise<void> {
+    await this.colorRepository.delete(id);
+    const colorsInDB = await this.colorRepository.find();
+    const products = await this.dryerRepository
+      .createQueryBuilder('dryers')
+      .leftJoinAndSelect('dryers.colors', 'colors')
+      .where('colors.id IS NULL')
+      .getMany();
+    const changedProducts = products.map((product) => ({ ...product, colors: [colorsInDB[0]] }));
+
+    await this.dryerRepository.save(changedProducts);
   }
 }

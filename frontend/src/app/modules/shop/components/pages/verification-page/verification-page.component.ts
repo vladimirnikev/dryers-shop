@@ -9,6 +9,8 @@ import * as cartActions from 'src/app/store/cart/cart.actions';
 import { IOrderFormData } from 'src/app/common/interfaces/order-form-data.interface';
 import { Actions, ofType } from '@ngrx/effects';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'app-verification-page',
@@ -30,6 +32,8 @@ export class VerificationPageComponent implements OnInit, OnDestroy {
     private storeActions$: Actions,
     private modalService: ModalService,
     private router: Router,
+    private titleService: Title,
+    private translocoService: TranslocoService,
   ) {
     this.isLoading$ = this.store.select(cartSelectors.selectIsLoading);
   }
@@ -39,6 +43,16 @@ export class VerificationPageComponent implements OnInit, OnDestroy {
       this.storeActions$.pipe(ofType(cartActions.makeOrderSuccess)).subscribe(() => {
         this.modalService.openSuccessOrderModal();
         this.router.navigate(['']);
+      }),
+    );
+
+    this.sub.add(
+      this.translocoService.langChanges$.subscribe((lang: 'uk_UA' | 'ru') => {
+        if (lang === 'uk_UA') {
+          this.titleService.setTitle('WarmShop | Оформлення замовлення');
+          return;
+        }
+        this.titleService.setTitle('WarmShop | Оформление заказа');
       }),
     );
   }

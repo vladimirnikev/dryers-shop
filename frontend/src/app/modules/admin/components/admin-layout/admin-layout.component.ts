@@ -66,10 +66,6 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
     });
   }
 
-  // openCreateStockModal() {
-  // this.dialog.open(CreateStockModalComponent)
-  // }
-
   openStocksListModal() {
     this.dialog.open(StockListModalComponent, { width: '70%' });
   }

@@ -13,15 +13,18 @@ COPY package*.json /usr/src/app/
 # Install dependencies
 # RUN npm install
 RUN npm install && \
-    npm i bcrypt
+    npm i bcrypt && \
+    npm i webpack
 # && \
 # npm rebuild bcrypt -build-from-source
 
 # Get all the code needed to run the app
 COPY . /usr/src/app/
 
+RUN npm run build
+
 # Expose the port the app runs in
 EXPOSE 3000
 
 # Serve the app
-CMD ["npm", "start"]
+CMD ["npm", "run", "start:prod"]

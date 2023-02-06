@@ -1,7 +1,9 @@
+import { skip } from 'rxjs/operators';
+import { Title } from '@angular/platform-browser';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { IProduct } from 'src/app/common/interfaces/product.interface';
 import SwiperCore, { FreeMode, Navigation, Pagination, Thumbs } from 'swiper';
 import * as productSelectors from 'src/app/store/products/products.selectors';
@@ -73,6 +75,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
     private store: Store,
     private translocoService: TranslocoService,
     private mobileService: MobileService,
+    private titleService: Title,
   ) {
     this.product$ = this.store.select(productSelectors.selectCurrentProduct);
     this.viewedProducts$ = this.store.select(productSelectors.selectViewedProducts);
@@ -106,9 +109,17 @@ export class ProductPageComponent implements OnInit, OnDestroy {
     );
 
     this.sub.add(
-      this.translocoService.langChanges$.subscribe(
-        (language: 'uk_UA' | 'ru') => (this.currentLanguage = language),
-      ),
+      combineLatest([
+        this.store.select(productSelectors.selectCurrentProduct).pipe(skip(1)),
+        this.translocoService.langChanges$,
+      ]).subscribe(([product, language]) => {
+        this.currentLanguage = language as 'uk_UA' | 'ru';
+        if (language === 'uk_UA') {
+          this.titleService.setTitle(product.nameUa);
+          return;
+        }
+        this.titleService.setTitle(product.name);
+      }),
     );
   }
 

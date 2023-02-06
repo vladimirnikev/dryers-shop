@@ -395,7 +395,7 @@ export class DryerService {
     product.imageUrls = product.imageUrls.filter((url) => url !== imageUrl);
 
     if (product.mainImg === imageUrl) {
-      product.mainImg = '';
+      product.mainImg = product.imageUrls[0];
     }
 
     return await this.dryerRepository.save(product);

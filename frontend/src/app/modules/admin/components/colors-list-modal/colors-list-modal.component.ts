@@ -21,14 +21,14 @@ export class ColorsListModalComponent implements OnInit {
     this.store.dispatch(colorActions.getColors());
   }
 
-  editManufacturer(color) {
+  editColor(color) {
     this.dialog.open(UpdateColorModalComponent, {
       data: { color },
       width: '50%',
     });
   }
 
-  openDeleteManufacturerModal(id: number) {
+  openDeleteColorModal(id: number) {
     const dialogRef = this.dialog.open(ConfirmModalTemplateComponent, {
       data: {
         title: 'Удаление цвета',
