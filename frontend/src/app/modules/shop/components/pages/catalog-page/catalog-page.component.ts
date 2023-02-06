@@ -8,6 +8,7 @@ import * as stocksSelectors from 'src/app/store/stocks/stocks.selectors';
 import { IProduct } from 'src/app/common/interfaces/product.interface';
 import { ActivatedRoute } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
+import { Title } from '@angular/platform-browser';
 import { MobileService } from '../../../services/mobile.service';
 
 @Component({
@@ -57,6 +58,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private translocoService: TranslocoService,
     private mobileService: MobileService,
+    private titleService: Title,
   ) {
     this.products$ = this.store.select(productSelectors.selectProducts);
     this.viewedProducts$ = this.store.select(productSelectors.selectViewedProducts);
@@ -82,8 +84,10 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
         this.isStockPage = false;
         if (lang === 'uk_UA') {
           this.catalogTitle = data.productGroup.nameUa;
+          this.titleService.setTitle('WarmShop | Каталог');
           return;
         }
+        this.titleService.setTitle('WarmShop | Каталог');
         this.catalogTitle = data.productGroup.name;
       }),
     );

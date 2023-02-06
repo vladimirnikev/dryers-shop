@@ -55,6 +55,8 @@ export class CreateStockModalComponent implements OnInit, OnDestroy, AfterViewIn
 
   imagesArr = [];
 
+  files: File[] = [];
+
   @ViewChild('file') fileInput: ElementRef<HTMLElement>;
 
   @ViewChild('imgCard') imgCard: ElementRef<HTMLElement>;
@@ -156,6 +158,7 @@ export class CreateStockModalComponent implements OnInit, OnDestroy, AfterViewIn
 
   cleanForm() {
     this.imagesArr = [];
+    this.files = [];
     this.form.reset();
     this.form.get('products').setValue([]);
     this.stockIsActive = false;
@@ -195,6 +198,7 @@ export class CreateStockModalComponent implements OnInit, OnDestroy, AfterViewIn
       reader.readAsDataURL(files[key]);
       reader.onload = () => {
         this.imagesArr.push(reader.result);
+        this.files.push(files[key]);
       };
     });
 
@@ -205,9 +209,16 @@ export class CreateStockModalComponent implements OnInit, OnDestroy, AfterViewIn
 
   deleteImage(idx) {
     this.imagesArr = this.imagesArr.filter((img, index) => index !== idx);
+    this.files = this.files.filter((file, index) => index !== idx);
     this.form.patchValue({
       images: this.imagesArr,
     });
+
+    this.formData.delete('files');
+
+    for (let i = 0; i < this.files.length; i++) {
+      this.formData.append('files', this.files[i], this.files[i].name);
+    }
   }
 
   triggerClickInput() {

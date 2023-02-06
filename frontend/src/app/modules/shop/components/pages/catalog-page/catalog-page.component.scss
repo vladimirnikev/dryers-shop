@@ -105,8 +105,12 @@ section {
   }
 
   app-instagram-feed {
+    width: 256px;
     margin-top: 32px;
     display: block;
+    @media(max-width: 1024px) {
+      width: auto;
+    }
   }
 }
 

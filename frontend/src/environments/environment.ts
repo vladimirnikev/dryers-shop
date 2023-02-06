@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   serverBaseUrl: 'http://localhost:3000',
   serverImagesUrl: 'http://localhost:3000/images/',
-  // serverBaseUrl: '',
+  instagramToken:
+    'IGQVJWRWdrZATJtajlvREZAhUDc3OWhVUm5CczhiNV9US1ZAlbzBEUU56bF8yR2dmaFNpRUlpWXZAGSTVpNHFNckVqUUVseTZAGeUd2bElNb1pnd1RKYkNTZAEUxVWpHeFB4SW5FaHB3b21oU1p4WkdQYm9idQZDZD',
 };
 
 /*

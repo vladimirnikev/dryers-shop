@@ -3,7 +3,6 @@ import { Controller, Get, Post, UseGuards, Body, Put, Param, Delete } from '@nes
 import { ColorEntity } from './entities/color.entity';
 import { AdminGuard } from '../user/guards/admin.guard';
 import { CreateColorDto } from './dto/createColor.dto';
-import { DeleteResult } from 'typeorm';
 import { JwtAuthGuard } from '@app/modules/auth/guards/jwt-auth.guard';
 
 @Controller('colors')
@@ -23,13 +22,13 @@ export class ColorController {
 
   @Put(':id')
   @UseGuards(JwtAuthGuard, AdminGuard)
-  updateColor(@Body() dto: CreateColorDto, @Param() id): Promise<ColorEntity> {
+  updateColor(@Body() dto: CreateColorDto, @Param('id') id): Promise<ColorEntity> {
     return this.colorService.update(dto, id);
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard, AdminGuard)
-  deleteColor(@Param() id): Promise<DeleteResult> {
+  deleteColor(@Param('id') id): Promise<void> {
     return this.colorService.delete(id);
   }
 }

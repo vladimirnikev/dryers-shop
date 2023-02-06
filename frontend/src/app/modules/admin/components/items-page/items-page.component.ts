@@ -1,11 +1,11 @@
-import { tap, map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { tap, map, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { merge, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, Optional, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { selectProducts } from 'src/app/store/products/products.selectors';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmModalTemplateComponent } from 'src/app/shared/components/confirm-modal-template/confirm-modal-template.component';
 import { IConfirmModalData } from 'src/app/common/interfaces/confirm-modal-data.interface';
 import { IProduct } from 'src/app/common/interfaces/product.interface';
@@ -32,6 +32,7 @@ import {
 } from '../../../../common/interfaces/product.interface';
 import { IManufacturer } from '../../../../common/interfaces/manufacturer.interface';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import { ColorsListModalComponent } from '../colors-list-modal/colors-list-modal.component';
 
 @Component({
   selector: 'app-items-page',
@@ -85,6 +86,7 @@ export class ItemsPageComponent implements OnInit, OnDestroy, AfterViewInit {
     private store$: Store,
     private dialog: MatDialog,
     private helperService: HelperService,
+    @Optional() private dialogRef: MatDialogRef<ColorsListModalComponent>,
   ) {}
 
   ngOnInit(): void {
@@ -128,6 +130,18 @@ export class ItemsPageComponent implements OnInit, OnDestroy, AfterViewInit {
           this.tableData = data;
           this.initializeData(data);
         }),
+    );
+
+    this.sub.add(
+      this.dialogRef.afterClosed().subscribe(() => {
+        const params = {
+          limit: this.paginator.pageSize,
+          offset: this.paginator.pageSize * this.paginator.pageIndex,
+          ...this.filters,
+          ...this.sortParams,
+        };
+        this.store$.dispatch(getProducts({ params }));
+      }),
     );
   }
 
@@ -206,8 +220,26 @@ export class ItemsPageComponent implements OnInit, OnDestroy, AfterViewInit {
       disableClose: true,
     });
 
-    dialogRef.backdropClick().subscribe(() => {
-      this.dialog.open(ConfirmModalComponent, { width: '60%' });
-    });
+    dialogRef
+      .backdropClick()
+      .pipe(
+        switchMap(() => {
+          const dialogRef = this.dialog.open(ConfirmModalComponent, { width: '60%' });
+          return dialogRef.afterClosed().pipe(
+            tap(() => {
+              let params: IProductQuery = {
+                limit: this.paginator.pageSize,
+                offset: this.paginator.pageSize * this.paginator.pageIndex,
+                ...this.filters,
+                ...this.sortParams,
+              };
+
+              params = this.helperService.clearEmptyFilters(params);
+              this.store$.dispatch(getProducts({ params }));
+            }),
+          );
+        }),
+      )
+      .subscribe();
   }
 }

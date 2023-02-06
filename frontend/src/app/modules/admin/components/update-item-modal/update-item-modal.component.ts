@@ -143,7 +143,9 @@ export class UpdateItemModalComponent implements OnInit, OnDestroy {
 
     this.imagesArr = this.imagesArr.filter((img) => img !== imageUrl);
 
-    this.form.patchValue({ mainImg: null });
+    if (this.form.value.mainImg === imageUrl) {
+      this.form.patchValue({ mainImg: this.imagesArr[0] || 0 });
+    }
   }
 
   deleteImageForUpload(idx) {
@@ -160,7 +162,7 @@ export class UpdateItemModalComponent implements OnInit, OnDestroy {
     });
 
     if (+this.form.value.mainImg === +idx) {
-      this.form.patchValue({ mainImg: null });
+      this.form.patchValue({ mainImg: this.imagesArr[0] || 0 });
     }
   }
 

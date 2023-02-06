@@ -44,6 +44,8 @@ export class UpdateStockPageComponent implements OnInit, OnDestroy, AfterViewIni
 
   newImages = [];
 
+  files: File[] = [];
+
   formData: FormData = new FormData();
 
   isLoading$: Observable<boolean>;
@@ -205,6 +207,14 @@ export class UpdateStockPageComponent implements OnInit, OnDestroy, AfterViewIni
 
   deleteImage(idx) {
     this.newImages = this.newImages.filter((img, index) => index !== idx);
+    this.files = this.files.filter((file, index) => index !== idx);
+
+    this.formData.delete('files');
+
+    for (let i = 0; i < this.files.length; i++) {
+      this.formData.append('files', this.files[i], this.files[i].name);
+    }
+
     this.form.patchValue({
       images: this.newImages,
     });
@@ -242,6 +252,7 @@ export class UpdateStockPageComponent implements OnInit, OnDestroy, AfterViewIni
       reader.readAsDataURL(files[key]);
       reader.onload = () => {
         this.newImages.push(reader.result);
+        this.files.push(files[key]);
       };
     });
 
