@@ -1,11 +1,19 @@
-import { tap, map, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import {
+  tap,
+  map,
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+  mergeMap,
+  skip,
+} from 'rxjs/operators';
 import { merge, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AfterViewInit, Component, OnDestroy, OnInit, Optional, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { selectProducts } from 'src/app/store/products/products.selectors';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ConfirmModalTemplateComponent } from 'src/app/shared/components/confirm-modal-template/confirm-modal-template.component';
 import { IConfirmModalData } from 'src/app/common/interfaces/confirm-modal-data.interface';
 import { IProduct } from 'src/app/common/interfaces/product.interface';
@@ -17,6 +25,7 @@ import { selectAllManufacturers } from 'src/app/store/manufacturers/manufacturer
 import { getColors } from 'src/app/store/colors/colors.actions';
 import { selectAllColors } from 'src/app/store/colors/colors.selectors';
 import { IColor } from 'src/app/common/interfaces/color.interface';
+import { DialogService } from 'src/app/shared/services/dialog.service';
 import { deleteProduct, getProducts } from '../../../../store/products/products.actions';
 import { UpdateItemModalComponent } from '../update-item-modal/update-item-modal.component';
 import {
@@ -32,7 +41,6 @@ import {
 } from '../../../../common/interfaces/product.interface';
 import { IManufacturer } from '../../../../common/interfaces/manufacturer.interface';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
-import { ColorsListModalComponent } from '../colors-list-modal/colors-list-modal.component';
 
 @Component({
   selector: 'app-items-page',
@@ -86,7 +94,7 @@ export class ItemsPageComponent implements OnInit, OnDestroy, AfterViewInit {
     private store$: Store,
     private dialog: MatDialog,
     private helperService: HelperService,
-    @Optional() private dialogRef: MatDialogRef<ColorsListModalComponent>,
+    private dialogService: DialogService,
   ) {}
 
   ngOnInit(): void {
@@ -133,15 +141,21 @@ export class ItemsPageComponent implements OnInit, OnDestroy, AfterViewInit {
     );
 
     this.sub.add(
-      this.dialogRef.afterClosed().subscribe(() => {
-        const params = {
-          limit: this.paginator.pageSize,
-          offset: this.paginator.pageSize * this.paginator.pageIndex,
-          ...this.filters,
-          ...this.sortParams,
-        };
-        this.store$.dispatch(getProducts({ params }));
-      }),
+      this.dialogService
+        .getColorsDialogRef()
+        .pipe(
+          skip(1),
+          mergeMap((dialogRef) => dialogRef.afterClosed()),
+        )
+        .subscribe(() => {
+          const params = {
+            limit: this.paginator.pageSize,
+            offset: this.paginator.pageSize * this.paginator.pageIndex,
+            ...this.filters,
+            ...this.sortParams,
+          };
+          this.store$.dispatch(getProducts({ params }));
+        }),
     );
   }
 
