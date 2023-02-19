@@ -6,6 +6,7 @@ import { getCurrentUser } from 'src/app/store/users/users.action';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { IUser } from 'src/app/common/interfaces/user.interface';
+import { DialogService } from 'src/app/shared/services/dialog.service';
 import { ColorsListModalComponent } from '../colors-list-modal/colors-list-modal.component';
 import { ManufacturersListModalComponent } from '../manufacturers-list-modal/manufacturers-list-modal.component';
 import { CreateManufacturerModalComponent } from '../create-manufacturer-modal/create-manufacturer-modal.component';
@@ -21,7 +22,12 @@ import { StockListModalComponent } from '../stock-list-modal/stock-list-modal.co
 export class AdminLayoutComponent implements OnInit, OnDestroy {
   sub = new Subscription();
 
-  constructor(private dialog: MatDialog, private store$: Store, private router: Router) {}
+  constructor(
+    private dialog: MatDialog,
+    private store$: Store,
+    private router: Router,
+    private dialogService: DialogService,
+  ) {}
 
   currentUser: IUser;
 
@@ -61,9 +67,10 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
   }
 
   openColorsListModal() {
-    this.dialog.open(ColorsListModalComponent, {
+    const dialogRef = this.dialog.open(ColorsListModalComponent, {
       width: '40%',
     });
+    this.dialogService.setDialogRef(dialogRef);
   }
 
   openStocksListModal() {

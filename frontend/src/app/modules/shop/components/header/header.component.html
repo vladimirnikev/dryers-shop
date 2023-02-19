@@ -28,7 +28,7 @@
 
 <div #nav class="main-header">
   <div class="container">
-    <a [routerLink]="['/']"><img src="/assets/images/logo.png" alt="logo" class="icon" /></a>
+    <a [routerLink]="['/']"><img src="assets/images/logo.png" alt="logo" class="icon" /></a>
 
     <button
       #burgerButton
@@ -56,10 +56,10 @@
           class="nav-btn bar-btn bar-item"
           (click)="toggleCollapseSearchBar()"
         >
-          <svg-icon src="/assets/images/search-icon.svg"></svg-icon>
+          <svg-icon src="assets/images/search-icon.svg"></svg-icon>
         </button>
         <button class="nav-btn bar-btn bar-item" [routerLink]="['cart']">
-          <svg-icon src="/assets/images/shop-icon.svg"></svg-icon>
+          <svg-icon src="assets/images/shop-icon.svg"></svg-icon>
           <div *ngIf="!!(cartProductsCount$ | async)" class="circle">
             <span class="count">{{ cartProductsCount$ | async }}</span>
           </div>

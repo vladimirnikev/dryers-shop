@@ -16,6 +16,7 @@ import { ValidatorService } from './services/validator.service';
 import { UserService } from './services/user.service';
 import { CartService } from './services/cart.service';
 import { ImgUrlPipe } from './pipes/img-url.pipe';
+import { DialogService } from './services/dialog.service';
 
 @NgModule({
   declarations: [ConfirmModalTemplateComponent, IsExistNotEmptyValuePipe, ImgUrlPipe],
@@ -33,6 +34,7 @@ import { ImgUrlPipe } from './pipes/img-url.pipe';
     ValidatorService,
     UserService,
     CartService,
+    DialogService,
   ],
   exports: [IsExistNotEmptyValuePipe, ImgUrlPipe],
 })
